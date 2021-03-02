@@ -12,6 +12,10 @@ import static ch.zhaw.pm2.racetrack.PositionVector.Direction;
 public class Game {
     public static final int NO_WINNER = -1;
 
+    public static void main(String[] args) {
+		System.out.println("hello world");
+	}
+    
     /**
      * Return the index of the current active car.
      * Car indexes are zero-based, so the first car is 0, and the last car is getCarCount() - 1.
