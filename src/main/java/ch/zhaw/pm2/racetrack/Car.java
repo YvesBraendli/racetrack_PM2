@@ -49,8 +49,11 @@ public class Car {
      * @return Expected position after the next move
      */
     public PositionVector nextPosition() {
+    	int x = position.getX() + velocity.getX();
+    	int y = position.getY() + velocity.getY();
+    	return new PositionVector(x,y);
         // TODO implement
-        throw new UnsupportedOperationException();
+//        throw new UnsupportedOperationException();
     }
 
     /**

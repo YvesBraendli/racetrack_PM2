@@ -20,8 +20,15 @@ public class CarTest {
 		assertEquals("Setup not successfull", initialYPositon, model.getPosition().getY());
 		//Change
 		model.setPosition(new PositionVector(switchedXPosition, switchedYPosition));
+		//Test
 		assertEquals("Wrong new X-Position", switchedXPosition, model.getPosition().getX());
 		assertEquals("Wrong new Y-Position", switchedYPosition, model.getPosition().getY());
+	}
+	
+	@Test
+	public void requirementCalculateAcceleratedPositionWithoutChangingThePosition() {
+		requirementSetPositionSuccessfull();
+		assertEquals("Position was not calculated right", model.getPosition(), model.nextPosition());
 	}
 
 	private void setUpCar(char id, PositionVector position) {
