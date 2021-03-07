@@ -39,7 +39,7 @@ public class Car {
      * @param position The new position to set the car directly to.
      */
     public void setPosition(final PositionVector position) {
-        // TDOD implement
+    	this.position = position;
     }
 
     /**
@@ -91,4 +91,14 @@ public class Car {
         // TODO implement
         throw new UnsupportedOperationException();
     }
+    
+    /**
+     * Returns the current position of the car.
+     * 
+     * @return PositionVector, which contains the current position of the actual car.
+     */
+    public PositionVector getPosition() {
+    	return position;
+    }
+    
 }
