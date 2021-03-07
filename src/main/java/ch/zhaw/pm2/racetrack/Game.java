@@ -61,8 +61,12 @@ public class Game {
      * @return The winning car's index (zero-based, see getCurrentCar()), or NO_WINNER if the game is still in progress
      */
     public int getWinner() {
-        // TODO implement
-        throw new UnsupportedOperationException();
+    	//if there is no winner yet and game is still running.
+        if(isGameInProgress()) {
+        	return NO_WINNER;
+        }
+
+        return getCurrentCarIndex();
     }
 
     /**
@@ -132,4 +136,7 @@ public class Game {
         throw new UnsupportedOperationException();
     }
 
+    private boolean isGameInProgress() {
+    	return false;
+    }
 }
