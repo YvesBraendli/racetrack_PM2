@@ -137,6 +137,6 @@ public class Game {
     }
 
     private boolean isGameInProgress() {
-    	return false;
+    	return true;
     }
 }
