@@ -52,7 +52,6 @@ public class Car {
     	int x = position.getX() + velocity.getX();
     	int y = position.getY() + velocity.getY();
     	return new PositionVector(x,y);
-        // TODO implement
 //        throw new UnsupportedOperationException();
     }
 
@@ -65,6 +64,8 @@ public class Car {
      * @param acceleration A Direction vector containing the amounts to add to the velocity in x and y dimension
      */
     public void accelerate(PositionVector.Direction acceleration) {
+    	velocity = new PositionVector
+    			(velocity.getX()+acceleration.vector.getX(),velocity.getY()+acceleration.vector.getY());
         // TODO implement
         throw new UnsupportedOperationException();
     }
