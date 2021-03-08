@@ -74,6 +74,8 @@ public class Car {
      * Update this Car's position based on its current velocity.
      */
     public void move() {
+    	position = new PositionVector
+    			(position.getX() + velocity.getX(), position.getY() + velocity.getY());
         // TODO implement
         throw new UnsupportedOperationException();
     }
@@ -82,6 +84,7 @@ public class Car {
      * Mark this Car as being crashed.
      */
     public void crash() {
+    	crashed = true;
         // TODO implement
         throw new UnsupportedOperationException();
     }
@@ -92,8 +95,9 @@ public class Car {
      * @return Returns true if crash() has been called on this Car, false otherwise.
      */
     public boolean isCrashed() {
+    	return crashed;
         // TODO implement
-        throw new UnsupportedOperationException();
+        //throw new UnsupportedOperationException();
     }
     
     /**
