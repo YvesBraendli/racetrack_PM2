@@ -52,7 +52,6 @@ public class Car {
     	int x = position.getX() + velocity.getX();
     	int y = position.getY() + velocity.getY();
     	return new PositionVector(x,y);
-//        throw new UnsupportedOperationException();
     }
 
     /**
@@ -66,8 +65,6 @@ public class Car {
     public void accelerate(PositionVector.Direction acceleration) {
     	velocity = new PositionVector
     			(velocity.getX()+acceleration.vector.getX(),velocity.getY()+acceleration.vector.getY());
-        // TODO implement
-//        throw new UnsupportedOperationException();
     }
 
     /**
@@ -76,8 +73,6 @@ public class Car {
     public void move() {
     	position = new PositionVector
     			(position.getX() + velocity.getX(), position.getY() + velocity.getY());
-        // TODO implement
-//        throw new UnsupportedOperationException();
     }
 
     /**
@@ -85,8 +80,6 @@ public class Car {
      */
     public void crash() {
     	crashed = true;
-        // TODO implement
-//        throw new UnsupportedOperationException();
     }
 
     /**
@@ -96,8 +89,6 @@ public class Car {
      */
     public boolean isCrashed() {
     	return crashed;
-        // TODO implement
-        //throw new UnsupportedOperationException();
     }
     
     /**
