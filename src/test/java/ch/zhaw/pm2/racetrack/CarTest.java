@@ -18,9 +18,10 @@ public class CarTest {
 		//Setup
 		setUpCar();
 		//Test
-		assertEquals("SetUp not successful", STARTPOSITION.getX(), model.getPosition().getX());
-		assertEquals("Setup not successful", STARTPOSITION.getY(), model.getPosition().getY());
-	}
+		assertEquals("Startposition in x at car Setup wrong", STARTPOSITION.getX(), model.getPosition().getX());
+		assertEquals("Startposition in y at car Setup wrong", STARTPOSITION.getY(), model.getPosition().getY());
+		assertEquals("Car-ID after Setup didn't matched", CARID, model.getID());
+		}
 	
 	/**
 	 * Equivalence Partitioning

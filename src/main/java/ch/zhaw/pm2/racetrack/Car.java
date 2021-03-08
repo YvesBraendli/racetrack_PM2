@@ -100,4 +100,13 @@ public class Car {
     	return position;
     }
     
+    /**
+     * Returns the character, which represents the car at the track.
+     * 
+     * @return a character for the specified car.
+     */
+    public char getID () {
+    	return id;
+    }
+    
 }
