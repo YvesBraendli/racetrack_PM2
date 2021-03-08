@@ -67,7 +67,7 @@ public class Car {
     	velocity = new PositionVector
     			(velocity.getX()+acceleration.vector.getX(),velocity.getY()+acceleration.vector.getY());
         // TODO implement
-        throw new UnsupportedOperationException();
+//        throw new UnsupportedOperationException();
     }
 
     /**
@@ -77,7 +77,7 @@ public class Car {
     	position = new PositionVector
     			(position.getX() + velocity.getX(), position.getY() + velocity.getY());
         // TODO implement
-        throw new UnsupportedOperationException();
+//        throw new UnsupportedOperationException();
     }
 
     /**
@@ -86,7 +86,7 @@ public class Car {
     public void crash() {
     	crashed = true;
         // TODO implement
-        throw new UnsupportedOperationException();
+//        throw new UnsupportedOperationException();
     }
 
     /**
