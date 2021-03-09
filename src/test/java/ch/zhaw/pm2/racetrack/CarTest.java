@@ -218,6 +218,114 @@ Equivalence Partitioning
 
 	}
 	
+	/**
+	Equivalence Partitioning
+		 * Tests, if the method accelerate calculates the acceleration right for the boards positive X-maximum direction to negative X-maximum direction and back.
+		 */
+	@Test
+	public void requirementCalculateAccelerationCorrectFromPositiveXMaximumToNegativXMaximumPosition() {
+		setUpCar();
+		PositionVector xPositiveMaximumPosition = new PositionVector(51, 0);
+		PositionVector xNegativeMaximumPosition = new PositionVector(-51, 0);
+		int maxXValue = 51;
+		int maxXValueOneMaxToOther = 102;
+		for (int i=0;i<maxXValue;i++) {
+			model.accelerate(PositionVector.Direction.RIGHT);
+		}
+		for (int i=0; i<maxXValueOneMaxToOther; i++) {
+			model.accelerate(PositionVector.Direction.LEFT);
+		}
+		assertEquals("Velocity was not calculated right to from X-positive, maximum Value to X-negative, maximum Value."
+				, xNegativeMaximumPosition, model.getVelocity());
+		for (int i=0; i<maxXValueOneMaxToOther; i++) {
+			model.accelerate(PositionVector.Direction.RIGHT);
+		}
+		assertEquals("Velocity was not calculated right to from X-negative, maximum Value to X-positive, maximum Value."
+				, xPositiveMaximumPosition, model.getVelocity());
+
+	}
+	
+	/**
+	Equivalence Partitioning
+		 * Tests, if the method accelerate calculates the acceleration right for the boards positive Y-maximum direction to negative Y-maximum direction and back.
+		 */
+	@Test
+	public void requirementCalculateAccelerationCorrectFromPositiveYMaximumToNegativYMaximumPosition() {
+		setUpCar();
+		PositionVector xPositiveMaximumPosition = new PositionVector(0, 15);
+		PositionVector xNegativeMaximumPosition = new PositionVector(0, -15);
+		int maxYValue = 15;
+		int maxXValueOneMaxToOther = 30;
+		for (int i=0;i<maxYValue;i++) {
+			model.accelerate(PositionVector.Direction.DOWN);
+		}
+		for (int i=0; i<maxXValueOneMaxToOther; i++) {
+			model.accelerate(PositionVector.Direction.UP);
+		}
+		assertEquals("Velocity was not calculated right to from Y-positive, maximum Value to Y-negative, maximum Value."
+				, xNegativeMaximumPosition, model.getVelocity());
+		for (int i=0; i<maxXValueOneMaxToOther; i++) {
+			model.accelerate(PositionVector.Direction.DOWN);
+		}
+		assertEquals("Velocity was not calculated right to from Y-negative, maximum Value to Y-positive, maximum Value."
+				, xPositiveMaximumPosition, model.getVelocity());
+
+	}
+	
+	/**
+	Equivalence Partitioning
+		 * Tests, if the method accelerate calculates the acceleration right for the boards positive diagonal maximum up right direction to diagonal down left direction and back.
+		 */
+	@Test
+	public void requirementCalculateAccelerationCorrectFromDiagonalUpRightToDownLeftPosition() {
+		setUpCar();
+		PositionVector upRightPosition = new PositionVector(13, -13);
+		PositionVector downLeftPosition = new PositionVector(-13, 13);
+		int maxDiagonalValue = 13;
+		int maxDiagonalValueOneMaxToOther = 26;
+		for (int i=0;i<maxDiagonalValue;i++) {
+			model.accelerate(PositionVector.Direction.UP_RIGHT);
+		}
+		for (int i=0; i<maxDiagonalValueOneMaxToOther; i++) {
+			model.accelerate(PositionVector.Direction.DOWN_LEFT);
+		}
+		assertEquals("Velocity was not calculated right to from maximum up right position to maximum down left position."
+				, downLeftPosition, model.getVelocity());
+		for (int i=0; i<maxDiagonalValueOneMaxToOther; i++) {
+			model.accelerate(PositionVector.Direction.UP_RIGHT);
+		}
+		assertEquals("Velocity was not calculated right to from maximum down left position to maximum up right position."
+				, upRightPosition, model.getVelocity());
+
+	}
+	
+	/**
+	Equivalence Partitioning
+		 * Tests, if the method accelerate calculates the acceleration right for the boards positive diagonal maximum up left direction to diagonal down right direction and back.
+		 */
+	@Test
+	public void requirementCalculateAccelerationCorrectFromDiagonalUpLeftToDownRightPosition() {
+		setUpCar();
+		PositionVector upLefttPosition = new PositionVector(-13, -13);
+		PositionVector downRightPosition = new PositionVector(13, 13);
+		int maxDiagonalValue = 13;
+		int maxDiagonalValueOneMaxToOther = 26;
+		for (int i=0;i<maxDiagonalValue;i++) {
+			model.accelerate(PositionVector.Direction.UP_LEFT);
+		}
+		for (int i=0; i<maxDiagonalValueOneMaxToOther; i++) {
+			model.accelerate(PositionVector.Direction.DOWN_RIGHT);
+		}
+		assertEquals("Velocity was not calculated right to from maximum up left position to maximum down right position."
+				, downRightPosition, model.getVelocity());
+		for (int i=0; i<maxDiagonalValueOneMaxToOther; i++) {
+			model.accelerate(PositionVector.Direction.UP_LEFT);
+		}
+		assertEquals("Velocity was not calculated right to from maximum down right position to maximum up left position."
+				, upLefttPosition, model.getVelocity());
+
+	}
+	
 	private void setUpCar() {
 		model = new Car (CARID, STARTPOSITION);
 	}
