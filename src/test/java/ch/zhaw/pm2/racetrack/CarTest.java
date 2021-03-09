@@ -83,6 +83,34 @@ public class CarTest {
 		model.crash();
 		assertTrue(model.isCrashed());
 	}
+	
+	/**
+Equivalence Partitioning
+	 * Tested method: accelerate
+	 * already given tests.
+	 */
+	@Test
+	public void requirementAccelerateWithEveryPossibleParameterChangeVelocity () {
+		setUpCar();
+		model.accelerate(PositionVector.Direction.DOWN);
+		assertFalse("Velocity was not calculated right.", PositionVector.Direction.DOWN.vector == model.nextPosition());
+		model.accelerate(PositionVector.Direction.LEFT);
+		assertFalse("Velocity was not calculated right.", PositionVector.Direction.LEFT.vector == model.nextPosition());
+		model.accelerate(PositionVector.Direction.UP);
+		assertFalse("Velocity was not calculated right.", PositionVector.Direction.UP.vector == model.nextPosition());
+		model.accelerate(PositionVector.Direction.RIGHT);
+		assertFalse("Velocity was not calculated right.", PositionVector.Direction.RIGHT.vector == model.nextPosition());
+		model.accelerate(PositionVector.Direction.DOWN_LEFT);
+		assertFalse("Velocity was not calculated right.", PositionVector.Direction.DOWN_LEFT.vector == model.nextPosition());
+		model.accelerate(PositionVector.Direction.DOWN_RIGHT);
+		assertFalse("Velocity was not calculated right.", PositionVector.Direction.DOWN_RIGHT.vector == model.nextPosition());
+		model.accelerate(PositionVector.Direction.UP_LEFT);
+		assertFalse("Velocity was not calculated right.", PositionVector.Direction.UP_LEFT.vector == model.nextPosition());
+		model.accelerate(PositionVector.Direction.UP_RIGHT);
+		assertFalse("Velocity was not calculated right.", PositionVector.Direction.UP_RIGHT.vector == model.nextPosition());
+		model.accelerate(PositionVector.Direction.NONE);
+		assertFalse("Velocity was not calculated right.", PositionVector.Direction.NONE.vector == model.nextPosition());
+	}
 
 	private void setUpCar() {
 		model = new Car (CARID, STARTPOSITION);

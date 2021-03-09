@@ -109,4 +109,13 @@ public class Car {
     	return id;
     }
     
+    /**
+     * Returns the current velocity of the specified car.
+     * 
+     * @return a PositionVector, containing the current velocity of the car.
+     */
+    public PositionVector getVelocity() {
+    	return velocity;
+    }
+    
 }
