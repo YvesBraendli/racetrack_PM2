@@ -25,8 +25,8 @@ public class CarTest {
 	}
 	
 	/**
-	 * Equivalence Partitioning: 2 
-	 * 
+	 * Equivalence Partitioning: 25
+	 * Tested method: move
 	 * Already given Tests
 	 */
 	@Test
@@ -45,7 +45,8 @@ public class CarTest {
 
 	/**
 	 * Equivalence Partitioning: 2 
-	 * Tested method: setPosition already given tests.
+	 * Tested method: setPosition 
+	 * already given tests.
 	 */
 	@Test
 	public void requirementSetUpPositionSuccessful() {
@@ -103,7 +104,7 @@ public class CarTest {
 		setUpCar();
 		model.crash();
 		// Test
-		assertTrue(model.isCrashed());
+		assertTrue("Car was not marked as crashed after colliding.",model.isCrashed());
 	}
 
 	/**
