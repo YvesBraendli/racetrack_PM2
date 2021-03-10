@@ -2,6 +2,7 @@ package ch.zhaw.pm2.racetrack;
 
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class CarTest {
@@ -16,8 +17,6 @@ public class CarTest {
 	 */
 	@Test
 	public void requirementCarSetUpSuccessful() {
-		// Setup
-		setUpCar();
 		// Test
 		assertEquals("Startposition in x at car Setup wrong", STARTPOSITION.getX(), model.getPosition().getX());
 		assertEquals("Startposition in y at car Setup wrong", STARTPOSITION.getY(), model.getPosition().getY());
@@ -70,7 +69,8 @@ public class CarTest {
 
 	/**
 	 * Equivalence Partitioning: 4 
-	 * Tested method: nextPosition already given tests.
+	 * Tested method: nextPosition 
+	 * already given tests.
 	 */
 	@Test
 	public void requirementCalculateAcceleratedPositionWithoutChangingThePosition() {
@@ -85,18 +85,18 @@ public class CarTest {
 	/**
 	 * Equivalence Partitioning: 1 
 	 * Tests if the instance variable is Setup to false
-	 * after initialize a car. already given tests.
+	 * after initialize a car. 
+	 * already given tests.
 	 */
 	@Test
 	public void requirementCrashedIsFalseAfterSetUp() {
-		// Setup
-		setUpCar();
 		// Test
 		assertFalse("Model already crashed after Setup", model.isCrashed());
 	}
 
 	/**
-	 * Equivalence Partitioning: 3 Tested method: crash already given tests.
+	 * Equivalence Partitioning: 3 Tested method: crash 
+	 * already given tests.
 	 */
 	@Test
 	public void requirementMarkedAsCrashedSuccessfull() {
@@ -114,7 +114,6 @@ public class CarTest {
 	@Test
 	public void requirementAccelerateWithEveryPossibleParameterChangeVelocityOneTime() {
 		// Setup
-		setUpCar();
 		PositionVector startPositionAcceleration = new PositionVector();
 		// Modify
 		model.accelerate(PositionVector.Direction.DOWN);
@@ -172,7 +171,6 @@ public class CarTest {
 	@Test
 	public void requirementCalculateAccelerationCorrectInPositivePossibleXAndYDirectionsOnBoard() {
 		// Setup
-		setUpCar();
 		int maxXValue = 51;
 		for (int i = 0; i < maxXValue; i++) {
 			model.accelerate(PositionVector.Direction.RIGHT);
@@ -199,7 +197,6 @@ public class CarTest {
 	@Test
 	public void requirementCalculateAccelerationCorrectInNegativePossibleXAndYDirectionsOnBoard() {
 		// Setup
-		setUpCar();
 		int maxXValue = 51;
 		for (int i = 0; i < maxXValue; i++) {
 			model.accelerate(PositionVector.Direction.LEFT);
@@ -225,7 +222,6 @@ public class CarTest {
 	@Test
 	public void requirementCalculateAccelerationCorrectInUpDiagonalUpRightDirection() {
 		// Setup
-		setUpCar();
 		PositionVector endPosition = new PositionVector(13, -13);
 		int maxDiagonal = 13;
 		for (int i = 0; i < maxDiagonal; i++) {
@@ -246,7 +242,6 @@ public class CarTest {
 	@Test
 	public void requirementCalculateAccelerationCorrectInUpDiagonalUpLeftDirection() {
 		// Setup
-		setUpCar();
 		PositionVector endPosition = new PositionVector(-13, -13);
 		int maxDiagonal = 13;
 		for (int i = 0; i < maxDiagonal; i++) {
@@ -268,7 +263,6 @@ public class CarTest {
 	@Test
 	public void requirementCalculateAccelerationCorrectInUpDiagonalDownRightDirection() {
 		// Setup
-		setUpCar();
 		PositionVector endPosition = new PositionVector(13, 13);
 		int maxDiagonal = 13;
 		for (int i = 0; i < maxDiagonal; i++) {
@@ -289,7 +283,6 @@ public class CarTest {
 	@Test
 	public void requirementCalculateAccelerationCorrectInUpDiagonalDownLeftDirection() {
 		// Setup
-		setUpCar();
 		PositionVector endPosition = new PositionVector(-13, 13);
 		int maxDiagonal = 13;
 		for (int i = 0; i < maxDiagonal; i++) {
@@ -311,7 +304,6 @@ public class CarTest {
 	@Test
 	public void requirementCalculateAccelerationCorrectFromPositiveXMaximumToNegativXMaximumPosition() {
 		// Setup
-		setUpCar();
 		PositionVector xPositiveMaximumPosition = new PositionVector(51, 0);
 		PositionVector xNegativeMaximumPosition = new PositionVector(-51, 0);
 		int maxXValue = 51;
@@ -347,7 +339,6 @@ public class CarTest {
 	@Test
 	public void requirementCalculateAccelerationCorrectFromPositiveYMaximumToNegativYMaximumPosition() {
 		// Setup
-		setUpCar();
 		PositionVector xPositiveMaximumPosition = new PositionVector(0, 15);
 		PositionVector xNegativeMaximumPosition = new PositionVector(0, -15);
 		int maxYValue = 15;
@@ -383,7 +374,6 @@ public class CarTest {
 	@Test
 	public void requirementCalculateAccelerationCorrectFromDiagonalUpRightToDownLeftPosition() {
 		// Setup
-		setUpCar();
 		PositionVector upRightPosition = new PositionVector(13, -13);
 		PositionVector downLeftPosition = new PositionVector(-13, 13);
 		int maxDiagonalValue = 13;
@@ -419,7 +409,6 @@ public class CarTest {
 	@Test
 	public void requirementCalculateAccelerationCorrectFromDiagonalUpLeftToDownRightPosition() {
 		// Setup
-		setUpCar();
 		PositionVector upLefttPosition = new PositionVector(-13, -13);
 		PositionVector downRightPosition = new PositionVector(13, 13);
 		int maxDiagonalValue = 13;
@@ -446,7 +435,11 @@ public class CarTest {
 
 	}
 
-	private void setUpCar() {
+	/**
+	 * Sets up a car model for the testing.
+	 */
+	@Before
+	public void setUpCar() {
 		model = new Car(CAR_ID, STARTPOSITION);
 	}
 
