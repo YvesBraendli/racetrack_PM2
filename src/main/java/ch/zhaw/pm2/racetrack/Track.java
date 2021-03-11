@@ -1,7 +1,9 @@
 package ch.zhaw.pm2.racetrack;
 
 import java.io.File;
+import java.util.Scanner;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 /**
  * This class represents the racetrack board.
@@ -52,6 +54,7 @@ import java.io.FileNotFoundException;
 public class Track {
 
     public static final char CRASH_INDICATOR = 'X';
+    private ArrayList<String> track;
 
     /**
      * Initialize a Track from the given track file.
@@ -60,10 +63,18 @@ public class Track {
      * @throws FileNotFoundException       if the given track file could not be found
      * @throws InvalidTrackFormatException if the track file contains invalid data (no tracklines, ...)
      */
-    public Track(File trackFile) throws FileNotFoundException//, InvalidTrackFormatException
+    public Track(File trackFile) throws FileNotFoundException, InvalidTrackFormatException
     {
-        // TODO implement
-        throw new UnsupportedOperationException();
+    	track = new ArrayList<>();
+       if (!trackFile.exists()) throw new FileNotFoundException("File does not exist in the given directory");
+    	Scanner trackReader = new Scanner(trackFile);
+        while(trackReader.hasNextLine()) {
+        	track.add(trackReader.nextLine());
+        	}
+        trackReader.close();
+        for(String line: track) {
+        	if(fileContainsValidData(line))throw new InvalidTrackFormatException("Data File contains invalid symbols.");
+        }
     }
 
     /**
@@ -155,4 +166,22 @@ public class Track {
         // TODO implement
         throw new UnsupportedOperationException();
     }
+    
+    public static void main(String[] args) throws FileNotFoundException, InvalidTrackFormatException {
+    	File file = new File("C:\\Users\\yvesb\\OneDrive - ZHAW\\FS_2021\\Software-Projekt\\Projekt1_Racetrack\\Gruppe03-fischbein-Projekt1-Racetrack\\tracks\\challenge.txt");
+    	Track track = new Track(file);
+	}
+    
+    private boolean fileContainsValidData(String trackLine) {
+    	if(!(trackLine.contains(String.valueOf(Config.SpaceType.WALL.value))
+    			|| (trackLine.contains(String.valueOf(Config.SpaceType.TRACK.value))))
+    			|| (trackLine.contains(String.valueOf(Config.SpaceType.FINISH_DOWN.value))
+    					&&trackLine.contains(String.valueOf(Config.SpaceType.FINISH_LEFT.value))
+            			&&trackLine.contains(String.valueOf(Config.SpaceType.FINISH_UP.value))
+            			&&trackLine.contains(String.valueOf(Config.SpaceType.FINISH_RIGHT.value)))) {
+    		return true;
+    	}
+    	return false;		
+    }
+    
 }
