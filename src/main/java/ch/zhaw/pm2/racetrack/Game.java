@@ -1,5 +1,6 @@
 package ch.zhaw.pm2.racetrack;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static ch.zhaw.pm2.racetrack.PositionVector.Direction;
@@ -10,6 +11,9 @@ import static ch.zhaw.pm2.racetrack.PositionVector.Direction;
  * and if we have a winner.
  */
 public class Game {
+	private ArrayList<Car> players = new ArrayList<>();
+	private Car currentCar;
+	
     public static final int NO_WINNER = -1;
 
     public static void main(String[] args) {
@@ -66,6 +70,11 @@ public class Game {
         	return NO_WINNER;
         }
 
+        if(getUncrashedCars().size() == 1) {
+        	return players.indexOf(getUncrashedCars().get(0));
+        }
+        
+        
         return getCurrentCarIndex();
     }
 
@@ -137,6 +146,24 @@ public class Game {
     }
 
     private boolean isGameInProgress() {
+    	// one car has successfully crossed the finish line
+    	//TODO this part has to be checked first; case player crosses finish line and crashes 
+    	// => only one player on the track would be uncrashed but isn't the winner.
+    	
+    	// all except one car have been crashed    	
+    	if(getUncrashedCars().size() == 1) {
+    		return false;
+    	}
     	return true;
+    }
+    
+    private ArrayList<Car> getUncrashedCars(){
+    	ArrayList<Car> uncrashedCars = new ArrayList<>();
+    	for (Car car : players) {
+			if(!car.isCrashed()) {
+				uncrashedCars.add(car);
+			}
+		}
+    	return uncrashedCars;
     }
 }
