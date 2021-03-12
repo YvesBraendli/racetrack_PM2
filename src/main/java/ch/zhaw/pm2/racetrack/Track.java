@@ -85,7 +85,7 @@ public class Track {
      * @return The type of track position at the given location
      */
     public Config.SpaceType getSpaceType(PositionVector position) {
-        // TODO implement
+        
         throw new UnsupportedOperationException();
     }
 
@@ -173,6 +173,17 @@ public class Track {
 	}
     
     private boolean fileContainsValidData(String trackLine) {
+    	boolean hasFinishDownSigns = false;
+    	boolean hasFinishUpSigns = false;
+    	boolean hasFinishLeftSigns = false;
+    	boolean hasFinishRightSigns = false;
+    	if (trackLine.contains(String.valueOf(Config.SpaceType.FINISH_DOWN.value))) hasFinishDownSigns = true;
+    	if (trackLine.contains(String.valueOf(Config.SpaceType.FINISH_UP.value))) hasFinishUpSigns = true;
+    	if (trackLine.contains(String.valueOf(Config.SpaceType.FINISH_RIGHT.value))) hasFinishRightSigns = true;
+    	if (trackLine.contains(String.valueOf(Config.SpaceType.FINISH_LEFT.value))) hasFinishLeftSigns = true;
+    	if ((hasFinishDownSigns && hasFinishUpSigns)||(hasFinishDownSigns && hasFinishRightSigns)
+    			||(hasFinishDownSigns && hasFinishLeftSigns) || (hasFinishUpSigns&&hasFinishLeftSigns)
+    			|| (hasFinishUpSigns&&hasFinishRightSigns) || (hasFinishLeftSigns&&hasFinishRightSigns)) return false;
     	if(!(trackLine.contains(String.valueOf(Config.SpaceType.WALL.value))
     			|| (trackLine.contains(String.valueOf(Config.SpaceType.TRACK.value))))
     			|| (trackLine.contains(String.valueOf(Config.SpaceType.FINISH_DOWN.value))
