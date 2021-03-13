@@ -7,19 +7,32 @@ import java.util.ArrayList;
 import org.beryx.textio.TextIO;
 
 
-
+/**
+ * This class is used to get user inputs.
+ * @author Moser Nadine, Meier Robin, Brändli Yves
+ *
+ */
 public class Input {
+ 
 	private TextIO textIO;
-	private char[] possiblePlayerMoves = {'1','2','3','4','5','6','7','8','9','h','t','q'};
 	
-	
+	/**
+	 * Constructor for the Input class
+	 * @param textIO console object
+	 */
 	public Input(TextIO textIO) {
 		this.textIO = textIO;
 	}
 	
 	
-	public File requestTrack(File trackDirectory) {
-		File[] trackPathFiles = trackDirectory.listFiles();
+	/**
+	 * Displays a list of possible files in a directory for the user to choose from.
+	 * Used for track selection and the follower/move list strategies
+	 * @param directory the path of the files
+	 * @return the selected file as a File object
+	 */
+	public File requestFile(File directory) {
+		File[] trackPathFiles = directory.listFiles();
 	
 		HashMap<String, File> files = new HashMap<String, File>();
 		for(File file: trackPathFiles) {
@@ -33,14 +46,23 @@ public class Input {
 				.read("Please select a track:"));	
 	}
 	
-	
+	/**
+	 * Used for strategy selection
+	 * @param CarID The symbol for the car
+	 * @return the selected strategy as an enum value
+	 */
 	public Config.StrategyType requestPlayerStrategy(char CarID) {
 		return textIO.newEnumInputReader(Config.StrategyType.class).read("Car " + CarID + ": Please select your strategy:");
 	}
 	
-//	public char requestPlayerMove() {
-//		return textIO.newCharInputReader().(possiblePlayerMoves).read("Please select a move");
-//	}
+	/**
+	 * Used to select a acceleration value between 1-9
+	 * @return the acceleration as an int
+	 */
+	public int requestPlayerMove() {
+		return textIO.newIntInputReader().withMinVal(1).withMaxVal(9).read("Please enter an acceleration value between 1 and 9");
+	}
+	
 	
 	
 }
