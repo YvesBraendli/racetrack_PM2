@@ -85,8 +85,15 @@ public class Track {
      * @return The type of track position at the given location
      */
     public Config.SpaceType getSpaceType(PositionVector position) {
-        
-        throw new UnsupportedOperationException();
+    	if(position.getY()>track.size()
+    			||position.getX()>track.get(position.getY()).length())return Config.SpaceType.WALL;
+        Character charSymbol = track.get(position.getY()).charAt(position.getX());
+        if (charSymbol.equals(Config.SpaceType.FINISH_DOWN.value)) return Config.SpaceType.FINISH_DOWN;
+        if (charSymbol.equals(Config.SpaceType.FINISH_UP.value)) return Config.SpaceType.FINISH_UP;
+        if (charSymbol.equals(Config.SpaceType.FINISH_RIGHT.value)) return Config.SpaceType.FINISH_RIGHT;
+        if (charSymbol.equals(Config.SpaceType.FINISH_LEFT.value)) return Config.SpaceType.FINISH_LEFT;
+        if (charSymbol.equals(Config.SpaceType.WALL.value)) return Config.SpaceType.WALL;
+        return Config.SpaceType.TRACK;
     }
 
     /**
@@ -170,6 +177,7 @@ public class Track {
     public static void main(String[] args) throws FileNotFoundException, InvalidTrackFormatException {
     	File file = new File("C:\\Users\\yvesb\\OneDrive - ZHAW\\FS_2021\\Software-Projekt\\Projekt1_Racetrack\\Gruppe03-fischbein-Projekt1-Racetrack\\tracks\\challenge.txt");
     	Track track = new Track(file);
+    	System.out.println(track.getSpaceType(new PositionVector (2400,2300)));
 	}
     
     private boolean fileContainsValidData(String trackLine) {
