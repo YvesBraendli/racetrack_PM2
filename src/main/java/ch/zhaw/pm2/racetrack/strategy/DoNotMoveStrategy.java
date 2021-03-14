@@ -9,7 +9,6 @@ public class DoNotMoveStrategy implements MoveStrategy {
 
     @Override
     public Direction nextMove() {
-        // TODO implement
-        throw new RuntimeException();
+        return Direction.NONE;
     }
 }
