@@ -101,7 +101,6 @@ public class Track {
 			for(int c = 0; c<startSignCounter; c++) {
 				if(position.getX()==validHighestXStartPosition-c)validXStartPosition = true;
 			}
-			if(validXStartPosition&&validYStartPosition)cars.add(new Car(carId, position));
 		}
 		
 		if (track.get(position.getY()+1).contains(String.valueOf(Config.SpaceType.FINISH_DOWN.value))) {
@@ -116,30 +115,28 @@ public class Track {
 			for(int c = 0; c<startSignCounter; c++) {
 				if(position.getX()==validHighestXStartPosition-c)validXStartPosition = true;
 			}
-			if(validXStartPosition&&validYStartPosition)cars.add(new Car(carId, position));
 		}
 		
 		if (track.get(position.getY()+1).contains(String.valueOf(Config.SpaceType.FINISH_RIGHT.value))) {
 			validYStartPosition = true;
 			char[] chars = track.get(position.getY()+1).toCharArray();
 			for (int z = 0; z<chars.length; z++) {
-				if(chars[z] == Config.SpaceType.FINISH_RIGHT.value) {
+				if((chars[z] == Config.SpaceType.FINISH_RIGHT.value)&&(z == position.getX()-1)) {
 					validXStartPosition = true;
 				}
 			}
-			if(validXStartPosition&&validYStartPosition)cars.add(new Car(carId, position));
 		}
 		
 		if (track.get(position.getY()-1).contains(String.valueOf(Config.SpaceType.FINISH_LEFT.value))) {
 			validYStartPosition = true;
 			char[] chars = track.get(position.getY()-1).toCharArray();
 			for (int z = 0; z<chars.length; z++) {
-				if(chars[z] == Config.SpaceType.FINISH_LEFT.value) {
+				if(chars[z] == Config.SpaceType.FINISH_LEFT.value&&(z == position.getX()+1)) {
 					validXStartPosition = true;
 				}
 			}
-			if(validXStartPosition&&validYStartPosition)cars.add(new Car(carId, position));
 		}
+		if(validXStartPosition&&validYStartPosition)cars.add(new Car(carId, position));
     }
 
     /**
@@ -238,20 +235,37 @@ public class Track {
      * @return A String representation of the track
      */
     public String toString() {
-        // TODO implement
-        throw new UnsupportedOperationException();
+    	ArrayList<String> newTrack = track;
+    	String track = null;
+    	if (cars.size()>0) {
+    		for (Car car: cars) {
+    			int yCoordinate = car.getPosition().getY();
+    			int xCoordinate = car.getPosition().getX();
+    			String trackLine = newTrack.get(yCoordinate);
+    			String newTrackLineFront = trackLine.substring(0, xCoordinate)+car.getID();
+    			String newTrackLineEnd = trackLine.substring(xCoordinate+1);
+    			String newTrackLine = newTrackLineFront+newTrackLineEnd;
+    			newTrack.remove(yCoordinate);
+    			newTrack.add(yCoordinate, newTrackLine);
+    		}
+    	}
+    	for (String trackLine: newTrack) {
+    		track += trackLine;
+    	}
+    	return track;
     }
     
     public static void main(String[] args) throws FileNotFoundException, InvalidTrackFormatException {
     	File file = new File("C:\\Users\\yvesb\\OneDrive - ZHAW\\FS_2021\\Software-Projekt\\Projekt1_Racetrack\\Gruppe03-fischbein-Projekt1-Racetrack\\tracks\\challenge.txt");
     	Track track = new Track(file);
-    	track.createCar('d', new PositionVector(24,23));
+    	track.createCar('d', new PositionVector(23,23));
     	System.out.println(track.getCarId(0));
     	System.out.println(track.getCar(0));
     	System.out.println(track.getCarCount());
     	System.out.println(track.getCarPos(0));
     	System.out.println(track.getCarVelocity(0));
     	System.out.println(track.getSpaceType(new PositionVector (2400,2300)));
+    	System.out.println(track.toString());
 	}
     
     private boolean fileContainsValidData(String trackLine) {
