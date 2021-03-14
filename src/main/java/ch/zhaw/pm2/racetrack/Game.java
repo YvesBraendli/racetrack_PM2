@@ -3,6 +3,8 @@ package ch.zhaw.pm2.racetrack;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.zhaw.pm2.racetrack.Config.SpaceType;
+
 import static ch.zhaw.pm2.racetrack.PositionVector.Direction;
 
 /**
@@ -13,11 +15,12 @@ import static ch.zhaw.pm2.racetrack.PositionVector.Direction;
 public class Game {
 	private ArrayList<Car> players = new ArrayList<>();
 	private Car currentCar;
+	private Track track;
 
 	public static final int NO_WINNER = -1;
 
-	public Game(int numberOfPlayers) {
-	    
+	public Game(int numberOfPlayers, Track track) {
+	    this.track = track;
 	}
 	  
 	/**
@@ -177,7 +180,18 @@ public class Game {
 	}
 
 	private boolean hasCurrentCarFinished() {
-		// TODO: implement if Car has crossed finish line (with the last movement)
+		int startX = currentCar.getPosition().getX()-currentCar.getVelocity().getX();
+		int startY = currentCar.getPosition().getY()-currentCar.getVelocity().getY();
+		PositionVector startPosition = new PositionVector(startX, startY);
+		List<PositionVector> positions = calculatePath(startPosition, currentCar.getPosition());
+		for(PositionVector position : positions){
+			Config.SpaceType spaceType = track.getSpaceType(position);
+			if ( spaceType == SpaceType.FINISH_DOWN) // todo implement all finishes.
+				{
+				// je nach richtugn start und ende überprüfen.
+		}
+				
+		}
 		return false;
 	}
 
