@@ -76,7 +76,7 @@ public class Game {
 		if (isGameInProgress()) {
 			return NO_WINNER;
 		}
-
+		
 		if (getUncrashedCars().size() == 1) {
 			return players.indexOf(getUncrashedCars().get(0));
 		}
