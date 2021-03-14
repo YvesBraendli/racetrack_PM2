@@ -16,10 +16,10 @@ public class Game {
 
 	public static final int NO_WINNER = -1;
 
-	public static void main(String[] args) {
-		System.out.println("hello world");
+	public Game(int numberOfPlayers) {
+	    
 	}
-
+	  
 	/**
 	 * Return the index of the current active car. Car indexes are zero-based, so
 	 * the first car is 0, and the last car is getCarCount() - 1.
@@ -27,8 +27,7 @@ public class Game {
 	 * @return The zero-based number of the current car
 	 */
 	public int getCurrentCarIndex() {
-		// TODO implement
-		throw new UnsupportedOperationException();
+		return players.indexOf(currentCar);
 	}
 
 	/**
@@ -38,8 +37,7 @@ public class Game {
 	 * @return A char containing the id of the car
 	 */
 	public char getCarId(int carIndex) {
-		// TODO implement
-		throw new UnsupportedOperationException();
+		return players.get(carIndex).getID();
 	}
 
 	/**
@@ -49,8 +47,7 @@ public class Game {
 	 * @return A PositionVector containing the car's current position
 	 */
 	public PositionVector getCarPosition(int carIndex) {
-		// TODO implement
-		throw new UnsupportedOperationException();
+		return players.get(carIndex).getPosition();
 	}
 
 	/**
@@ -60,8 +57,7 @@ public class Game {
 	 * @return A PositionVector containing the car's current velocity
 	 */
 	public PositionVector getCarVelocity(int carIndex) {
-		// TODO implement
-		throw new UnsupportedOperationException();
+		return players.get(carIndex).getVelocity();
 	}
 
 	/**
@@ -81,8 +77,6 @@ public class Game {
 			return players.indexOf(getUncrashedCars().get(0));
 		}
 
-		// if winner exists, it has to be the current player, because this method should
-		// be called after every round.
 		return getCurrentCarIndex();
 	}
 
@@ -133,8 +127,9 @@ public class Game {
 	 * Switches to the next car who is still in the game. Skips crashed cars.
 	 */
 	public void switchToNextActiveCar() {
-		// TODO implement
-		throw new UnsupportedOperationException();
+		int indexOfActiveCar = players.indexOf(currentCar);
+		indexOfActiveCar++;
+		currentCar = players.get(indexOfActiveCar);
 	}
 
 	/**
@@ -171,16 +166,19 @@ public class Game {
 	}
 
 	private boolean isGameInProgress() {
-		// one car has successfully crossed the finish line
-		// TODO this part has to be checked first; case player crosses finish line and
-		// crashes
-		// => only one player on the track would be uncrashed but isn't the winner.
-
+		if(hasCurrentCarFinished()) {
+			return false;
+		}
 		// all except one car have been crashed
 		if (getUncrashedCars().size() == 1) {
 			return false;
 		}
 		return true;
+	}
+
+	private boolean hasCurrentCarFinished() {
+		// TODO: implement if Car has crossed finish line (with the last movement)
+		return false;
 	}
 
 	private ArrayList<Car> getUncrashedCars() {
