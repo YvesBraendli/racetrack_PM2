@@ -51,8 +51,8 @@ public class Input {
 	 * @param CarID The symbol for the car
 	 * @return the selected strategy as an enum value
 	 */
-	public Config.StrategyType requestPlayerStrategy(char CarID) {
-		return textIO.newEnumInputReader(Config.StrategyType.class).read("Car " + CarID + ": Please select your strategy:");
+	public Config.StrategyType requestPlayerStrategy(char carID) {
+		return textIO.newEnumInputReader(Config.StrategyType.class).read("Car " + carID + ": Please select your strategy:");
 	}
 	
 	/**
