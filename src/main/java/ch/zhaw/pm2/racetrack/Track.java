@@ -177,8 +177,7 @@ public class Track {
      * @return The car instance at the given index
      */
     public Car getCar(int carIndex) {
-        // TODO implement
-        throw new UnsupportedOperationException();
+        return cars.get(carIndex);
     }
 
     /**
@@ -188,8 +187,7 @@ public class Track {
      * @return A char containing the id of the car
      */
     public char getCarId(int carIndex) {
-        // TODO implement
-        throw new UnsupportedOperationException();
+        return cars.get(carIndex).getID();
     }
 
     /**
@@ -199,8 +197,7 @@ public class Track {
      * @return A PositionVector containing the car's current position
      */
     public PositionVector getCarPos(int carIndex) {
-        // TODO implement
-        throw new UnsupportedOperationException();
+        return cars.get(carIndex).getPosition();
     }
 
     /**
@@ -210,8 +207,7 @@ public class Track {
      * @return A PositionVector containing the car's current velocity
      */
     public PositionVector getCarVelocity(int carIndex) {
-        // TODO implement
-        throw new UnsupportedOperationException();
+        return cars.get(carIndex).getVelocity();
     }
 
     /**
@@ -224,8 +220,16 @@ public class Track {
      * @return character representing position (x,y) on the track
      */
     public char getCharAtPosition(int y, int x, Config.SpaceType currentSpace) {
-        // TODO implement
-        throw new UnsupportedOperationException();
+    	for(int i = 0; i<cars.size(); i++) {
+    		if((cars.get(i).getPosition().getY() == y)||(cars.get(i).getPosition().getX() == x)) {
+    			if(cars.get(i).isCrashed()) {
+    				return CRASH_INDICATOR;
+    			}
+    			return cars.get(i).getID();
+    		}
+    	}
+
+        return currentSpace.value;
     }
 
     /**
@@ -242,6 +246,11 @@ public class Track {
     	File file = new File("C:\\Users\\yvesb\\OneDrive - ZHAW\\FS_2021\\Software-Projekt\\Projekt1_Racetrack\\Gruppe03-fischbein-Projekt1-Racetrack\\tracks\\challenge.txt");
     	Track track = new Track(file);
     	track.createCar('d', new PositionVector(24,23));
+    	System.out.println(track.getCarId(0));
+    	System.out.println(track.getCar(0));
+    	System.out.println(track.getCarCount());
+    	System.out.println(track.getCarPos(0));
+    	System.out.println(track.getCarVelocity(0));
     	System.out.println(track.getSpaceType(new PositionVector (2400,2300)));
 	}
     
