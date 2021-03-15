@@ -154,12 +154,23 @@ public class Track {
     	if(position.getY()>track.size()
     			||position.getX()>track.get(position.getY()).length())return Config.SpaceType.WALL;
         Character charSymbol = track.get(position.getY()).charAt(position.getX());
+        switch (showSpaceTypeAtSpecifiedPosition(charSymbol)) {
+        case FINISH_DOWN
+        }
         if (charSymbol.equals(Config.SpaceType.FINISH_DOWN.value)) return Config.SpaceType.FINISH_DOWN;
         if (charSymbol.equals(Config.SpaceType.FINISH_UP.value)) return Config.SpaceType.FINISH_UP;
         if (charSymbol.equals(Config.SpaceType.FINISH_RIGHT.value)) return Config.SpaceType.FINISH_RIGHT;
         if (charSymbol.equals(Config.SpaceType.FINISH_LEFT.value)) return Config.SpaceType.FINISH_LEFT;
         if (charSymbol.equals(Config.SpaceType.WALL.value)) return Config.SpaceType.WALL;
         return Config.SpaceType.TRACK;
+    }
+    
+    private Config.SpaceType showSpaceTypeAtSpecifiedPosition(Character symbol){
+    	if (symbol.equals(Config.SpaceType.FINISH_DOWN.value)) return Config.SpaceType.FINISH_DOWN;
+        if (symbol.equals(Config.SpaceType.FINISH_UP.value)) return Config.SpaceType.FINISH_UP;
+        if (symbol.equals(Config.SpaceType.FINISH_RIGHT.value)) return Config.SpaceType.FINISH_RIGHT;
+        if (symbol.equals(Config.SpaceType.FINISH_LEFT.value)) return Config.SpaceType.FINISH_LEFT;
+        return Config.SpaceType.WALL;
     }
 
     /**
