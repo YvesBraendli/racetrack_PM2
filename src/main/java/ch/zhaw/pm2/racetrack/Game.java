@@ -14,15 +14,16 @@ import static ch.zhaw.pm2.racetrack.PositionVector.Direction;
  */
 public class Game {
 	private ArrayList<Car> players = new ArrayList<>();
+	private ArrayList<Car> playersToGoAround = new ArrayList<>();
 	private Car currentCar;
 	private Track track;
 
 	public static final int NO_WINNER = -1;
 
 	public Game(int numberOfPlayers, Track track) {
-	    this.track = track;
+		this.track = track;
 	}
-	  
+
 	/**
 	 * Return the index of the current active car. Car indexes are zero-based, so
 	 * the first car is 0, and the last car is getCarCount() - 1.
@@ -75,7 +76,7 @@ public class Game {
 		if (isGameInProgress()) {
 			return NO_WINNER;
 		}
-		
+
 		if (getUncrashedCars().size() == 1) {
 			return players.indexOf(getUncrashedCars().get(0));
 		}
@@ -169,7 +170,7 @@ public class Game {
 	}
 
 	private boolean isGameInProgress() {
-		if(hasCurrentCarFinished()) {
+		if (hasCurrentCarFinished()) {
 			return false;
 		}
 		// all except one car have been crashed
@@ -180,17 +181,45 @@ public class Game {
 	}
 
 	private boolean hasCurrentCarFinished() {
-		int startX = currentCar.getPosition().getX()-currentCar.getVelocity().getX();
-		int startY = currentCar.getPosition().getY()-currentCar.getVelocity().getY();
+		int startX = currentCar.getPosition().getX() - currentCar.getVelocity().getX();
+		int startY = currentCar.getPosition().getY() - currentCar.getVelocity().getY();
 		PositionVector startPosition = new PositionVector(startX, startY);
 		List<PositionVector> positions = calculatePath(startPosition, currentCar.getPosition());
-		for(PositionVector position : positions){
+		for (PositionVector position : positions) {
 			Config.SpaceType spaceType = track.getSpaceType(position);
-			if ( spaceType == SpaceType.FINISH_DOWN) // todo implement all finishes.
-				{
-				// je nach richtugn start und ende überprüfen.
-		}
-				
+			if (spaceType == SpaceType.FINISH_DOWN) {
+				if (startY > position.getY()) {
+					boolean hasToGoOneLap = playersToGoAround.contains(currentCar);
+					return !hasToGoOneLap;
+				} else {
+					playersToGoAround.add(currentCar);
+				}
+				if (spaceType == SpaceType.FINISH_UP) {
+					if (startY < position.getY()) {
+					}
+					boolean hasToGoOneLap = playersToGoAround.contains(currentCar);
+					return !hasToGoOneLap;
+				} else {
+					playersToGoAround.add(currentCar);
+				}
+				if (spaceType == SpaceType.FINISH_LEFT) {
+					if (startX > position.getX()) {
+					}
+					boolean hasToGoOneLap = playersToGoAround.contains(currentCar);
+					return !hasToGoOneLap;
+				} else {
+					playersToGoAround.add(currentCar);
+				}
+				if (spaceType == SpaceType.FINISH_RIGHT) {
+					if (startX < position.getX()) {
+					}
+					boolean hasToGoOneLap = playersToGoAround.contains(currentCar);
+					return !hasToGoOneLap;
+				} else {
+					playersToGoAround.add(currentCar);
+				}
+			}
+
 		}
 		return false;
 	}
