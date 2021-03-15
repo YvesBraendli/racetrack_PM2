@@ -78,7 +78,7 @@ public class Output {
 	public void printTrackSelectionMessage() {
 		textTerminal.println("Please select a track:");
 	}
-
+	
 	/**
 	 * Prints the MoveList selection request
 	 * 
@@ -96,5 +96,18 @@ public class Output {
 	public void printWayPointListSelectionMessage(char carID) {
 		textTerminal.println("Please select a waypoint list to follow for car " + carID + ":");
 	}
-
+	
+	/**
+	 * Prints the error message that the selected file was not found
+	 */
+	public void printErrorFileNotFoundMessage() {
+		textTerminal.println("Selected File was not found");
+	}
+	
+	/**
+	 * Prints the error message that the selected file contains invalid symbols
+	 */
+	public void printErrorInvalidSymbolsMessage() {
+		textTerminal.println("Selected File contains invalid symbols");
+	}
 }

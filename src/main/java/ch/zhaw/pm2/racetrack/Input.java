@@ -32,7 +32,7 @@ public class Input {
 	 * @param directory the path of the files
 	 * @return the selected file as a File object
 	 */
-	public File requestFile(File directory) {
+	public File requestFile(File directory, String selectionText) {
 		File[] trackPathFiles = directory.listFiles();
 
 		HashMap<String, File> files = new HashMap<String, File>();
@@ -43,7 +43,7 @@ public class Input {
 		}
 
 		return files.get(textIO.newStringInputReader().withNumberedPossibleValues(new ArrayList<String>(files.keySet()))
-				.read("Please select a track:"));
+				.read(selectionText));
 	}
 
 	/**
