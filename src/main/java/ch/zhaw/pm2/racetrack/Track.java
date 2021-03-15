@@ -1,7 +1,9 @@
 package ch.zhaw.pm2.racetrack;
 
 import java.io.File;
+import java.util.Scanner;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 /**
  * This class represents the racetrack board.
@@ -17,7 +19,7 @@ import java.io.FileNotFoundException;
  *  <li>WALL : road boundary or off track space</li>
  *  <li>TRACK: road or open track space</li>
  *  <li>FINISH_LEFT, FINISH_RIGHT, FINISH_UP, FINISH_DOWN :  finish line spaces which have to be crossed
- *      in the indicated direction to winn the race.</li>
+ *      in the indicated direction to win the race.</li>
  * </ul>
  * <p>Beside the board the track contains the list of cars, with their current state (position, velocity, crashed,...)</p>
  *
@@ -52,6 +54,8 @@ import java.io.FileNotFoundException;
 public class Track {
 
     public static final char CRASH_INDICATOR = 'X';
+    private ArrayList<String> track;
+    private ArrayList<Car> cars;
 
     /**
      * Initialize a Track from the given track file.
@@ -60,10 +64,83 @@ public class Track {
      * @throws FileNotFoundException       if the given track file could not be found
      * @throws InvalidTrackFormatException if the track file contains invalid data (no tracklines, ...)
      */
-    public Track(File trackFile) throws FileNotFoundException//, InvalidTrackFormatException
+    public Track(File trackFile) throws FileNotFoundException, InvalidTrackFormatException
     {
-        // TODO implement
-        throw new UnsupportedOperationException();
+    	track = new ArrayList<>();
+    	cars = new ArrayList<>();
+       if (!trackFile.exists()) throw new FileNotFoundException("File does not exist in the given directory");
+    	Scanner trackReader = new Scanner(trackFile);
+        while(trackReader.hasNextLine()) {
+        	track.add(trackReader.nextLine());
+        	}
+        trackReader.close();
+        for(String line: track) {
+        	if(fileContainsValidData(line))throw new InvalidTrackFormatException("Data File contains invalid symbols.");
+        }
+    }
+    
+    /**
+     * Adds a new car to the car-list if and only if the position is at a correct starting place.
+     * @param carId The specified ID for this car.
+     * @param position The starting position of this car.
+     */
+    public void createCar(char carId, PositionVector position) {
+    	int adjustCoordinateValueOneNegative = -1;
+    	int adjustCoordinateValueOnePositive = 1;
+    	int startSignCounter = 0;
+		int validHighestXStartPosition = 0;
+		boolean validXStartPosition = false;
+		boolean validYStartPosition = false;
+		if (track.get(position.getY()+adjustCoordinateValueOneNegative).contains(String.valueOf(Config.SpaceType.FINISH_UP.value))) {
+			validYStartPosition = true;
+			char[] chars = track.get(position.getY()+adjustCoordinateValueOneNegative).toCharArray();
+			for (int z = 0; z<chars.length; z++) {
+				if(chars[z] == Config.SpaceType.FINISH_UP.value) {
+					validHighestXStartPosition = z;
+					startSignCounter ++;
+				}
+			}
+			for(int c = 0; c<startSignCounter; c++) {
+				if(position.getX()==validHighestXStartPosition-c)validXStartPosition = true;
+			}
+		}
+		
+		if (track.get(position.getY()+adjustCoordinateValueOnePositive).contains(String.valueOf(Config.SpaceType.FINISH_DOWN.value))) {
+			validYStartPosition = true;
+			char[] chars = track.get(position.getY()+adjustCoordinateValueOnePositive).toCharArray();
+			for (int z = 0; z<chars.length; z++) {
+				if(chars[z] == Config.SpaceType.FINISH_DOWN.value) {
+					validHighestXStartPosition = z;
+					startSignCounter ++;
+				}
+			}
+			for(int c = 0; c<startSignCounter; c++) {
+				if(position.getX()==validHighestXStartPosition-c)validXStartPosition = true;
+			}
+		}
+		
+		if (track.get(position.getY()+adjustCoordinateValueOnePositive).contains(String.valueOf(Config.SpaceType.FINISH_RIGHT.value))) {
+			validYStartPosition = true;
+			char[] chars = track.get(position.getY()+adjustCoordinateValueOnePositive).toCharArray();
+			for (int z = 0; z<chars.length; z++) {
+				if((chars[z] == Config.SpaceType.FINISH_RIGHT.value)&&(z == position.getX()+adjustCoordinateValueOneNegative)) {
+					validXStartPosition = true;
+				}
+			}
+		}
+		
+		if (track.get(position.getY()+adjustCoordinateValueOneNegative).contains(String.valueOf(Config.SpaceType.FINISH_LEFT.value))) {
+			validYStartPosition = true;
+			char[] chars = track.get(position.getY()+adjustCoordinateValueOneNegative).toCharArray();
+			for (int z = 0; z<chars.length; z++) {
+				if(chars[z] == Config.SpaceType.FINISH_LEFT.value&&(z == position.getX()+adjustCoordinateValueOnePositive)) {
+					validXStartPosition = true;
+				}
+			}
+		}
+		if(validXStartPosition&&validYStartPosition) {
+			cars.add(new Car(carId, position));
+		}
     }
 
     /**
@@ -74,8 +151,18 @@ public class Track {
      * @return The type of track position at the given location
      */
     public Config.SpaceType getSpaceType(PositionVector position) {
-        // TODO implement
-        throw new UnsupportedOperationException();
+    	if(position.getY()>track.size()
+    			||position.getX()>track.get(position.getY()).length())return Config.SpaceType.WALL;
+        Character charSymbol = track.get(position.getY()).charAt(position.getX());
+        return showSpaceTypeAtSpecifiedPosition(charSymbol);
+    }
+    
+    private Config.SpaceType showSpaceTypeAtSpecifiedPosition(Character symbol){
+    	if (symbol.equals(Config.SpaceType.FINISH_DOWN.value)) return Config.SpaceType.FINISH_DOWN;
+        if (symbol.equals(Config.SpaceType.FINISH_UP.value)) return Config.SpaceType.FINISH_UP;
+        if (symbol.equals(Config.SpaceType.FINISH_RIGHT.value)) return Config.SpaceType.FINISH_RIGHT;
+        if (symbol.equals(Config.SpaceType.FINISH_LEFT.value)) return Config.SpaceType.FINISH_LEFT;
+        return Config.SpaceType.WALL;
     }
 
     /**
@@ -84,8 +171,7 @@ public class Track {
      * @return Number of cars
      */
     public int getCarCount() {
-        // TODO implement
-        throw new UnsupportedOperationException();
+       return cars.size();
     }
 
     /**
@@ -95,8 +181,7 @@ public class Track {
      * @return The car instance at the given index
      */
     public Car getCar(int carIndex) {
-        // TODO implement
-        throw new UnsupportedOperationException();
+        return cars.get(carIndex);
     }
 
     /**
@@ -106,8 +191,7 @@ public class Track {
      * @return A char containing the id of the car
      */
     public char getCarId(int carIndex) {
-        // TODO implement
-        throw new UnsupportedOperationException();
+        return cars.get(carIndex).getID();
     }
 
     /**
@@ -117,8 +201,7 @@ public class Track {
      * @return A PositionVector containing the car's current position
      */
     public PositionVector getCarPos(int carIndex) {
-        // TODO implement
-        throw new UnsupportedOperationException();
+        return cars.get(carIndex).getPosition();
     }
 
     /**
@@ -128,8 +211,7 @@ public class Track {
      * @return A PositionVector containing the car's current velocity
      */
     public PositionVector getCarVelocity(int carIndex) {
-        // TODO implement
-        throw new UnsupportedOperationException();
+        return cars.get(carIndex).getVelocity();
     }
 
     /**
@@ -142,8 +224,16 @@ public class Track {
      * @return character representing position (x,y) on the track
      */
     public char getCharAtPosition(int y, int x, Config.SpaceType currentSpace) {
-        // TODO implement
-        throw new UnsupportedOperationException();
+    	for(int i = 0; i<cars.size(); i++) {
+    		if((cars.get(i).getPosition().getY() == y)||(cars.get(i).getPosition().getX() == x)) {
+    			if(cars.get(i).isCrashed()) {
+    				return CRASH_INDICATOR;
+    			}
+    			return cars.get(i).getID();
+    		}
+    	}
+
+        return currentSpace.value;
     }
 
     /**
@@ -152,7 +242,47 @@ public class Track {
      * @return A String representation of the track
      */
     public String toString() {
-        // TODO implement
-        throw new UnsupportedOperationException();
+    	ArrayList<String> newTrack = track;
+    	String track = null;
+    	if (cars.size()>0) {
+    		for (Car car: cars) {
+    			int yCoordinate = car.getPosition().getY();
+    			int xCoordinate = car.getPosition().getX();
+    			String trackLine = newTrack.get(yCoordinate);
+    			String newTrackLineFront = trackLine.substring(0, xCoordinate)+car.getID();
+    			String newTrackLineEnd = trackLine.substring(xCoordinate+1);
+    			String newTrackLine = newTrackLineFront+newTrackLineEnd;
+    			newTrack.remove(yCoordinate);
+    			newTrack.add(yCoordinate, newTrackLine);
+    		}
+    	}
+    	for (String trackLine: newTrack) {
+    		track += trackLine;
+    	}
+    	return track;
     }
+    
+    private boolean fileContainsValidData(String trackLine) {
+    	boolean hasFinishDownSigns = false;
+    	boolean hasFinishUpSigns = false;
+    	boolean hasFinishLeftSigns = false;
+    	boolean hasFinishRightSigns = false;
+    	if (trackLine.contains(String.valueOf(Config.SpaceType.FINISH_DOWN.value))) hasFinishDownSigns = true;
+    	if (trackLine.contains(String.valueOf(Config.SpaceType.FINISH_UP.value))) hasFinishUpSigns = true;
+    	if (trackLine.contains(String.valueOf(Config.SpaceType.FINISH_RIGHT.value))) hasFinishRightSigns = true;
+    	if (trackLine.contains(String.valueOf(Config.SpaceType.FINISH_LEFT.value))) hasFinishLeftSigns = true;
+    	if ((hasFinishDownSigns && hasFinishUpSigns)||(hasFinishDownSigns && hasFinishRightSigns)
+    			||(hasFinishDownSigns && hasFinishLeftSigns) || (hasFinishUpSigns&&hasFinishLeftSigns)
+    			|| (hasFinishUpSigns&&hasFinishRightSigns) || (hasFinishLeftSigns&&hasFinishRightSigns)) return false;
+    	if(!(trackLine.contains(String.valueOf(Config.SpaceType.WALL.value))
+    			|| (trackLine.contains(String.valueOf(Config.SpaceType.TRACK.value))))
+    			|| (trackLine.contains(String.valueOf(Config.SpaceType.FINISH_DOWN.value))
+    					&&trackLine.contains(String.valueOf(Config.SpaceType.FINISH_LEFT.value))
+            			&&trackLine.contains(String.valueOf(Config.SpaceType.FINISH_UP.value))
+            			&&trackLine.contains(String.valueOf(Config.SpaceType.FINISH_RIGHT.value)))) {
+    		return true;
+    	}
+    	return false;		
+    }
+    
 }
