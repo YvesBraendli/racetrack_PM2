@@ -259,19 +259,6 @@ public class Track {
     	return track;
     }
     
-    public static void main(String[] args) throws FileNotFoundException, InvalidTrackFormatException {
-    	File file = new File("C:\\Users\\yvesb\\OneDrive - ZHAW\\FS_2021\\Software-Projekt\\Projekt1_Racetrack\\Gruppe03-fischbein-Projekt1-Racetrack\\tracks\\challenge.txt");
-    	Track track = new Track(file);
-    	track.createCar('d', new PositionVector(23,23));
-    	System.out.println(track.getCarId(0));
-    	System.out.println(track.getCar(0));
-    	System.out.println(track.getCarCount());
-    	System.out.println(track.getCarPos(0));
-    	System.out.println(track.getCarVelocity(0));
-    	System.out.println(track.getSpaceType(new PositionVector (2400,2300)));
-    	System.out.println(track.toString());
-	}
-    
     private boolean fileContainsValidData(String trackLine) {
     	boolean hasFinishDownSigns = false;
     	boolean hasFinishUpSigns = false;
