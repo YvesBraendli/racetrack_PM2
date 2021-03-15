@@ -85,17 +85,19 @@ public class Track {
      * @param position The starting position of this car.
      */
     public void createCar(char carId, PositionVector position) {
+    	int adjustCoordinateValueOneNegative = -1;
+    	int adjustCoordinateValueOnePositive = 1;
     	int startSignCounter = 0;
 		int validHighestXStartPosition = 0;
 		boolean validXStartPosition = false;
 		boolean validYStartPosition = false;
-		if (track.get(position.getY()-1).contains(String.valueOf(Config.SpaceType.FINISH_UP.value))) {
+		if (track.get(position.getY()+adjustCoordinateValueOneNegative).contains(String.valueOf(Config.SpaceType.FINISH_UP.value))) {
 			validYStartPosition = true;
-			char[] chars = track.get(position.getY()-1).toCharArray();
+			char[] chars = track.get(position.getY()+adjustCoordinateValueOneNegative).toCharArray();
 			for (int z = 0; z<chars.length; z++) {
 				if(chars[z] == Config.SpaceType.FINISH_UP.value) {
 					validHighestXStartPosition = z;
-					startSignCounter +=1;
+					startSignCounter ++;
 				}
 			}
 			for(int c = 0; c<startSignCounter; c++) {
@@ -103,13 +105,13 @@ public class Track {
 			}
 		}
 		
-		if (track.get(position.getY()+1).contains(String.valueOf(Config.SpaceType.FINISH_DOWN.value))) {
+		if (track.get(position.getY()+adjustCoordinateValueOnePositive).contains(String.valueOf(Config.SpaceType.FINISH_DOWN.value))) {
 			validYStartPosition = true;
-			char[] chars = track.get(position.getY()+1).toCharArray();
+			char[] chars = track.get(position.getY()+adjustCoordinateValueOnePositive).toCharArray();
 			for (int z = 0; z<chars.length; z++) {
 				if(chars[z] == Config.SpaceType.FINISH_DOWN.value) {
 					validHighestXStartPosition = z;
-					startSignCounter +=1;
+					startSignCounter ++;
 				}
 			}
 			for(int c = 0; c<startSignCounter; c++) {
@@ -117,26 +119,28 @@ public class Track {
 			}
 		}
 		
-		if (track.get(position.getY()+1).contains(String.valueOf(Config.SpaceType.FINISH_RIGHT.value))) {
+		if (track.get(position.getY()+adjustCoordinateValueOnePositive).contains(String.valueOf(Config.SpaceType.FINISH_RIGHT.value))) {
 			validYStartPosition = true;
-			char[] chars = track.get(position.getY()+1).toCharArray();
+			char[] chars = track.get(position.getY()+adjustCoordinateValueOnePositive).toCharArray();
 			for (int z = 0; z<chars.length; z++) {
-				if((chars[z] == Config.SpaceType.FINISH_RIGHT.value)&&(z == position.getX()-1)) {
+				if((chars[z] == Config.SpaceType.FINISH_RIGHT.value)&&(z == position.getX()+adjustCoordinateValueOneNegative)) {
 					validXStartPosition = true;
 				}
 			}
 		}
 		
-		if (track.get(position.getY()-1).contains(String.valueOf(Config.SpaceType.FINISH_LEFT.value))) {
+		if (track.get(position.getY()+adjustCoordinateValueOneNegative).contains(String.valueOf(Config.SpaceType.FINISH_LEFT.value))) {
 			validYStartPosition = true;
-			char[] chars = track.get(position.getY()-1).toCharArray();
+			char[] chars = track.get(position.getY()+adjustCoordinateValueOneNegative).toCharArray();
 			for (int z = 0; z<chars.length; z++) {
-				if(chars[z] == Config.SpaceType.FINISH_LEFT.value&&(z == position.getX()+1)) {
+				if(chars[z] == Config.SpaceType.FINISH_LEFT.value&&(z == position.getX()+adjustCoordinateValueOnePositive)) {
 					validXStartPosition = true;
 				}
 			}
 		}
-		if(validXStartPosition&&validYStartPosition)cars.add(new Car(carId, position));
+		if(validXStartPosition&&validYStartPosition) {
+			cars.add(new Car(carId, position));
+		}
     }
 
     /**
