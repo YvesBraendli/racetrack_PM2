@@ -10,7 +10,7 @@ import java.util.ArrayList;
  *
  * <p>
  * The racetrack board consists of a rectangular grid of 'width' columns and
- * 'height' rows. The zero point of he grid is at the top left. The x-axis
+ * 'height' rows. The zero point of the grid is at the top left. The x-axis
  * points to the right and the y-axis points downwards.
  * </p>
  * <p>
@@ -78,6 +78,7 @@ public class Track {
 	private ArrayList<String> track;
 	private ArrayList<Car> cars;
 	private boolean isQuarterMileTrack = false;
+	private static final String QUARTER_MILE_COMPARISION = "quarter-mile.txt";
 
 	/**
 	 * Initialize a Track from the given track file.
@@ -89,11 +90,12 @@ public class Track {
 	 *                                     (no tracklines, ...)
 	 */
 	public Track(File trackFile) throws FileNotFoundException, InvalidTrackFormatException {
-		if (trackFile.getName().equals("quarter-mile.txt")) isQuarterMileTrack = true;
+		if (trackFile.getName().equals(QUARTER_MILE_COMPARISION)) isQuarterMileTrack = true;
 		track = new ArrayList<>();
 		cars = new ArrayList<>();
-		if (!trackFile.exists())
+		if (!trackFile.exists()) {
 			throw new FileNotFoundException("File does not exist in the given directory");
+		}
 		Scanner trackReader = new Scanner(trackFile);
 		while (trackReader.hasNextLine()) {
 			String trackLine = trackReader.nextLine().strip();
@@ -103,8 +105,9 @@ public class Track {
 		clearTrack();
 		trackReader.close();
 		for (String line : track) {
-			if (fileContainsValidData(line))
+			if (fileContainsValidData(line)) {
 				throw new InvalidTrackFormatException("Data File contains invalid symbols.");
+			}
 		}
 	}
 	
@@ -169,12 +172,7 @@ public class Track {
 		int validPositionOfFinishLeftSign = 2;
 		int validPositionOfWallWhenQuarterMile = 2;
 		if(isQuarterMileTrack) {
-			if (!(trackSymbols[rowCounter][columnCounter] == Config.SpaceType.FINISH_DOWN.value
-					|| trackSymbols[rowCounter][columnCounter] == Config.SpaceType.FINISH_UP.value
-					|| trackSymbols[rowCounter][columnCounter] == Config.SpaceType.FINISH_RIGHT.value
-					|| trackSymbols[rowCounter][columnCounter] == Config.SpaceType.FINISH_LEFT.value
-					|| trackSymbols[rowCounter][columnCounter] == Config.SpaceType.WALL.value
-					|| trackSymbols[rowCounter][columnCounter] == Config.SpaceType.TRACK.value)
+			if (isNoTrackSign(trackSymbols, rowCounter, columnCounter)
 					&& (rowCounter > 0 && columnCounter > 0
 							&& rowCounter <= trackSymbols.length
 							&& columnCounter <= (trackSymbols[rowCounter].length - validPositionOfWallWhenQuarterMile))
@@ -183,12 +181,7 @@ public class Track {
 				return true;
 			return false;
 		}
-		if (!(trackSymbols[rowCounter][columnCounter] == Config.SpaceType.FINISH_DOWN.value
-				|| trackSymbols[rowCounter][columnCounter] == Config.SpaceType.FINISH_UP.value
-				|| trackSymbols[rowCounter][columnCounter] == Config.SpaceType.FINISH_RIGHT.value
-				|| trackSymbols[rowCounter][columnCounter] == Config.SpaceType.FINISH_LEFT.value
-				|| trackSymbols[rowCounter][columnCounter] == Config.SpaceType.WALL.value
-				|| trackSymbols[rowCounter][columnCounter] == Config.SpaceType.TRACK.value)
+		if (isNoTrackSign(trackSymbols, rowCounter, columnCounter)
 				&& (rowCounter > 0 && columnCounter > 0
 						&& rowCounter <= (trackSymbols.length + validPositionOfFinishUpSign)
 						&& columnCounter <= (trackSymbols[rowCounter].length + validPositionOfFinishUpSign))
@@ -200,6 +193,19 @@ public class Track {
 			return true;
 		return false;
 	}
+	
+	private boolean isNoTrackSign(char[][] trackSymbols, int rowCounter, int columnCounter) {
+		if(!(trackSymbols[rowCounter][columnCounter] == Config.SpaceType.FINISH_DOWN.value
+				|| trackSymbols[rowCounter][columnCounter] == Config.SpaceType.FINISH_UP.value
+				|| trackSymbols[rowCounter][columnCounter] == Config.SpaceType.FINISH_RIGHT.value
+				|| trackSymbols[rowCounter][columnCounter] == Config.SpaceType.FINISH_LEFT.value
+				|| trackSymbols[rowCounter][columnCounter] == Config.SpaceType.WALL.value
+				|| trackSymbols[rowCounter][columnCounter] == Config.SpaceType.TRACK.value)) {
+			return true;
+		}
+		
+		return false;
+	}
 
 	/**
 	 * Return the type of space at the given position. If the location is outside
@@ -209,22 +215,27 @@ public class Track {
 	 * @return The type of track position at the given location
 	 */
 	public Config.SpaceType getSpaceType(PositionVector position) {
-		if (position.getY() > track.size() || position.getX() > track.get(position.getY()).length())
-			return Config.SpaceType.WALL;
+		if (position.getY() > track.size() || position.getX() > track.get(position.getY()).length()) {
+			return Config.SpaceType.WALL;	
+		}
 		Character charSymbol = track.get(position.getY()).charAt(position.getX());
 		return showSpaceTypeAtSpecifiedPosition(charSymbol);
 	}
 
 	private Config.SpaceType showSpaceTypeAtSpecifiedPosition(Character symbol) {
-		if (symbol.equals(Config.SpaceType.FINISH_DOWN.value))
-			return Config.SpaceType.FINISH_DOWN;
-		if (symbol.equals(Config.SpaceType.FINISH_UP.value))
-			return Config.SpaceType.FINISH_UP;
-		if (symbol.equals(Config.SpaceType.FINISH_RIGHT.value))
+		if (symbol.equals(Config.SpaceType.FINISH_DOWN.value)) {
+			return Config.SpaceType.FINISH_DOWN;	
+		}
+		if (symbol.equals(Config.SpaceType.FINISH_UP.value)) {
+			return Config.SpaceType.FINISH_UP;	
+		}
+		if (symbol.equals(Config.SpaceType.FINISH_RIGHT.value)) {
 			return Config.SpaceType.FINISH_RIGHT;
-		if (symbol.equals(Config.SpaceType.FINISH_LEFT.value))
+		}
+		if (symbol.equals(Config.SpaceType.FINISH_LEFT.value)) {
 			return Config.SpaceType.FINISH_LEFT;
-		return Config.SpaceType.WALL;
+		}
+		return Config.SpaceType.TRACK;
 	}
 
 	/**
@@ -325,18 +336,10 @@ public class Track {
 	}
 
 	private boolean fileContainsValidData(String trackLine) {
-		boolean hasFinishDownSigns = false;
-		boolean hasFinishUpSigns = false;
-		boolean hasFinishLeftSigns = false;
-		boolean hasFinishRightSigns = false;
-		if (trackLine.contains(String.valueOf(Config.SpaceType.FINISH_DOWN.value)))
-			hasFinishDownSigns = true;
-		if (trackLine.contains(String.valueOf(Config.SpaceType.FINISH_UP.value)))
-			hasFinishUpSigns = true;
-		if (trackLine.contains(String.valueOf(Config.SpaceType.FINISH_RIGHT.value)))
-			hasFinishRightSigns = true;
-		if (trackLine.contains(String.valueOf(Config.SpaceType.FINISH_LEFT.value)))
-			hasFinishLeftSigns = true;
+		boolean hasFinishDownSigns = trackLine.contains(String.valueOf(Config.SpaceType.FINISH_DOWN.value));
+		boolean hasFinishUpSigns = trackLine.contains(String.valueOf(Config.SpaceType.FINISH_UP.value));
+		boolean hasFinishLeftSigns = trackLine.contains(String.valueOf(Config.SpaceType.FINISH_RIGHT.value));
+		boolean hasFinishRightSigns = trackLine.contains(String.valueOf(Config.SpaceType.FINISH_LEFT.value));
 		if ((hasFinishDownSigns && hasFinishUpSigns) || (hasFinishDownSigns && hasFinishRightSigns)
 				|| (hasFinishDownSigns && hasFinishLeftSigns) || (hasFinishUpSigns && hasFinishLeftSigns)
 				|| (hasFinishUpSigns && hasFinishRightSigns) || (hasFinishLeftSigns && hasFinishRightSigns))
