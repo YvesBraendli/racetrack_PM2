@@ -39,7 +39,7 @@ public class Car {
      * @param position The new position to set the car directly to.
      */
     public void setPosition(final PositionVector position) {
-    	this.position = position;
+        // TDOD implement
     }
 
     /**
@@ -49,9 +49,8 @@ public class Car {
      * @return Expected position after the next move
      */
     public PositionVector nextPosition() {
-    	int x = position.getX() + velocity.getX();
-    	int y = position.getY() + velocity.getY();
-    	return new PositionVector(x,y);
+        // TODO implement
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -63,23 +62,24 @@ public class Car {
      * @param acceleration A Direction vector containing the amounts to add to the velocity in x and y dimension
      */
     public void accelerate(PositionVector.Direction acceleration) {
-    	velocity = new PositionVector
-    			(velocity.getX()+acceleration.vector.getX(),velocity.getY()+acceleration.vector.getY());
+        // TODO implement
+        throw new UnsupportedOperationException();
     }
 
     /**
      * Update this Car's position based on its current velocity.
      */
     public void move() {
-    	position = new PositionVector
-    			(position.getX() + velocity.getX(), position.getY() + velocity.getY());
+        // TODO implement
+        throw new UnsupportedOperationException();
     }
 
     /**
      * Mark this Car as being crashed.
      */
     public void crash() {
-    	crashed = true;
+        // TODO implement
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -88,34 +88,8 @@ public class Car {
      * @return Returns true if crash() has been called on this Car, false otherwise.
      */
     public boolean isCrashed() {
-    	return crashed;
+        // TODO implement
+        throw new UnsupportedOperationException();
     }
-    
-    /**
-     * Returns the current position of the car.
-     * 
-     * @return PositionVector, which contains the current position of the actual car.
-     */
-    public PositionVector getPosition() {
-    	return position;
-    }
-    
-    /**
-     * Returns the character, which represents the car at the track.
-     * 
-     * @return a character for the specified car.
-     */
-    public char getID () {
-    	return id;
-    }
-    
-    /**
-     * Returns the current velocity of the specified car.
-     * 
-     * @return a PositionVector, containing the current velocity of the car.
-     */
-    public PositionVector getVelocity() {
-    	return velocity;
-    }
-    
 }
+
