@@ -75,7 +75,7 @@ public class GameController {
 					selectedStrategy = new PathFollowerMoveStrategy();
 					break;
 				case USER:
-					selectedStrategy = new UserMoveStrategy();
+					selectedStrategy = new UserMoveStrategy(input);
 					break;
 				case MOVE_LIST:
 					boolean isPossibleSelection = false;
@@ -89,6 +89,7 @@ public class GameController {
 							output.printErrorInvalidSymbolsMessage();
 						}
 					}
+					break;
 
 				}
 				strategies.put(carId, selectedStrategy);
