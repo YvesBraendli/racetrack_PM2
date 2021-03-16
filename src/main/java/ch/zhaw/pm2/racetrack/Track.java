@@ -351,12 +351,4 @@ public class Track {
 		}
 		return false;
 	}
-
-	public static void main(String[] args) throws FileNotFoundException, InvalidTrackFormatException {
-		File file = new File(
-				"C:\\Users\\yvesb\\OneDrive - ZHAW\\FS_2021\\Software-Projekt\\Projekt1_Racetrack\\Gruppe03-fischbein-Projekt1-Racetrack\\tracks\\quarter-mile.txt");
-		Track track = new Track(file);
-		System.out.println(track.toString());
-	}
-
 }
