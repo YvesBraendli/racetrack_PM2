@@ -1,5 +1,6 @@
 package ch.zhaw.pm2.racetrack;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static ch.zhaw.pm2.racetrack.PositionVector.Direction;
@@ -93,6 +94,26 @@ public class Game {
      */
     public void doCarTurn(Direction acceleration) {
         // TODO implement
+    	/**
+    	 * currentCar.accelarete(acceleration);
+    	 * calculatePath
+    	 * for(each position in path){
+    	 * 	switch(positiontype){
+    	 * 		track:
+    	 * 			collision with other car?
+    	 * 			yes? both crashed
+    	 * 			no? set position
+    	 * 		
+    	 * 		wall:
+    	 * 			crash - set position
+    	 * 			check if only one car remaining, this is winner!
+    	 * 		finish:
+    	 * 			crossed from correct side
+    	 * 			yes? winner set position
+    	 * 			no! set position
+    	 * 	}
+    	 * }
+    	 */
         throw new UnsupportedOperationException();
     }
 
@@ -117,8 +138,67 @@ public class Game {
      * @return Intervening grid positions as a List of PositionVector's, including the starting and ending positions.
      */
     public List<PositionVector> calculatePath(PositionVector startPosition, PositionVector endPosition) {
-        // TODO implement
-        throw new UnsupportedOperationException();
+        // TODO implement$
+    	List<PositionVector> positionList = new ArrayList<>();
+    	
+    	int dx = endPosition.getX() - startPosition.getX();
+    	int dy = endPosition.getY() - startPosition.getY();
+    	
+    	int absoluteDX = getAbsoluteValue(dx);
+    	int absoluteDY = getAbsoluteValue(dy);
+    	
+    	int fastStepType = 1;
+    	int slowStepType = 1;
+    	
+    	int fasterDirection = dx;
+    	int slowerDirection = dy;
+    	
+    	if(absoluteDY > absoluteDX) {
+    		fasterDirection = dy;
+    		slowerDirection = dx;
+    	}
+    	
+    	if(fasterDirection < 0 ) {
+    		fasterDirection = getAbsoluteValue(fasterDirection);
+    		fastStepType = -1;
+    	}
+    	
+    	if(slowerDirection < 0) {
+    		slowerDirection = getAbsoluteValue(slowerDirection);
+    		slowStepType = -1;
+    	}
+    	
+    	double errorCorrection = (double) absoluteDX/2;
+    	positionList.add(startPosition);
+    	int xDirection = positionList.get(0).getX();
+    	int yDirection = positionList.get(0).getY();
+    	for(int i = 0; i < fasterDirection; i++) {
+    		if(fasterDirection == absoluteDX) {
+    			xDirection = positionList.get(i).getX() + fastStepType;
+    		 	errorCorrection = errorCorrection - slowerDirection;
+	    		if(errorCorrection < 0) {
+	    			yDirection = positionList.get(i).getY() + slowStepType;
+	    			errorCorrection = errorCorrection + fasterDirection;	
+	    		}
+    		}
+    		else {
+    			yDirection = positionList.get(i).getY() + fastStepType;
+    		 	errorCorrection = errorCorrection - slowerDirection;
+	    		if(errorCorrection < 0) {
+	    			xDirection = positionList.get(i).getX() + slowStepType;
+	    			errorCorrection = errorCorrection + fasterDirection;	
+	    		}
+    		}
+    		positionList.add(new PositionVector(xDirection, yDirection));
+    	}
+    	
+    	
+        return positionList;
+    }
+    
+    private int getAbsoluteValue(int number) {
+    	if(number<0) return number*(-1);
+    	return number;
     }
 
     /**
