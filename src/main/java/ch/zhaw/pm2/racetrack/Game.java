@@ -83,9 +83,9 @@ public class Game {
 		return getCurrentCarIndex();
 	}
 
-    public Game(int numberOfPlayers) {
-    	
-    }
+	public Game(int numberOfPlayers) {
+
+	}
 
 	/**
 	 * Execute the next turn for the current active car.
@@ -191,38 +191,42 @@ public class Game {
 		for (PositionVector position : positions) {
 			Config.SpaceType spaceType = track.getSpaceType(position);
 			if (spaceType == SpaceType.FINISH_DOWN) {
-				if (startY > position.getY()) {
+				if (startY < position.getY()) {
 					boolean hasToGoOneLap = playersToGoAround.contains(currentCar);
+					playersToGoAround.remove(currentCar);
 					return !hasToGoOneLap;
 				} else {
 					playersToGoAround.add(currentCar);
 				}
 				if (spaceType == SpaceType.FINISH_UP) {
-					if (startY < position.getY()) {
+					if (startY > position.getY()) {
+						boolean hasToGoOneLap = playersToGoAround.contains(currentCar);
+						playersToGoAround.remove(currentCar);
+						return !hasToGoOneLap;
+					} else {
+						playersToGoAround.add(currentCar);
 					}
-					boolean hasToGoOneLap = playersToGoAround.contains(currentCar);
-					return !hasToGoOneLap;
-				} else {
-					playersToGoAround.add(currentCar);
-				}
-				if (spaceType == SpaceType.FINISH_LEFT) {
-					if (startX > position.getX()) {
+					if (spaceType == SpaceType.FINISH_LEFT) {
+						if (startX > position.getX()) {
+							boolean hasToGoOneLap = playersToGoAround.contains(currentCar);
+							playersToGoAround.remove(currentCar);
+							return !hasToGoOneLap;
+						} else {
+							playersToGoAround.add(currentCar);
+						}
+						if (spaceType == SpaceType.FINISH_RIGHT) {
+							if (startX < position.getX()) {
+								boolean hasToGoOneLap = playersToGoAround.contains(currentCar);
+								playersToGoAround.remove(currentCar);
+								return !hasToGoOneLap;
+							} else {
+								playersToGoAround.add(currentCar);
+							}
+						}
+
 					}
-					boolean hasToGoOneLap = playersToGoAround.contains(currentCar);
-					return !hasToGoOneLap;
-				} else {
-					playersToGoAround.add(currentCar);
-				}
-				if (spaceType == SpaceType.FINISH_RIGHT) {
-					if (startX < position.getX()) {
-					}
-					boolean hasToGoOneLap = playersToGoAround.contains(currentCar);
-					return !hasToGoOneLap;
-				} else {
-					playersToGoAround.add(currentCar);
 				}
 			}
-
 		}
 		return false;
 	}

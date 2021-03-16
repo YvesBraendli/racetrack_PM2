@@ -10,7 +10,7 @@ public class GameTest {
 	
 	@BeforeEach
 	private void setup() {
-		_testGame = new Game();
+		//_testGame = new Game();
 	}
 	
 	//
