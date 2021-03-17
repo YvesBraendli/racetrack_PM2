@@ -55,7 +55,6 @@ public class GameTest {
 	public void GetWinner_CarCrossesFinishLineCorrectly_ReturnsWinner() {
 		// Arrange
 		_testGame.doCarTurn(Direction.LEFT);
-		_testGame.doCarTurn(Direction.LEFT);
 		_testGame.doCarTurn(Direction.LEFT);		
 		
 		int nowinner = _testGame.getWinner();		
@@ -66,4 +65,19 @@ public class GameTest {
 		
 		assertTrue(currentWinner == 0);		
 	}
+
+	@Test
+	public void GetWinner_CarCrossesFinishLineCorrectlyAndCrashesAfterwards_ReturnsWinner() {}
+	
+	@Test
+	public void GetWinner_CarCrossesFinishLineBackwards_ReturnsNoWinner() {}
+	
+	@Test
+	public void GetWinner_CarCrossesFinishLineBackwardsAndForwardAfterwards_ReturnsNoWinner() {}
+	
+	@Test
+	public void GetWinner_TwoCarsFromTwoAreAlive_ReturnsNoWinner() {}
+	
+	@Test
+	public void GetWinner_TwoCarsFromFourAreAlive_ReturnsNoWinner() {}
 }
