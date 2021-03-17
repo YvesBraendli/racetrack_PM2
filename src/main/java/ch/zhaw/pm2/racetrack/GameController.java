@@ -38,7 +38,7 @@ public class GameController {
 		output.printWelcomeMessage();
 		Track track = selectTrack();
 		int numberOfCars = track.getCarCount();
-		game = new Game(numberOfCars);
+		game = new Game(numberOfCars, track);
 		selectStrategies(numberOfCars);
 	}
 
@@ -111,6 +111,7 @@ public class GameController {
 	private void run() {
 		boolean isFinished = false;
 		while (!isFinished) {
+			output.printTrack(game.getTrack().toString());
 			int currentCarIndex = game.getCurrentCarIndex();
 			char currentPlayer = game.getCarId(currentCarIndex);
 
