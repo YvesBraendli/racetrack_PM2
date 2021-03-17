@@ -58,14 +58,12 @@ public class GameTest {
 		_testGame.doCarTurn(Direction.LEFT);
 		_testGame.doCarTurn(Direction.LEFT);		
 		
-		int nowinner = _testGame.getWinner();
-		
+		int nowinner = _testGame.getWinner();		
 		assertTrue(nowinner == Game.NO_WINNER);
 		
 		_testGame.doCarTurn(Direction.RIGHT);
 		int currentWinner = _testGame.getWinner();
 		
-		assertTrue(currentWinner == 0);
-		
+		assertTrue(currentWinner == 0);		
 	}
 }
