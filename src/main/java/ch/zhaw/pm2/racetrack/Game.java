@@ -20,9 +20,14 @@ public class Game {
 
 	public static final int NO_WINNER = -1;
 
-	public Game(int numberOfPlayers, Track track) {
-		this.track = track;
-	}
+	 public Game(int numberOfPlayers, Track track) {
+	        this.track = track;
+	       
+	        for(int i = 0; i < numberOfPlayers; i++) {
+	            players.add(track.getCar(i));
+	        }
+	        currentCar = players.get(0);
+	    }
 
 	/**
 	 * Return the index of the current active car. Car indexes are zero-based, so
