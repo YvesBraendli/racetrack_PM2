@@ -209,7 +209,6 @@ public class Game {
 	 *                     for this turn
 	 */
 	public void doCarTurn(Direction acceleration) {
-	    // TODO implement
 		currentCar.accelerate(acceleration);
 		List<PositionVector> positionList = calculatePath(currentCar.getPosition(), currentCar.nextPosition());
 		for(PositionVector position: positionList) {
@@ -236,26 +235,6 @@ public class Game {
 				}
 			}
 		}
-		/**
-		 * currentCar.accelarete(acceleration);
-		 * calculatePath
-		 * for(each position in path){
-		 * 	switch(positiontype){
-		 * 		track:
-		 * 			collision with other car?
-		 * 			yes? both crashed
-		 * 			no? set position
-		 * 		
-		 * 		wall:
-		 * 			crash - set position
-		 * 			check if only one car remaining, this is winner!
-		 * 		finish:
-		 * 			crossed from correct side
-		 * 			yes? winner set position
-		 * 			no! set position
-		 * 	}
-		 * }
-		 */
 	}
 	
 	
@@ -272,7 +251,6 @@ public class Game {
 	 * @return Intervening grid positions as a List of PositionVector's, including the starting and ending positions.
 	 */
 	public List<PositionVector> calculatePath(PositionVector startPosition, PositionVector endPosition) {
-	    // TODO implement$
 		List<PositionVector> positionList = new ArrayList<>();
 		
 		int dx = endPosition.getX() - startPosition.getX();
