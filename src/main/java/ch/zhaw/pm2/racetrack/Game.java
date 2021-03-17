@@ -218,7 +218,6 @@ public class Game {
 					for(Car car: players) {
 						if(car.getPosition().equals(position)) {
 							currentCar.crash();
-							car.crash();
 						}
 					}
 					currentCar.setPosition(position);
@@ -226,11 +225,9 @@ public class Game {
 				case WALL:
 					currentCar.setPosition(position);
 					currentCar.crash();
-					getWinner();
 					break;
 				case FINISH_UP:case FINISH_DOWN:case FINISH_LEFT:case FINISH_RIGHT:
 					currentCar.setPosition(position);
-					getWinner();
 					break;
 				}
 			}
