@@ -23,6 +23,11 @@ public class Game {
 
 	public Game(int numberOfPlayers, Track track) {
 		this.track = track;
+		
+		for(int i = 0; i < numberOfPlayers; i++) {
+			players.add(track.getCar(i));
+		}
+		currentCar = players.get(0);
 	}
 
 	/**
@@ -82,10 +87,6 @@ public class Game {
 			return players.indexOf(getUncrashedCars().get(0));
 		}
 		return getCurrentCarIndex();
-	}
-
-	public Game(int numberOfPlayers) {
-
 	}
 
 	/**
@@ -212,25 +213,27 @@ public class Game {
 		currentCar.accelerate(acceleration);
 		List<PositionVector> positionList = calculatePath(currentCar.getPosition(), currentCar.nextPosition());
 		for(PositionVector position: positionList) {
-			switch(track.getSpaceType(position)) {
-			case TRACK:
-				currentCar.setPosition(position);
-				for(Car car: players) {
-					if(car.getPosition().equals(position)) {
-						currentCar.crash();
-						car.crash();
+			if(!(position.equals(positionList.get(0)))) {
+				switch(track.getSpaceType(position)) {
+				case TRACK:
+					for(Car car: players) {
+						if(car.getPosition().equals(position)) {
+							currentCar.crash();
+							car.crash();
+						}
 					}
+					currentCar.setPosition(position);
+					break;
+				case WALL:
+					currentCar.setPosition(position);
+					currentCar.crash();
+					getWinner();
+					break;
+				case FINISH_UP:case FINISH_DOWN:case FINISH_LEFT:case FINISH_RIGHT:
+					currentCar.setPosition(position);
+					getWinner();
+					break;
 				}
-				break;
-			case WALL:
-				currentCar.setPosition(position);
-				currentCar.crash();
-				getWinner();
-				break;
-			case FINISH_UP:case FINISH_DOWN:case FINISH_LEFT:case FINISH_RIGHT:
-				currentCar.setPosition(position);
-				getWinner();
-				break;
 			}
 		}
 		/**
@@ -253,7 +256,6 @@ public class Game {
 		 * 	}
 		 * }
 		 */
-	    throw new UnsupportedOperationException();
 	}
 	
 	
@@ -331,5 +333,9 @@ public class Game {
 	private int getAbsoluteValue(int number) {
 		if(number<0) return number*(-1);
 		return number;
+	}
+	
+	public Track getTrack() {
+		return track;
 	}
 }
