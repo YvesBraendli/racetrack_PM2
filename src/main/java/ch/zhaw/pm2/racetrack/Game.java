@@ -229,28 +229,33 @@ public class Game {
 	public void doCarTurn(Direction acceleration) {
 		currentCar.accelerate(acceleration);
 		List<PositionVector> positionList = calculatePath(currentCar.getPosition(), currentCar.nextPosition());
-		for (PositionVector position : positionList) {
-			if (!(position.equals(positionList.get(0)))) {
-				switch (track.getSpaceType(position)) {
-				case TRACK:
-					for (Car car : players) {
-						if (car.getPosition().equals(position)) {
-							currentCar.crash();
+		int hasWinner = NO_WINNER;
+		for(PositionVector position: positionList) {
+			if(hasWinner == NO_WINNER && !currentCar.isCrashed()) {
+				if(!(position.equals(positionList.get(0)))) {
+					switch(track.getSpaceType(position)) {
+					case TRACK:
+						for(Car car: players) {
+							if(car.getPosition().equals(position)) {
+								currentCar.setPosition(position);
+								currentCar.crash();
+								return;
+							}
 						}
+						break;
+					case WALL:
+						currentCar.setPosition(position);
+						currentCar.crash();
+						return;
+					case FINISH_UP:case FINISH_DOWN:case FINISH_LEFT:case FINISH_RIGHT:
+						currentCar.setPosition(position);
+						hasWinner = getWinner();
+						break;
 					}
-					currentCar.setPosition(position);
-					break;
-				case WALL:
-					currentCar.setPosition(position);
-					currentCar.crash();
-					break;
-				case FINISH_UP:
-				case FINISH_DOWN:
-				case FINISH_LEFT:
-				case FINISH_RIGHT:
-					currentCar.setPosition(position);
-					break;
 				}
+			}
+			else {
+				return;
 			}
 		}
 	}
