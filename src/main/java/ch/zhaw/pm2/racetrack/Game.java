@@ -94,7 +94,13 @@ public class Game {
 	 */
 	public void switchToNextActiveCar() {
 		int indexOfActiveCar = players.indexOf(currentCar);
-		indexOfActiveCar++;
+		if(indexOfActiveCar == players.size()-1) {
+			indexOfActiveCar = 0;
+		}
+		else {
+			indexOfActiveCar++;
+		}
+		System.out.println("index of current car: " + indexOfActiveCar);
 		currentCar = players.get(indexOfActiveCar);
 	}
 
