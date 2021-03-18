@@ -26,7 +26,11 @@ public class GameTest {
 		int carCount = track.getCarCount();
 		_testGame = new Game(carCount, track);
 	}
-	
+
+	/**
+	 * Tests GetWinner() when Game is still in Progress and no car has won.
+	 * Test track: FinishLine Right
+	 */
 	@Test
 	public void GetWinner_GameIsInProgressFinishLineRight_ReturnsNoWinner() {
 		// Arrange
@@ -38,12 +42,22 @@ public class GameTest {
 		assertTrue(Game.NO_WINNER == result);
 	}
 
+	/**
+	 * Tests GetWinner() when car has crossed finish line correctly and the car has
+	 * won the game.
+	 * Test track: FinishLine Right
+	 */
 	@Test
 	public void GetWinner_CarCrossesFinishLineCorrectlyFinishLineRight_ReturnsWinner() {
 		// Arrange
 		initGame(new File("tracks\\challenge.txt"));
 	}
 
+	/**
+	 * Tests GetWinner() when car has crossed finish line correctly and crashes
+	 * right after. Car has won the game.
+	 * Test track: FinishLine Right
+	 */
 	@Test
 	public void GetWinner_CarCrossesFinishLineCorrectlyAndCrashesAfterwardsFinishLineRight_ReturnsWinner() {
 		// Arrange
@@ -51,6 +65,11 @@ public class GameTest {
 		assertFalse(true);
 	}
 
+	/**
+	 * Tests GetWinner() when car has crossed finish line incorrectly (from wrong
+	 * side) and no car has won.
+	 * Test track: FinishLine Right
+	 */
 	@Test
 	public void GetWinner_CarCrossesFinishLineBackwardsFinishLineRight_ReturnsNoWinner() {
 		// Arrange
@@ -65,6 +84,11 @@ public class GameTest {
 		assertTrue(currentWinner == Game.NO_WINNER);
 	}
 
+	/**
+	 * Tests GetWinner() when car has crossed finish line correctly after crossing
+	 * backwards. Car has still one lap to go and car does not win the game.
+	 * Test track: FinishLine Right
+	 */
 	@Test
 	public void GetWinner_CarCrossesFinishLineBackwardsAndForwardAfterwardsFinishLineRight_ReturnsNoWinner() {
 		// Arrange
@@ -84,6 +108,10 @@ public class GameTest {
 		assertTrue(currentWinner == Game.NO_WINNER);
 	}
 
+	/**
+	 * Tests GetWinner() when all cars (2 from 2) are still alive. No car has won.
+	 * Test track: FinishLine Right
+	 */
 	@Test
 	public void GetWinner_TwoCarsFromTwoAreAliveFinishLineRight_ReturnsNoWinner() {
 		// Arrange
@@ -95,6 +123,10 @@ public class GameTest {
 		assertTrue(currentWinner == Game.NO_WINNER);
 	}
 
+	/**
+	 * Tests GetWinner() when half the cars (2 from 4) are still alive. No car has won.
+	 * Test track: FinishLine Right
+	 */
 	@Test
 	public void GetWinner_TwoCarsFromFourAreAliveFinishLineRight_ReturnsNoWinner() {
 		// Arrange
