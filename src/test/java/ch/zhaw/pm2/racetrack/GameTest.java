@@ -12,75 +12,93 @@ import ch.zhaw.pm2.racetrack.PositionVector.Direction;
 
 public class GameTest {
 	private Game _testGame;
-	
-	@BeforeEach
-	private void setup() {
-		File file = new File("tracks\\challenge.txt");
+
+	private void initGame(File trackFile) {
+		File file = trackFile;
 		Track track = null;
 		try {
 			track = new Track(file);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvalidTrackFormatException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		_testGame  = new Game(2, track);
+		int carCount = track.getCarCount();
+		_testGame = new Game(carCount, track);
 	}
 	
-	//
-	// todo winner testing
-	//	. kein gewinner (nie über zielliie) und . alle cars leben
-	//											. 2/4 cars leben
-	//											. 2 cars leben noch
-	//											. rück wärts über ziellinie
-	//											. rückwärtsüber ziellinie und anschliessend wieder vorwärts
-	//  . gewinner gibt es : 
-	//											. über ziellinie ein car und leben alle
-	//											. über ziellinie und crashed gleich darauf hin
-		
 	@Test
-	public void GetWinner_GameIsInProgress_ReturnsNoWinner() {
+	public void GetWinner_GameIsInProgressFinishLineRight_ReturnsNoWinner() {
 		// Arrange
-		
+		initGame(new File("tracks\\challenge.txt"));
 		// Act
 		int result = _testGame.getWinner();
-		
+
 		// Assert
 		assertTrue(Game.NO_WINNER == result);
 	}
 
 	@Test
-	public void GetWinner_CarCrossesFinishLineCorrectly_ReturnsWinner() {
+	public void GetWinner_CarCrossesFinishLineCorrectlyFinishLineRight_ReturnsWinner() {
 		// Arrange
+		initGame(new File("tracks\\challenge.txt"));
+	}
+
+	@Test
+	public void GetWinner_CarCrossesFinishLineCorrectlyAndCrashesAfterwardsFinishLineRight_ReturnsWinner() {
+		// Arrange
+		initGame(new File("tracks\\challenge.txt"));
+		assertFalse(true);
+	}
+
+	@Test
+	public void GetWinner_CarCrossesFinishLineBackwardsFinishLineRight_ReturnsNoWinner() {
+		// Arrange
+		initGame(new File("tracks\\challenge.txt"));
 		_testGame.doCarTurn(Direction.LEFT);
-		_testGame.doCarTurn(Direction.LEFT);		
-			
-		_testGame.doCarTurn(Direction.RIGHT);
-		_testGame.doCarTurn(Direction.RIGHT);
-		_testGame.doCarTurn(Direction.RIGHT);
-		_testGame.doCarTurn(Direction.RIGHT);
-		
+		_testGame.doCarTurn(Direction.LEFT);
+
 		// Act
 		int currentWinner = _testGame.getWinner();
 
 		// Assert
-		assertTrue(currentWinner == 0);		
+		assertTrue(currentWinner == Game.NO_WINNER);
 	}
 
 	@Test
-	public void GetWinner_CarCrossesFinishLineCorrectlyAndCrashesAfterwards_ReturnsWinner() {}
-	
+	public void GetWinner_CarCrossesFinishLineBackwardsAndForwardAfterwardsFinishLineRight_ReturnsNoWinner() {
+		// Arrange
+		initGame(new File("tracks\\challenge.txt"));
+		_testGame.doCarTurn(Direction.LEFT);
+		_testGame.doCarTurn(Direction.LEFT);
+
+		_testGame.doCarTurn(Direction.RIGHT);
+		_testGame.doCarTurn(Direction.RIGHT);
+		_testGame.doCarTurn(Direction.RIGHT);
+		_testGame.doCarTurn(Direction.RIGHT);
+
+		// Act
+		int currentWinner = _testGame.getWinner();
+
+		// Assert
+		assertTrue(currentWinner == Game.NO_WINNER);
+	}
+
 	@Test
-	public void GetWinner_CarCrossesFinishLineBackwards_ReturnsNoWinner() {}
-	
+	public void GetWinner_TwoCarsFromTwoAreAliveFinishLineRight_ReturnsNoWinner() {
+		// Arrange
+		initGame(new File("tracks\\challenge.txt"));
+		// Act
+		int currentWinner = _testGame.getWinner();
+
+		// Assert
+		assertTrue(currentWinner == Game.NO_WINNER);
+	}
+
 	@Test
-	public void GetWinner_CarCrossesFinishLineBackwardsAndForwardAfterwards_ReturnsNoWinner() {}
-	
-	@Test
-	public void GetWinner_TwoCarsFromTwoAreAlive_ReturnsNoWinner() {}
-	
-	@Test
-	public void GetWinner_TwoCarsFromFourAreAlive_ReturnsNoWinner() {}
+	public void GetWinner_TwoCarsFromFourAreAliveFinishLineRight_ReturnsNoWinner() {
+		// Arrange
+		initGame(new File("tracks\\challenge.txt"));
+		assertFalse(true);
+	}
 }
