@@ -215,7 +215,7 @@ public class Track {
 	 * @return The type of track position at the given location
 	 */
 	public Config.SpaceType getSpaceType(PositionVector position) {
-		if (position.getY() > track.size() || position.getX() > track.get(position.getY()).length()) {
+		if (position.getY() > track.size() || position.getX() >= track.get(position.getY()).length()) {
 			return Config.SpaceType.WALL;	
 		}
 		Character charSymbol = track.get(position.getY()).charAt(position.getX());
