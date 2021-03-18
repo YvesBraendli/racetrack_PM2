@@ -31,14 +31,14 @@ public class GameTest {
 	
 	//
 	// todo winner testing
-	//	. kein gewinner (nie über zielliie) und . alle cars leben
+	//	. kein gewinner (nie ï¿½ber zielliie) und . alle cars leben
 	//											. 2/4 cars leben
 	//											. 2 cars leben noch
-	//											. rück wärts über ziellinie
-	//											. rückwärtsüber ziellinie und anschliessend wieder vorwärts
+	//											. rï¿½ck wï¿½rts ï¿½ber ziellinie
+	//											. rï¿½ckwï¿½rtsï¿½ber ziellinie und anschliessend wieder vorwï¿½rts
 	//  . gewinner gibt es : 
-	//											. über ziellinie ein car und leben alle
-	//											. über ziellinie und crashed gleich darauf hin
+	//											. ï¿½ber ziellinie ein car und leben alle
+	//											. ï¿½ber ziellinie und crashed gleich darauf hin
 		
 	@Test
 	public void GetWinner_GameIsInProgress_ReturnsNoWinner() {
@@ -80,4 +80,39 @@ public class GameTest {
 	
 	@Test
 	public void GetWinner_TwoCarsFromFourAreAlive_ReturnsNoWinner() {}
+	
+	
+	
+	@Test
+	public void calculatePath_BottomLeftToTopRightPath() {
+		// Arrange
+		
+		// Act
+		
+		
+		// Assert
+		
+	}
+	
+	@Test
+	public void calculatePath_VerticalLineUpPath() {}
+	
+	@Test
+	public void calculatePath_VerticalLineDownPath() {}
+	
+	@Test
+	public void calculatePath_BottomRightToTopLeftPath() {}
+	
+	@Test
+	public void calculatePath_TopRightToBottomLeftPath() {}
+	
+	@Test
+	public void calculatePath_TopLeftToBottomRightPath() {}
+	
+	@Test
+	public void calculatePath_HorizontalLineLeftToRightPath() {}
+	
+	@Test
+	public void calculatePath_HorizontalLineRightToLeftPath() {}
+	
 }
