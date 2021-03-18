@@ -329,6 +329,7 @@ public class Track {
 		}
 		String trackInOneLine = track.get(0);
 		for (int i = 1; i < track.size(); i++) {
+			trackInOneLine += "\n";
 			trackInOneLine += track.get(i);
 		}
 		clearTrack();
