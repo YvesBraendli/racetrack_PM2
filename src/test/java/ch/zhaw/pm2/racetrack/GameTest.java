@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ch.zhaw.pm2.racetrack.PositionVector.Direction;
@@ -28,8 +27,8 @@ public class GameTest {
 	}
 
 	/**
-	 * Tests GetWinner() when Game is still in Progress and no car has won.
-	 * Test track: FinishLine Right
+	 * Tests GetWinner() when Game is still in Progress and no car has won. Test
+	 * track: FinishLine Right
 	 */
 	@Test
 	public void GetWinner_GameIsInProgressFinishLineRight_ReturnsNoWinner() {
@@ -43,9 +42,23 @@ public class GameTest {
 	}
 
 	/**
+	 * Tests GetWinner() when Game is still in Progress and no car has won. Test
+	 * track: FinishLine Left
+	 */
+	@Test
+	public void GetWinner_GameIsInProgressFinishLineLeft_ReturnsNoWinner() {
+		// Arrange
+		initGame(new File("tracks\\quarter-mile.txt"));
+		// Act
+		int result = _testGame.getWinner();
+
+		// Assert
+		assertTrue(Game.NO_WINNER == result);
+	}
+
+	/**
 	 * Tests GetWinner() when car has crossed finish line correctly and the car has
-	 * won the game.
-	 * Test track: FinishLine Right
+	 * won the game. Test track: FinishLine Right
 	 */
 	@Test
 	public void GetWinner_CarCrossesFinishLineCorrectlyFinishLineRight_ReturnsWinner() {
@@ -54,21 +67,49 @@ public class GameTest {
 	}
 
 	/**
+	 * Tests GetWinner() when car has crossed finish line correctly and the car has
+	 * won the game. Test track: FinishLine Left
+	 */
+	@Test
+	public void GetWinner_CarCrossesFinishLineCorrectlyFinishLineLeft_ReturnsWinner() {
+		// Arrange
+		initGame(new File("tracks\\quarter-mile.txt"));
+		_testGame.doCarTurn(Direction.LEFT);
+		_testGame.doCarTurn(Direction.LEFT);
+		_testGame.doCarTurn(Direction.LEFT);
+		// _testGame.doCarTurn(Direction.LEFT); use this line to check for one other bug
+
+		// Act
+		int currentWinner = _testGame.getWinner();
+
+		// Assert
+		assertTrue(currentWinner == Game.NO_WINNER);
+	}
+
+	/**
 	 * Tests GetWinner() when car has crossed finish line correctly and crashes
-	 * right after. Car has won the game.
-	 * Test track: FinishLine Right
+	 * right after. Position outside wall and track. Car has won the game. Test track: FinishLine Right
 	 */
 	@Test
 	public void GetWinner_CarCrossesFinishLineCorrectlyAndCrashesAfterwardsFinishLineRight_ReturnsWinner() {
 		// Arrange
-		initGame(new File("tracks\\challenge.txt"));
-		assertFalse(true);
+		initGame(new File("tracks\\quarter-mile.txt"));
+		_testGame.doCarTurn(Direction.LEFT);
+		_testGame.doCarTurn(Direction.LEFT);
+		_testGame.doCarTurn(Direction.LEFT);
+		_testGame.doCarTurn(Direction.LEFT);
+		_testGame.doCarTurn(Direction.LEFT);
+
+		// Act
+		int currentWinner = _testGame.getWinner();
+
+		// Assert
+		assertTrue(currentWinner == Game.NO_WINNER);
 	}
 
 	/**
 	 * Tests GetWinner() when car has crossed finish line incorrectly (from wrong
-	 * side) and no car has won.
-	 * Test track: FinishLine Right
+	 * side) and no car has won. Test track: FinishLine Right
 	 */
 	@Test
 	public void GetWinner_CarCrossesFinishLineBackwardsFinishLineRight_ReturnsNoWinner() {
@@ -86,8 +127,8 @@ public class GameTest {
 
 	/**
 	 * Tests GetWinner() when car has crossed finish line correctly after crossing
-	 * backwards. Car has still one lap to go and car does not win the game.
-	 * Test track: FinishLine Right
+	 * backwards. Car has still one lap to go and car does not win the game. Test
+	 * track: FinishLine Right
 	 */
 	@Test
 	public void GetWinner_CarCrossesFinishLineBackwardsAndForwardAfterwardsFinishLineRight_ReturnsNoWinner() {
@@ -109,11 +150,11 @@ public class GameTest {
 	}
 
 	/**
-	 * Tests GetWinner() when all cars (2 from 2) are still alive. No car has won.
+	 * Tests GetWinner() when all cars are still alive. No car has won.
 	 * Test track: FinishLine Right
 	 */
 	@Test
-	public void GetWinner_TwoCarsFromTwoAreAliveFinishLineRight_ReturnsNoWinner() {
+	public void GetWinner_AllCarsAreAliveFinishLineRight_ReturnsNoWinner() {
 		// Arrange
 		initGame(new File("tracks\\challenge.txt"));
 		// Act
@@ -121,16 +162,5 @@ public class GameTest {
 
 		// Assert
 		assertTrue(currentWinner == Game.NO_WINNER);
-	}
-
-	/**
-	 * Tests GetWinner() when half the cars (2 from 4) are still alive. No car has won.
-	 * Test track: FinishLine Right
-	 */
-	@Test
-	public void GetWinner_TwoCarsFromFourAreAliveFinishLineRight_ReturnsNoWinner() {
-		// Arrange
-		initGame(new File("tracks\\challenge.txt"));
-		assertFalse(true);
 	}
 }

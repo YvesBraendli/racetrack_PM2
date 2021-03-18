@@ -126,15 +126,10 @@ public class Game {
 	private boolean hasCurrentCarFinished() {
 		int startX = currentCar.getPosition().getX() - currentCar.getVelocity().getX();
 		int startY = currentCar.getPosition().getY() - currentCar.getVelocity().getY();
-		System.out.println("startx : " + startX);
-		System.out.println("startx : " + startY);
-		System.out.println("now x : " + currentCar.getPosition().getX());
-		System.out.println("now y : " + currentCar.getPosition().getY());
 		PositionVector startPosition = new PositionVector(startX, startY);
 		List<PositionVector> positions = calculatePath(startPosition, currentCar.getPosition());
 		for (PositionVector position : positions) {
 			Config.SpaceType spaceType = track.getSpaceType(position);
-			System.out.println(spaceType);
 			if (spaceType == SpaceType.FINISH_DOWN) {
 				if (startY < position.getY()) {
 					boolean hasToGoOneLap = playersToGoAround.contains(currentCar);
@@ -167,14 +162,15 @@ public class Game {
 					boolean hasToGoOneLap = playersToGoAround.contains(currentCar);
 					playersToGoAround.remove(currentCar);
 					return !hasToGoOneLap;
-					
+
 				} else {
 					playersToGoAround.add(currentCar);
 				}
 			}
 
 		}
-	return false;
+
+		return false;
 
 	}
 
@@ -230,13 +226,13 @@ public class Game {
 		currentCar.accelerate(acceleration);
 		List<PositionVector> positionList = calculatePath(currentCar.getPosition(), currentCar.nextPosition());
 		int hasWinner = NO_WINNER;
-		for(PositionVector position: positionList) {
-			if(hasWinner == NO_WINNER && !currentCar.isCrashed()) {
-				if(!(position.equals(positionList.get(0)))) {
-					switch(track.getSpaceType(position)) {
+		for (PositionVector position : positionList) {
+			if (hasWinner == NO_WINNER && !currentCar.isCrashed()) {
+				if (!(position.equals(positionList.get(0)))) {
+					switch (track.getSpaceType(position)) {
 					case TRACK:
-						for(Car car: players) {
-							if(car.getPosition().equals(position)) {
+						for (Car car : players) {
+							if (car.getPosition().equals(position)) {
 								currentCar.setPosition(position);
 								currentCar.crash();
 								return;
@@ -247,14 +243,16 @@ public class Game {
 						currentCar.setPosition(position);
 						currentCar.crash();
 						return;
-					case FINISH_UP:case FINISH_DOWN:case FINISH_LEFT:case FINISH_RIGHT:
+					case FINISH_UP:
+					case FINISH_DOWN:
+					case FINISH_LEFT:
+					case FINISH_RIGHT:
 						currentCar.setPosition(position);
 						hasWinner = getWinner();
 						break;
 					}
 				}
-			}
-			else {
+			} else {
 				return;
 			}
 		}
