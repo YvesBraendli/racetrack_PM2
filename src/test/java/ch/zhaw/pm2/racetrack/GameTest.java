@@ -56,13 +56,16 @@ public class GameTest {
 		// Arrange
 		_testGame.doCarTurn(Direction.LEFT);
 		_testGame.doCarTurn(Direction.LEFT);		
-		
-		int nowinner = _testGame.getWinner();		
-		assertTrue(nowinner == Game.NO_WINNER);
-		
+			
 		_testGame.doCarTurn(Direction.RIGHT);
-		int currentWinner = _testGame.getWinner();
+		_testGame.doCarTurn(Direction.RIGHT);
+		_testGame.doCarTurn(Direction.RIGHT);
+		_testGame.doCarTurn(Direction.RIGHT);
 		
+		// Act
+		int currentWinner = _testGame.getWinner();
+
+		// Assert
 		assertTrue(currentWinner == 0);		
 	}
 
