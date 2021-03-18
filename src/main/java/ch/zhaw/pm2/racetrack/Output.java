@@ -27,7 +27,7 @@ public class Output {
 	 * @param track
 	 */
 	public void printTrack(String track) {
-		textTerminal.println(track);
+		textTerminal.print(track);
 	}
 
 	/**

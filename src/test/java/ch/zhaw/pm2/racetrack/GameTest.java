@@ -4,7 +4,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ch.zhaw.pm2.racetrack.PositionVector.Direction;
@@ -13,7 +16,21 @@ public class GameTest {
 	private Game _testGame;
 
 	private void initGame(File trackFile) {
-		File file = trackFile;
+		Track track = null;
+		try {
+			track = new Track(trackFile);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (InvalidTrackFormatException e) {
+			e.printStackTrace();
+		}
+		int carCount = track.getCarCount();
+		_testGame = new Game(carCount, track);
+	}
+	
+	@BeforeEach
+	private void setup() {
+		File file = new File("tracks/challenge.txt");
 		Track track = null;
 		try {
 			track = new Track(file);
@@ -64,6 +81,7 @@ public class GameTest {
 	public void GetWinner_CarCrossesFinishLineCorrectlyFinishLineRight_ReturnsWinner() {
 		// Arrange
 		initGame(new File("tracks\\challenge.txt"));
+		assertFalse(true);
 	}
 
 	/**
@@ -163,4 +181,161 @@ public class GameTest {
 		// Assert
 		assertTrue(currentWinner == Game.NO_WINNER);
 	}
+
+	@Test
+	public void calculatePath_BottomLeftToTopRightPath() {
+		// Arrange
+		List<PositionVector> resultList = new ArrayList<>();
+		List<PositionVector> expectedList = new ArrayList<>();
+		PositionVector startPosition = new PositionVector(2,4);
+		PositionVector endPosition = new PositionVector(4,1);
+		expectedList.add(new PositionVector(2,4));
+		expectedList.add(new PositionVector(3,3));
+		expectedList.add(new PositionVector(3,2));
+		expectedList.add(new PositionVector(4,1));
+		
+		// Act
+		resultList= _testGame.calculatePath(startPosition, endPosition);
+		
+		// Assert
+		assertEquals(resultList, expectedList);
+	}
+	
+	@Test
+	public void calculatePath_VerticalLineUpPath() {
+		// Arrange
+		List<PositionVector> resultList = new ArrayList<>();
+		List<PositionVector> expectedList = new ArrayList<>();
+		PositionVector startPosition = new PositionVector(2,4);
+		PositionVector endPosition = new PositionVector(2,1);
+		expectedList.add(new PositionVector(2,4));
+		expectedList.add(new PositionVector(2,3));
+		expectedList.add(new PositionVector(2,2));
+		expectedList.add(new PositionVector(2,1));
+		
+		// Act
+		resultList= _testGame.calculatePath(startPosition, endPosition);
+		
+		// Assert
+		assertEquals(resultList, expectedList);
+	}
+	
+	@Test
+	public void calculatePath_VerticalLineDownPath() {
+		// Arrange
+		List<PositionVector> resultList = new ArrayList<>();
+		List<PositionVector> expectedList = new ArrayList<>();
+		PositionVector startPosition = new PositionVector(2,1);
+		PositionVector endPosition = new PositionVector(2,4);
+		expectedList.add(new PositionVector(2,1));
+		expectedList.add(new PositionVector(2,2));
+		expectedList.add(new PositionVector(2,3));
+		expectedList.add(new PositionVector(2,4));
+		
+		// Act
+		resultList= _testGame.calculatePath(startPosition, endPosition);
+		
+		// Assert
+		assertEquals(resultList, expectedList);		
+	}
+	
+	@Test
+	public void calculatePath_BottomRightToTopLeftPath() {
+		// Arrange
+		List<PositionVector> resultList = new ArrayList<>();
+		List<PositionVector> expectedList = new ArrayList<>();
+		PositionVector startPosition = new PositionVector(6,4);
+		PositionVector endPosition = new PositionVector(1,1);
+		expectedList.add(new PositionVector(6,4));
+		expectedList.add(new PositionVector(5,3));
+		expectedList.add(new PositionVector(4,3));
+		expectedList.add(new PositionVector(3,2));
+		expectedList.add(new PositionVector(2,2));
+		expectedList.add(new PositionVector(1,1));
+				
+		// Act
+		resultList= _testGame.calculatePath(startPosition, endPosition);
+		
+		// Assert
+		assertEquals(resultList, expectedList);
+	}
+	
+	@Test
+	public void calculatePath_TopRightToBottomLeftPath() {
+		// Arrange
+		List<PositionVector> resultList = new ArrayList<>();
+		List<PositionVector> expectedList = new ArrayList<>();
+		PositionVector startPosition = new PositionVector(4,1);
+		PositionVector endPosition = new PositionVector(2,4);
+		expectedList.add(new PositionVector(4,1));
+		expectedList.add(new PositionVector(3,2));
+		expectedList.add(new PositionVector(3,3));
+		expectedList.add(new PositionVector(2,4));
+		
+		// Act
+		resultList= _testGame.calculatePath(startPosition, endPosition);
+		
+		// Assert
+		assertEquals(resultList, expectedList);
+	}
+	
+	@Test
+	public void calculatePath_TopLeftToBottomRightPath() {
+		// Arrange
+		List<PositionVector> resultList = new ArrayList<>();
+		List<PositionVector> expectedList = new ArrayList<>();
+		PositionVector startPosition = new PositionVector(1,1);
+		PositionVector endPosition = new PositionVector(6,4);
+		expectedList.add(new PositionVector(1,1));
+		expectedList.add(new PositionVector(2,2));
+		expectedList.add(new PositionVector(3,2));
+		expectedList.add(new PositionVector(4,3));
+		expectedList.add(new PositionVector(5,3));
+		expectedList.add(new PositionVector(6,4));
+		
+		// Act
+		resultList= _testGame.calculatePath(startPosition, endPosition);
+		
+		// Assert
+		assertEquals(resultList, expectedList);
+	}
+	
+	@Test
+	public void calculatePath_HorizontalLineLeftToRightPath() {
+		// Arrange
+		List<PositionVector> resultList = new ArrayList<>();
+		List<PositionVector> expectedList = new ArrayList<>();
+		PositionVector startPosition = new PositionVector(1,0);
+		PositionVector endPosition = new PositionVector(4,0);
+		expectedList.add(new PositionVector(1,0));
+		expectedList.add(new PositionVector(2,0));
+		expectedList.add(new PositionVector(3,0));
+		expectedList.add(new PositionVector(4,0));
+		
+		// Act
+		resultList= _testGame.calculatePath(startPosition, endPosition);
+		
+		// Assert
+		assertEquals(resultList, expectedList);
+	}
+	
+	@Test
+	public void calculatePath_HorizontalLineRightToLeftPath() {
+		// Arrange
+		List<PositionVector> resultList = new ArrayList<>();
+		List<PositionVector> expectedList = new ArrayList<>();
+		PositionVector startPosition = new PositionVector(4,0);
+		PositionVector endPosition = new PositionVector(1,0);
+		expectedList.add(new PositionVector(4,0));
+		expectedList.add(new PositionVector(3,0));
+		expectedList.add(new PositionVector(2,0));
+		expectedList.add(new PositionVector(1,0));
+		
+		// Act
+		resultList= _testGame.calculatePath(startPosition, endPosition);
+		
+		// Assert
+		assertEquals(resultList, expectedList);
+	}
+
 }
