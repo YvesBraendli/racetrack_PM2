@@ -281,6 +281,10 @@ public class GameTest {
 		assertTrue(currentWinner == Game.NO_WINNER);
 	}
 	
+	/**
+	 * Equivalence Partitioning: 
+	 * Tests calculatePath() for a path from the bottom left of the map to the top right
+	 */
 	@Test
 	public void calculatePath_BottomLeftToTopRightPath() {
 		// Arrange
@@ -300,6 +304,10 @@ public class GameTest {
 		assertEquals(resultList, expectedList);
 	}
 	
+	/**
+	 * Equivalence Partitioning: 
+	 * Tests calculatePath() for a path a in vertical line upwards
+	 */
 	@Test
 	public void calculatePath_VerticalLineUpPath() {
 		// Arrange
@@ -319,6 +327,10 @@ public class GameTest {
 		assertEquals(resultList, expectedList);
 	}
 	
+	/**
+	 * Equivalence Partitioning: 
+	 * Tests calculatePath() for a path in a vertical line downwards
+	 */
 	@Test
 	public void calculatePath_VerticalLineDownPath() {
 		// Arrange
@@ -338,6 +350,10 @@ public class GameTest {
 		assertEquals(resultList, expectedList);		
 	}
 	
+	/**
+	 * Equivalence Partitioning: 
+	 * Tests calculatePath() for a path from the bottom right of the map to the top left
+	 */
 	@Test
 	public void calculatePath_BottomRightToTopLeftPath() {
 		// Arrange
@@ -359,6 +375,10 @@ public class GameTest {
 		assertEquals(resultList, expectedList);
 	}
 	
+	/**
+	 * Equivalence Partitioning: 
+	 * Tests calculatePath() for a path from the top right of the map to the bottom left
+	 */
 	@Test
 	public void calculatePath_TopRightToBottomLeftPath() {
 		// Arrange
@@ -378,6 +398,10 @@ public class GameTest {
 		assertEquals(resultList, expectedList);
 	}
 	
+	/**
+	 * Equivalence Partitioning: 
+	 * Tests calculatePath() for a path from the top left of the map to the bottom right
+	 */
 	@Test
 	public void calculatePath_TopLeftToBottomRightPath() {
 		// Arrange
@@ -399,6 +423,10 @@ public class GameTest {
 		assertEquals(resultList, expectedList);
 	}
 	
+	/**
+	 * Equivalence Partitioning: 
+	 * Tests calculatePath() for a path in a horizontal line left to right
+	 */
 	@Test
 	public void calculatePath_HorizontalLineLeftToRightPath() {
 		// Arrange
@@ -418,6 +446,10 @@ public class GameTest {
 		assertEquals(resultList, expectedList);
 	}
 	
+	/**
+	 * Equivalence Partitioning: 
+	 * Tests calculatePath() for a path in a horizontal line right to left
+	 */
 	@Test
 	public void calculatePath_HorizontalLineRightToLeftPath() {
 		// Arrange
@@ -437,6 +469,10 @@ public class GameTest {
 		assertEquals(resultList, expectedList);
 	}
 	
+	/**
+	 * Equivalence Partitioning: 
+	 * Tests doCarTurn() for a valid position on the track in one step
+	 */
 	@Test
 	public void doCarTurn_ValidPathOneStep() {
 		// Arrange
@@ -454,6 +490,10 @@ public class GameTest {
 		);
 	}
 	
+	/**
+	 * Equivalence Partitioning: 
+	 * Tests doCarTurn() for a valid position on the track in two steps
+	 */
 	@Test
 	public void doCarTurn_ValidPathMultipleStep() {
 		// Arrange
@@ -471,6 +511,10 @@ public class GameTest {
 		);
 	}
 	
+	/**
+	 * Equivalence Partitioning: 
+	 * Tests doCarTurn() for a crashed position with another car
+	 */
 	@Test
 	public void doCarTurn_CrashWithOtherPlayer() {
 		// Arrange
@@ -490,6 +534,10 @@ public class GameTest {
 		);
 	}
 	
+	/**
+	 * Equivalence Partitioning: 
+	 * Tests doCarTurn() for a crashed position with the wall
+	 */
 	@Test
 	public void doCarTurn_CrashWithWall() {
 		// Arrange
@@ -506,6 +554,10 @@ public class GameTest {
 		);
 	}
 	
+	/**
+	 * Equivalence Partitioning: 
+	 * Tests doCarTurn() for driving over the finish line
+	 */
 	@Test
 	public void doCarTurn_WinnerFoundReturnMethod() {
 		// Arrange
