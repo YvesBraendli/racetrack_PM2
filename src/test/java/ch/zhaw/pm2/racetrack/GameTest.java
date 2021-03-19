@@ -337,5 +337,96 @@ public class GameTest {
 		// Assert
 		assertEquals(resultList, expectedList);
 	}
+	
+	@Test
+	public void doCarTurn_ValidPathOneStep() {
+		// Arrange
+		PositionVector playerOneStartPosition = new PositionVector(24,22);
+		PositionVector expectedEndPosition = new PositionVector(25,22);
+		Direction acceleration = Direction.RIGHT;
+		
+		// Act
+		_testGame.doCarTurn(acceleration);
+		
+		// Assert
+		assertAll(
+				() -> assertEquals(expectedEndPosition ,_testGame.getCarPosition(0)),
+				() -> assertFalse(_testGame.getTrack().getCar(0).isCrashed())
+		);
+	}
+	
+	@Test
+	public void doCarTurn_ValidPathMultipleStep() {
+		// Arrange
+		PositionVector expectedEndPosition = new PositionVector(27,22);
+		Direction acceleration = Direction.RIGHT;
+		
+		// Act
+		_testGame.doCarTurn(acceleration);
+		_testGame.doCarTurn(acceleration);
+		
+		// Assert
+		assertAll(
+				() -> assertEquals(expectedEndPosition ,_testGame.getCarPosition(0)),
+				() -> assertFalse(_testGame.getTrack().getCar(0).isCrashed())
+		);
+	}
+	
+	@Test
+	public void doCarTurn_CrashWithOtherPlayer() {
+		// Arrange
+		_testGame.getTrack().getCar(1).setPosition(new PositionVector(26,22));
+		PositionVector expectedEndPosition = new PositionVector(26,22);
+		Direction acceleration = Direction.RIGHT;
+		
+		// Act
+		_testGame.doCarTurn(acceleration);
+		_testGame.doCarTurn(acceleration);
+		
+		// Assert
+		assertAll(
+				() -> assertEquals(expectedEndPosition ,_testGame.getCarPosition(0)),
+				() -> assertTrue(_testGame.getTrack().getCar(0).isCrashed()),
+				() -> assertFalse(_testGame.getTrack().getCar(1).isCrashed())
+		);
+	}
+	
+	@Test
+	public void doCarTurn_CrashWithWall() {
+		// Arrange
+		PositionVector expectedEndPosition = new PositionVector(24,21);
+		Direction acceleration = Direction.UP;
+		
+		// Act
+		_testGame.doCarTurn(acceleration);
+		
+		// Assert
+		assertAll(
+				() -> assertEquals(expectedEndPosition ,_testGame.getCarPosition(0)),
+				() -> assertTrue(_testGame.getTrack().getCar(0).isCrashed())
+		);
+	}
+	
+	@Test
+	public void doCarTurn_WinnerFoundReturnMethod() {
+		// Arrange
+		_testGame.getTrack().getCar(0).setPosition(new PositionVector(20,22));
+		PositionVector expectedEndPosition = new PositionVector(22,22);
+		Direction acceleration = Direction.RIGHT;
+		
+		// Act
+		_testGame.doCarTurn(acceleration);
+		_testGame.doCarTurn(acceleration);
+		
+		// Assert
+		assertAll(
+				() -> assertEquals(expectedEndPosition ,_testGame.getCarPosition(0)),
+				() -> assertTrue(_testGame.getWinner() == 0)
+		);
+		
+	}
+	
+
+	
 
 }

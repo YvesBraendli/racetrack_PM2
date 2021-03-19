@@ -235,6 +235,9 @@ public class Track {
 		if (symbol.equals(Config.SpaceType.FINISH_LEFT.value)) {
 			return Config.SpaceType.FINISH_LEFT;
 		}
+		if (symbol.equals(Config.SpaceType.WALL.value)) {
+			return Config.SpaceType.WALL;
+		}
 		return Config.SpaceType.TRACK;
 	}
 
