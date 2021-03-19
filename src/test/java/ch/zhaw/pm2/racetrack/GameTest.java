@@ -60,6 +60,21 @@ public class GameTest {
 
 	/**
 	 * Tests GetWinner() when Game is still in Progress and no car has won. Test
+	 * track: FinishLine Up
+	 */
+	@Test
+	public void GetWinner_GameIsInProgressFinishLineUp_ReturnsNoWinner() {
+		// Arrange
+		initGame(new File("tracks\\oval-clock-up.txt"));
+		// Act
+		int result = _testGame.getWinner();
+
+		// Assert
+		assertTrue(Game.NO_WINNER == result);
+	}
+	
+	/**
+	 * Tests GetWinner() when Game is still in Progress and no car has won. Test
 	 * track: FinishLine Left
 	 */
 	@Test
@@ -81,6 +96,17 @@ public class GameTest {
 	public void GetWinner_CarCrossesFinishLineCorrectlyFinishLineRight_ReturnsWinner() {
 		// Arrange
 		initGame(new File("tracks\\challenge.txt"));
+		assertFalse(true);
+	}
+	
+	/**
+	 * Tests GetWinner() when car has crossed finish line correctly and the car has
+	 * won the game. Test track: FinishLine Up
+	 */
+	@Test
+	public void GetWinner_CarCrossesFinishLineCorrectlyFinishLineUp_ReturnsWinner() {
+		// Arrange
+		initGame(new File("tracks\\oval-clock-up.txt"));
 		assertFalse(true);
 	}
 
@@ -112,17 +138,18 @@ public class GameTest {
 	public void GetWinner_CarCrossesFinishLineCorrectlyAndCrashesAfterwardsFinishLineRight_ReturnsWinner() {
 		// Arrange
 		initGame(new File("tracks\\quarter-mile.txt"));
-		_testGame.doCarTurn(Direction.LEFT);
-		_testGame.doCarTurn(Direction.LEFT);
-		_testGame.doCarTurn(Direction.LEFT);
-		_testGame.doCarTurn(Direction.LEFT);
-		_testGame.doCarTurn(Direction.LEFT);
-
-		// Act
-		int currentWinner = _testGame.getWinner();
-
-		// Assert
-		assertTrue(currentWinner == Game.NO_WINNER);
+		assertFalse(true);
+	}
+	
+	/**
+	 * Tests GetWinner() when car has crossed finish line correctly and crashes
+	 * right after. Position outside wall and track. Car has won the game. Test track: FinishLine Up
+	 */
+	@Test
+	public void GetWinner_CarCrossesFinishLineCorrectlyAndCrashesAfterwardsFinishLineUp_ReturnsWinner() {
+		// Arrange
+		initGame(new File("tracks\\oval-clock-up.txt"));
+		assertFalse(true);
 	}
 
 	/**
@@ -135,6 +162,24 @@ public class GameTest {
 		initGame(new File("tracks\\challenge.txt"));
 		_testGame.doCarTurn(Direction.LEFT);
 		_testGame.doCarTurn(Direction.LEFT);
+
+		// Act
+		int currentWinner = _testGame.getWinner();
+
+		// Assert
+		assertTrue(currentWinner == Game.NO_WINNER);
+	}
+	
+	/**
+	 * Tests GetWinner() when car has crossed finish line incorrectly (from wrong
+	 * side) and no car has won. Test track: FinishLine Up
+	 */
+	@Test
+	public void GetWinner_CarCrossesFinishLineBackwardsFinishLineUp_ReturnsNoWinner() {
+		// Arrange
+		initGame(new File("tracks\\challenge.txt"));
+		_testGame.doCarTurn(Direction.DOWN);
+		_testGame.doCarTurn(Direction.DOWN);
 
 		// Act
 		int currentWinner = _testGame.getWinner();
@@ -168,6 +213,30 @@ public class GameTest {
 	}
 
 	/**
+	 * Tests GetWinner() when car has crossed finish line correctly after crossing
+	 * backwards. Car has still one lap to go and car does not win the game. Test
+	 * track: FinishLine Up
+	 */
+	@Test
+	public void GetWinner_CarCrossesFinishLineBackwardsAndForwardAfterwardsFinishLineUp_ReturnsNoWinner() {
+		// Arrange
+		initGame(new File("tracks\\oval-clock-up.txt"));
+		_testGame.doCarTurn(Direction.DOWN);
+		_testGame.doCarTurn(Direction.DOWN);
+
+		_testGame.doCarTurn(Direction.UP);
+		_testGame.doCarTurn(Direction.UP);
+		_testGame.doCarTurn(Direction.UP);
+		_testGame.doCarTurn(Direction.UP);
+
+		// Act
+		int currentWinner = _testGame.getWinner();
+
+		// Assert
+		assertTrue(currentWinner == Game.NO_WINNER);
+	}
+	
+	/**
 	 * Tests GetWinner() when all cars are still alive. No car has won.
 	 * Test track: FinishLine Right
 	 */
@@ -182,6 +251,36 @@ public class GameTest {
 		assertTrue(currentWinner == Game.NO_WINNER);
 	}
 
+	/**
+	 * Tests GetWinner() when all cars are still alive. No car has won.
+	 * Test track: FinishLine Up
+	 */
+	@Test
+	public void GetWinner_AllCarsAreAliveFinishLineUp_ReturnsNoWinner() {
+		// Arrange
+		initGame(new File("tracks\\oval-clock-up.txt"));
+		// Act
+		int currentWinner = _testGame.getWinner();
+
+		// Assert
+		assertTrue(currentWinner == Game.NO_WINNER);
+	}
+	
+	/**
+	 * Tests GetWinner() when all cars are still alive. No car has won.
+	 * Test track: FinishLine Left
+	 */
+	@Test
+	public void GetWinner_AllCarsAreAliveFinishLinLeft_ReturnsNoWinner() {
+		// Arrange
+		initGame(new File("tracks\\quarter-mile.txt"));
+		// Act
+		int currentWinner = _testGame.getWinner();
+
+		// Assert
+		assertTrue(currentWinner == Game.NO_WINNER);
+	}
+	
 	@Test
 	public void calculatePath_BottomLeftToTopRightPath() {
 		// Arrange
