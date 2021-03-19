@@ -243,6 +243,7 @@ public class Game {
 								currentCar.crash();
 								return;
 							}
+							currentCar.setPosition(position);
 						}
 						break;
 					case WALL:
@@ -262,6 +263,7 @@ public class Game {
 				return;
 			}
 		}
+		
 	}
 
 	/**
