@@ -117,6 +117,11 @@ public class GameController {
 
 			output.printCurrentPlayer(currentPlayer);
 			MoveStrategy currentStrategy = strategies.get(currentPlayer);
+			if (currentStrategy instanceof DoNotMoveStrategy) {
+				output.printDoNotMoveMessage();
+			} else {
+				output.printAccelerationGrid();
+			}
 			Direction nextAcceleration = currentStrategy.nextMove();
 			game.doCarTurn(nextAcceleration);
 

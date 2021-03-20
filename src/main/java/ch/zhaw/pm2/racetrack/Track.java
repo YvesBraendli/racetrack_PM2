@@ -215,7 +215,7 @@ public class Track {
 	 * @return The type of track position at the given location
 	 */
 	public Config.SpaceType getSpaceType(PositionVector position) {
-		if (position.getY() > track.size() || position.getX() > track.get(position.getY()).length()) {
+		if (position.getY() > track.size() || position.getX() >= track.get(position.getY()).length()) {
 			return Config.SpaceType.WALL;	
 		}
 		Character charSymbol = track.get(position.getY()).charAt(position.getX());
@@ -234,6 +234,9 @@ public class Track {
 		}
 		if (symbol.equals(Config.SpaceType.FINISH_LEFT.value)) {
 			return Config.SpaceType.FINISH_LEFT;
+		}
+		if (symbol.equals(Config.SpaceType.WALL.value)) {
+			return Config.SpaceType.WALL;
 		}
 		return Config.SpaceType.TRACK;
 	}
@@ -329,6 +332,7 @@ public class Track {
 		}
 		String trackInOneLine = track.get(0);
 		for (int i = 1; i < track.size(); i++) {
+			trackInOneLine += "\n";
 			trackInOneLine += track.get(i);
 		}
 		clearTrack();
