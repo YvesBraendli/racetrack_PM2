@@ -94,10 +94,9 @@ public class Game {
 	 */
 	public void switchToNextActiveCar() {
 		int indexOfActiveCar = players.indexOf(currentCar);
-		if(indexOfActiveCar == players.size()-1) {
+		if (indexOfActiveCar == players.size() - 1) {
 			indexOfActiveCar = 0;
-		}
-		else {
+		} else {
 			indexOfActiveCar++;
 		}
 		System.out.println("index of current car: " + indexOfActiveCar);
@@ -233,37 +232,36 @@ public class Game {
 		List<PositionVector> positionList = calculatePath(currentCar.getPosition(), currentCar.nextPosition());
 		int hasWinner = NO_WINNER;
 		for (PositionVector position : positionList) {
-			if (hasWinner == NO_WINNER && !currentCar.isCrashed()) {
-				if (!(position.equals(positionList.get(0)))) {
-					switch (track.getSpaceType(position)) {
-					case TRACK:
-						for (Car car : players) {
-							if (car.getPosition().equals(position)) {
-								currentCar.setPosition(position);
-								currentCar.crash();
-								return;
-							}
-							currentCar.setPosition(position);
-						}
-						break;
-					case WALL:
-						currentCar.setPosition(position);
-						currentCar.crash();
-						return;
-					case FINISH_UP:
-					case FINISH_DOWN:
-					case FINISH_LEFT:
-					case FINISH_RIGHT:
-						currentCar.setPosition(position);
-						hasWinner = getWinner();
-						break;
-					}
-				}
-			} else {
+			if (hasWinner != NO_WINNER || currentCar.isCrashed()) {
 				return;
 			}
+			if (!(position.equals(positionList.get(0)))) {
+				switch (track.getSpaceType(position)) {
+				case TRACK:
+					for (Car car : players) {
+						if (car.getPosition().equals(position)) {
+							currentCar.setPosition(position);
+							currentCar.crash();
+							return;
+						}
+						currentCar.setPosition(position);
+					}
+					break;
+				case WALL:
+					currentCar.setPosition(position);
+					currentCar.crash();
+					return;
+				case FINISH_UP:
+				case FINISH_DOWN:
+				case FINISH_LEFT:
+				case FINISH_RIGHT:
+					currentCar.setPosition(position);
+					hasWinner = getWinner();
+					break;
+				}
+			}
 		}
-		
+
 	}
 
 	/**
