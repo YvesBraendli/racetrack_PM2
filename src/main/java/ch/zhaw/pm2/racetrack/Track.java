@@ -322,8 +322,12 @@ public class Track {
 			for (Car car : cars) {
 				int yCoordinate = car.getPosition().getY();
 				int xCoordinate = car.getPosition().getX();
+				char carIndicator = car.getID();
+				if(car.isCrashed()) {
+					carIndicator = CRASH_INDICATOR;
+				}
 				String trackLine = track.get(yCoordinate);
-				String newTrackLineFront = trackLine.substring(0, xCoordinate) + car.getID();
+				String newTrackLineFront = trackLine.substring(0, xCoordinate) + carIndicator;
 				String newTrackLineEnd = trackLine.substring(xCoordinate + 1);
 				String newTrackLine = newTrackLineFront + newTrackLineEnd;
 				track.remove(yCoordinate);

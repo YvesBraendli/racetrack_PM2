@@ -83,6 +83,7 @@ public class GameController {
 						File seletedMoveFile = selectMoveFile();
 						try {
 							selectedStrategy = new MoveListStrategy(seletedMoveFile);
+							isPossibleSelection = true;
 						} catch (FileNotFoundException e) {
 							output.printErrorFileNotFoundMessage();
 						} catch (InvalidMoveFormatException e) {
