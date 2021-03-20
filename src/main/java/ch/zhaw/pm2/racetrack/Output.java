@@ -28,6 +28,7 @@ public class Output {
 	 */
 	public void printTrack(String track) {
 		textTerminal.print(track);
+		System.out.println(track);
 	}
 
 	/**
@@ -43,7 +44,7 @@ public class Output {
 	 * @param carID the winners symbol
 	 */
 	public void printWinner(char carID) {
-		textTerminal.println("Car " + carID + " won!");
+		textTerminal.println("\nCar " + carID + " won!");
 	}
 
 	/**
@@ -60,7 +61,7 @@ public class Output {
 	 * @param carID the symbol of the car whose turn it is
 	 */
 	public void printCurrentPlayer(char carID) {
-		textTerminal.println("Car " + carID + "'s turn");
+		textTerminal.println("\n\nCar " + carID + "'s turn:");
 	}
 
 	/**

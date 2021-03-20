@@ -119,6 +119,7 @@ public class GameController {
 			MoveStrategy currentStrategy = strategies.get(currentPlayer);
 			if (currentStrategy instanceof DoNotMoveStrategy) {
 				output.printDoNotMoveMessage();
+				input.requestGameContinue();
 			} else {
 				output.printAccelerationGrid();
 			}
@@ -127,8 +128,10 @@ public class GameController {
 
 			int winner = game.getWinner();
 			if (Game.NO_WINNER != winner) {
+				output.printTrack(game.getTrack().toString());
 				output.printWinner(game.getCarId(winner));
-				break;
+				input.requestGameClosure();
+				return;
 			}
 			game.switchToNextActiveCar();
 		}

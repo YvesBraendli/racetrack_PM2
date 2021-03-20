@@ -66,5 +66,15 @@ public class Input {
 		return textIO.newIntInputReader().withMinVal(1).withMaxVal(9)
 				.read("Please enter an acceleration value between 1 and 9");
 	}
+	
+	public void requestGameClosure() {
+		textIO.newStringInputReader().withMinLength(0).read("\nPress enter to close the game...");
+		textIO.dispose();
+		
+	}
+	
+	public void requestGameContinue() {
+		textIO.newStringInputReader().withMinLength(0).read("Press enter to continue:");
+	}
 
 }

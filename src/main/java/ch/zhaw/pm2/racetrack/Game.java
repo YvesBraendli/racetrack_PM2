@@ -239,7 +239,7 @@ public class Game {
 				switch (track.getSpaceType(position)) {
 				case TRACK:
 					for (Car car : players) {
-						if (car.getPosition().equals(position)) {
+						if (car.getPosition().equals(position) && !car.equals(currentCar)) {
 							currentCar.setPosition(position);
 							currentCar.crash();
 							return;
