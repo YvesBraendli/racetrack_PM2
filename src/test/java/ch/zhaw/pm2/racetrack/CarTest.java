@@ -1,9 +1,9 @@
 package ch.zhaw.pm2.racetrack;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class CarTest {
 	private Car model;
@@ -18,9 +18,9 @@ public class CarTest {
 	@Test
 	public void requirementCarSetUpSuccessful() {
 		// Test
-		assertEquals("Startposition in x at car Setup wrong", STARTPOSITION.getX(), model.getPosition().getX());
-		assertEquals("Startposition in y at car Setup wrong", STARTPOSITION.getY(), model.getPosition().getY());
-		assertEquals("Car-ID after Setup didn't matched", CAR_ID, model.getID());
+		assertEquals(STARTPOSITION.getX(), model.getPosition().getX());
+		assertEquals(STARTPOSITION.getY(), model.getPosition().getY());
+		assertEquals(CAR_ID, model.getID());
 	}
 	
 	/**
@@ -38,7 +38,7 @@ public class CarTest {
 		// Modify
 		model.accelerate(PositionVector.Direction.DOWN);
 		model.move();
-		assertEquals("New Position was not calculated right with command move()", positionAfterMove, model.getPosition());
+		assertEquals(positionAfterMove, model.getPosition());
 		
 	}
 
@@ -57,13 +57,13 @@ public class CarTest {
 		int secondYPosition = 55;
 		model.setPosition(new PositionVector(firstXPosition, firstYPosition));
 		// Test
-		assertEquals("Wrong new X-Position", firstXPosition, model.getPosition().getX());
-		assertEquals("Wrong new Y-Position", firstYPosition, model.getPosition().getY());
+		assertEquals(firstXPosition, model.getPosition().getX());
+		assertEquals(firstYPosition, model.getPosition().getY());
 		// Modify
 		model.setPosition(new PositionVector(secondXPosition, secondYPosition));
 		// Test
-		assertEquals("Wrong new X-Position", secondXPosition, model.getPosition().getX());
-		assertEquals("Wrong new Y-Position", secondYPosition, model.getPosition().getY());
+		assertEquals(secondXPosition, model.getPosition().getX());
+		assertEquals(secondYPosition, model.getPosition().getY());
 
 	}
 
@@ -78,8 +78,8 @@ public class CarTest {
 		requirementCarSetUpSuccessful();
 		model.accelerate(PositionVector.Direction.DOWN);
 		// Test
-		assertFalse("Position was not calculated right", model.getPosition() == model.nextPosition());
-		assertEquals("Position was changed", model.getPosition(), STARTPOSITION);
+		assertFalse(model.getPosition() == model.nextPosition());
+		assertEquals(model.getPosition(), STARTPOSITION);
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class CarTest {
 	@Test
 	public void requirementCrashedIsFalseAfterSetUp() {
 		// Test
-		assertFalse("Model already crashed after Setup", model.isCrashed());
+		assertFalse(model.isCrashed());
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class CarTest {
 		setUpCar();
 		model.crash();
 		// Test
-		assertTrue("Car was not marked as crashed after colliding.",model.isCrashed());
+		assertTrue(model.isCrashed());
 	}
 
 	/**
@@ -118,47 +118,47 @@ public class CarTest {
 		// Modify
 		model.accelerate(PositionVector.Direction.DOWN);
 		// Test
-		assertEquals("Velocity was not calculated right in Direction DOWN.", PositionVector.Direction.DOWN.vector,
+		assertEquals(PositionVector.Direction.DOWN.vector,
 				model.getVelocity());
 		// Modify
 		model.accelerate(PositionVector.Direction.UP);
 		// Test
-		assertEquals("Velocity was not calculated right in Direction UP.", startPositionAcceleration,
+		assertEquals(startPositionAcceleration,
 				model.getVelocity());
 		// Modify
 		model.accelerate(PositionVector.Direction.LEFT);
 		// Test
-		assertEquals("Velocity was not calculated right in Direction LEFT.", PositionVector.Direction.LEFT.vector,
+		assertEquals(PositionVector.Direction.LEFT.vector,
 				model.getVelocity());
 		// Modify
 		model.accelerate(PositionVector.Direction.RIGHT);
 		// Test
-		assertEquals("Velocity was not calculated right in Direction Right.", startPositionAcceleration,
+		assertEquals(startPositionAcceleration,
 				model.getVelocity());
 		// Modify
 		model.accelerate(PositionVector.Direction.DOWN_LEFT);
 		// Test
-		assertEquals("Velocity was not calculated right ind Direction DOWN_LEFT.",
+		assertEquals(
 				PositionVector.Direction.DOWN_LEFT.vector, model.getVelocity());
 		// Modify
 		model.accelerate(PositionVector.Direction.UP_RIGHT);
 		// Test
-		assertEquals("Velocity was not calculated right in Direction UP_RIGHT.", startPositionAcceleration,
+		assertEquals(startPositionAcceleration,
 				model.getVelocity());
 		// Modify
 		model.accelerate(PositionVector.Direction.DOWN_RIGHT);
 		// Test
-		assertEquals("Velocity was not calculated right in Direction DOWN_RIGHT.",
+		assertEquals(
 				PositionVector.Direction.DOWN_RIGHT.vector, model.getVelocity());
 		// Modify
 		model.accelerate(PositionVector.Direction.UP_LEFT);
 		// Test
-		assertEquals("Velocity was not calculated right in Direction UP_LEFT.", startPositionAcceleration,
+		assertEquals(startPositionAcceleration,
 				model.getVelocity());
 		// Modify
 		model.accelerate(PositionVector.Direction.NONE);
 		// Test
-		assertEquals("Velocity was not calculated right in Direction NONE.", startPositionAcceleration,
+		assertEquals(startPositionAcceleration,
 				model.getVelocity());
 	}
 
@@ -176,7 +176,7 @@ public class CarTest {
 			model.accelerate(PositionVector.Direction.RIGHT);
 		}
 		// Test
-		assertEquals("Velocity was not calculated right to maximum X-Value of the board.", maxXValue,
+		assertEquals(maxXValue,
 				model.getVelocity().getX());
 		// Modify
 		int maxYValue = 15;
@@ -184,7 +184,7 @@ public class CarTest {
 			model.accelerate(PositionVector.Direction.DOWN);
 		}
 		// Test
-		assertEquals("Velocity was not calculated right to the maximum Y-Value of the board.", maxYValue,
+		assertEquals(maxYValue,
 				model.getVelocity().getY());
 	}
 
@@ -202,7 +202,7 @@ public class CarTest {
 			model.accelerate(PositionVector.Direction.LEFT);
 		}
 		// Test
-		assertEquals("Velocity was not calculated right to maximum X-Value of the board.", -maxXValue,
+		assertEquals(-maxXValue,
 				model.getVelocity().getX());
 		// Modify
 		int maxYValue = 15;
@@ -210,7 +210,7 @@ public class CarTest {
 			model.accelerate(PositionVector.Direction.UP);
 		}
 		// Test
-		assertEquals("Velocity was not calculated right to the maximum Y-Value of the board.", -maxYValue,
+		assertEquals( -maxYValue,
 				model.getVelocity().getY());
 	}
 
@@ -229,7 +229,7 @@ public class CarTest {
 		}
 		// Test
 		assertEquals(
-				"Velocity was not calculated right to maximum Diagonal-Value of the board with UP_RIGHT command from zero acceleration starting.",
+				
 				endPosition, model.getVelocity());
 
 	}
@@ -249,7 +249,7 @@ public class CarTest {
 		}
 		// Test
 		assertEquals(
-				"Velocity was not calculated right to maximum Diagonal-Value of the board with UP_LEFT command from zero acceleration starting.",
+				
 				endPosition, model.getVelocity());
 
 	}
@@ -270,7 +270,7 @@ public class CarTest {
 		}
 		// Test
 		assertEquals(
-				"Velocity was not calculated right to maximum Diagonal-Value of the board with DOWN_RIGHT command from zero acceleration starting.",
+				
 				endPosition, model.getVelocity());
 
 	}
@@ -290,7 +290,7 @@ public class CarTest {
 		}
 		// Test
 		assertEquals(
-				"Velocity was not calculated right to maximum Diagonal-Value of the board with DOWN_LEFT command from zero acceleration starting.",
+				
 				endPosition, model.getVelocity());
 
 	}
@@ -317,7 +317,7 @@ public class CarTest {
 		}
 		// Test
 		assertEquals(
-				"Velocity was not calculated right to from X-positive, maximum Value to X-negative, maximum Value.",
+				
 				xNegativeMaximumPosition, model.getVelocity());
 		// Modify
 		for (int i = 0; i < maxXValueOneMaxToOther; i++) {
@@ -325,7 +325,7 @@ public class CarTest {
 		}
 		// Test
 		assertEquals(
-				"Velocity was not calculated right to from X-negative, maximum Value to X-positive, maximum Value.",
+				
 				xPositiveMaximumPosition, model.getVelocity());
 
 	}
@@ -352,7 +352,7 @@ public class CarTest {
 		}
 		// Test
 		assertEquals(
-				"Velocity was not calculated right to from Y-positive, maximum Value to Y-negative, maximum Value.",
+				
 				xNegativeMaximumPosition, model.getVelocity());
 		// Modify
 		for (int i = 0; i < maxXValueOneMaxToOther; i++) {
@@ -360,7 +360,7 @@ public class CarTest {
 		}
 		// Test
 		assertEquals(
-				"Velocity was not calculated right to from Y-negative, maximum Value to Y-positive, maximum Value.",
+			
 				xPositiveMaximumPosition, model.getVelocity());
 
 	}
@@ -387,7 +387,7 @@ public class CarTest {
 		}
 		// Test
 		assertEquals(
-				"Velocity was not calculated right to from maximum up right position to maximum down left position.",
+				
 				downLeftPosition, model.getVelocity());
 		// Modify
 		for (int i = 0; i < maxDiagonalValueOneMaxToOther; i++) {
@@ -395,7 +395,7 @@ public class CarTest {
 		}
 		// Test
 		assertEquals(
-				"Velocity was not calculated right to from maximum down left position to maximum up right position.",
+				
 				upRightPosition, model.getVelocity());
 
 	}
@@ -422,23 +422,21 @@ public class CarTest {
 		}
 		// Test
 		assertEquals(
-				"Velocity was not calculated right to from maximum up left position to maximum down right position.",
+				
 				downRightPosition, model.getVelocity());
 		// Modify
 		for (int i = 0; i < maxDiagonalValueOneMaxToOther; i++) {
 			model.accelerate(PositionVector.Direction.UP_LEFT);
 		}
 		// Test
-		assertEquals(
-				"Velocity was not calculated right to from maximum down right position to maximum up left position.",
-				upLefttPosition, model.getVelocity());
+		assertEquals(upLefttPosition, model.getVelocity());
 
 	}
 
 	/**
 	 * Sets up a car model for the testing.
 	 */
-	@Before
+	@BeforeEach
 	public void setUpCar() {
 		model = new Car(CAR_ID, STARTPOSITION);
 	}
