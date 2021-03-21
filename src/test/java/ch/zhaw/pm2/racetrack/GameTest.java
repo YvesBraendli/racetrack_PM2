@@ -6,11 +6,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ch.zhaw.pm2.racetrack.Config.StrategyType;
 import ch.zhaw.pm2.racetrack.PositionVector.Direction;
+import ch.zhaw.pm2.racetrack.strategy.InvalidMoveFormatException;
+import ch.zhaw.pm2.racetrack.strategy.MoveListStrategy;
 
 public class GameTest {
 	private Game _testGame;
@@ -96,18 +100,13 @@ public class GameTest {
 	public void GetWinner_CarCrossesFinishLineCorrectlyFinishLineRight_ReturnsWinner() {
 		// Arrange
 		initGame(new File("tracks\\challenge.txt"));
-		assertFalse(true);
-	}
-	
-	/**
-	 * Tests GetWinner() when car has crossed finish line correctly and the car has
-	 * won the game. Test track: FinishLine Up
-	 */
-	@Test
-	public void GetWinner_CarCrossesFinishLineCorrectlyFinishLineUp_ReturnsWinner() {
-		// Arrange
-		initGame(new File("tracks\\oval-clock-up.txt"));
-		assertFalse(true);
+		makeMoveToWinChallengeTrack();
+
+		// Act
+		int currentWinner = _testGame.getWinner();
+		
+		// Assert
+		assertTrue(currentWinner == 0);
 	}
 
 	/**
@@ -121,35 +120,12 @@ public class GameTest {
 		_testGame.doCarTurn(Direction.LEFT);
 		_testGame.doCarTurn(Direction.LEFT);
 		_testGame.doCarTurn(Direction.LEFT);
-		// _testGame.doCarTurn(Direction.LEFT); use this line to check for one other bug
 
 		// Act
 		int currentWinner = _testGame.getWinner();
 
 		// Assert
 		assertTrue(currentWinner == Game.NO_WINNER);
-	}
-
-	/**
-	 * Tests GetWinner() when car has crossed finish line correctly and crashes
-	 * right after. Position outside wall and track. Car has won the game. Test track: FinishLine Right
-	 */
-	@Test
-	public void GetWinner_CarCrossesFinishLineCorrectlyAndCrashesAfterwardsFinishLineRight_ReturnsWinner() {
-		// Arrange
-		initGame(new File("tracks\\quarter-mile.txt"));
-		assertFalse(true);
-	}
-	
-	/**
-	 * Tests GetWinner() when car has crossed finish line correctly and crashes
-	 * right after. Position outside wall and track. Car has won the game. Test track: FinishLine Up
-	 */
-	@Test
-	public void GetWinner_CarCrossesFinishLineCorrectlyAndCrashesAfterwardsFinishLineUp_ReturnsWinner() {
-		// Arrange
-		initGame(new File("tracks\\oval-clock-up.txt"));
-		assertFalse(true);
 	}
 
 	/**
@@ -177,7 +153,7 @@ public class GameTest {
 	@Test
 	public void GetWinner_CarCrossesFinishLineBackwardsFinishLineUp_ReturnsNoWinner() {
 		// Arrange
-		initGame(new File("tracks\\challenge.txt"));
+		initGame(new File("tracks\\oval-clock-up.txt"));
 		_testGame.doCarTurn(Direction.DOWN);
 		_testGame.doCarTurn(Direction.DOWN);
 
@@ -200,6 +176,7 @@ public class GameTest {
 		_testGame.doCarTurn(Direction.LEFT);
 		_testGame.doCarTurn(Direction.LEFT);
 
+		_testGame.doCarTurn(Direction.RIGHT);
 		_testGame.doCarTurn(Direction.RIGHT);
 		_testGame.doCarTurn(Direction.RIGHT);
 		_testGame.doCarTurn(Direction.RIGHT);
@@ -228,6 +205,7 @@ public class GameTest {
 		_testGame.doCarTurn(Direction.UP);
 		_testGame.doCarTurn(Direction.UP);
 		_testGame.doCarTurn(Direction.UP);
+		_testGame.doCarTurn(Direction.DOWN);
 
 		// Act
 		int currentWinner = _testGame.getWinner();
@@ -577,7 +555,19 @@ public class GameTest {
 		
 	}
 	
-
-	
-
+	private void makeMoveToWinChallengeTrack() {
+		MoveListStrategy strategy = null;
+		try {
+			strategy = new MoveListStrategy(new File("moves\\challenge-car-a.txt"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (InvalidMoveFormatException e) {
+			e.printStackTrace();
+		}
+		for (int i = 0; i < 39; i++) {
+			Direction acceleration = strategy.nextMove();
+			_testGame.doCarTurn(acceleration);
+		}
+		
+	}
 }
