@@ -48,11 +48,12 @@ public class GameTest {
 	}
 
 	/**
+	 * Equivalence Partitioning: W1 - game is in progress
 	 * Tests GetWinner() when Game is still in Progress and no car has won. Test
 	 * track: FinishLine Right
 	 */
 	@Test
-	public void GetWinner_GameIsInProgressFinishLineRight_ReturnsNoWinner() {
+	public void getWinner_GameIsInProgressFinishLineRight_ReturnsNoWinner() {
 		// Arrange
 		initGame(new File("tracks\\challenge.txt"));
 		// Act
@@ -63,11 +64,12 @@ public class GameTest {
 	}
 
 	/**
+	 * Equivalence Partitioning: W1 - game is in progress
 	 * Tests GetWinner() when Game is still in Progress and no car has won. Test
 	 * track: FinishLine Up
 	 */
 	@Test
-	public void GetWinner_GameIsInProgressFinishLineUp_ReturnsNoWinner() {
+	public void getWinner_GameIsInProgressFinishLineUp_ReturnsNoWinner() {
 		// Arrange
 		initGame(new File("tracks\\oval-clock-up.txt"));
 		// Act
@@ -78,11 +80,12 @@ public class GameTest {
 	}
 	
 	/**
+	 * Equivalence Partitioning: W1 - game is in progress
 	 * Tests GetWinner() when Game is still in Progress and no car has won. Test
 	 * track: FinishLine Left
 	 */
 	@Test
-	public void GetWinner_GameIsInProgressFinishLineLeft_ReturnsNoWinner() {
+	public void getWinner_GameIsInProgressFinishLineLeft_ReturnsNoWinner() {
 		// Arrange
 		initGame(new File("tracks\\quarter-mile.txt"));
 		// Act
@@ -93,11 +96,12 @@ public class GameTest {
 	}
 
 	/**
+	 * Equivalence Partitioning: W2 - cross finish line correctly
 	 * Tests GetWinner() when car has crossed finish line correctly and the car has
 	 * won the game. Test track: FinishLine Right
 	 */
 	@Test
-	public void GetWinner_CarCrossesFinishLineCorrectlyFinishLineRight_ReturnsWinner() {
+	public void getWinner_CarCrossesFinishLineCorrectlyFinishLineRight_ReturnsWinner() {
 		// Arrange
 		initGame(new File("tracks\\challenge.txt"));
 		makeMoveToWinChallengeTrack();
@@ -110,11 +114,12 @@ public class GameTest {
 	}
 
 	/**
+	 * Equivalence Partitioning: W2 - cross finish line correctly
 	 * Tests GetWinner() when car has crossed finish line correctly and the car has
 	 * won the game. Test track: FinishLine Left
 	 */
 	@Test
-	public void GetWinner_CarCrossesFinishLineCorrectlyFinishLineLeft_ReturnsWinner() {
+	public void getWinner_CarCrossesFinishLineCorrectlyFinishLineLeft_ReturnsWinner() {
 		// Arrange
 		initGame(new File("tracks\\quarter-mile.txt"));
 		_testGame.doCarTurn(Direction.LEFT);
@@ -129,11 +134,12 @@ public class GameTest {
 	}
 
 	/**
+	 * Equivalence Partitioning: W3 - cross finish line incorrectly
 	 * Tests GetWinner() when car has crossed finish line incorrectly (from wrong
 	 * side) and no car has won. Test track: FinishLine Right
 	 */
 	@Test
-	public void GetWinner_CarCrossesFinishLineBackwardsFinishLineRight_ReturnsNoWinner() {
+	public void getWinner_CarCrossesFinishLineBackwardsFinishLineRight_ReturnsNoWinner() {
 		// Arrange
 		initGame(new File("tracks\\challenge.txt"));
 		_testGame.doCarTurn(Direction.LEFT);
@@ -147,11 +153,12 @@ public class GameTest {
 	}
 	
 	/**
+	 * Equivalence Partitioning: W3 - cross finish line incorrectly
 	 * Tests GetWinner() when car has crossed finish line incorrectly (from wrong
 	 * side) and no car has won. Test track: FinishLine Up
 	 */
 	@Test
-	public void GetWinner_CarCrossesFinishLineBackwardsFinishLineUp_ReturnsNoWinner() {
+	public void getWinner_CarCrossesFinishLineBackwardsFinishLineUp_ReturnsNoWinner() {
 		// Arrange
 		initGame(new File("tracks\\oval-clock-up.txt"));
 		_testGame.doCarTurn(Direction.DOWN);
@@ -165,12 +172,38 @@ public class GameTest {
 	}
 
 	/**
+	 * Equivalence Partitioning: W4 - crosses finish line and crashes
+	 * Tests GetWinner() when car has crossed finish line correctly and crashes right after
+	 */
+	@Test
+	public void getWinner_CarCrossesFinishLineCorrectlyAndCrashes_ReturnsWinner() {
+		// Arrange
+		initGame(new File("tracks\\quarter-mile.txt"));
+		_testGame.doCarTurn(Direction.LEFT);
+		_testGame.doCarTurn(Direction.LEFT);
+		_testGame.doCarTurn(Direction.LEFT);
+		_testGame.doCarTurn(Direction.LEFT);
+		_testGame.doCarTurn(Direction.LEFT);
+		_testGame.doCarTurn(Direction.LEFT);
+		_testGame.doCarTurn(Direction.LEFT);
+		_testGame.doCarTurn(Direction.LEFT);
+		_testGame.doCarTurn(Direction.LEFT);
+		_testGame.doCarTurn(Direction.LEFT);
+		// Act
+		int currentWinner = _testGame.getWinner();
+
+		// Assert
+		assertTrue(currentWinner == 0);
+	}
+	
+	/**
+	 * Equivalence Partitioning: W5 - crosses finish line correctly, but has one lap to go
 	 * Tests GetWinner() when car has crossed finish line correctly after crossing
 	 * backwards. Car has still one lap to go and car does not win the game. Test
 	 * track: FinishLine Right
 	 */
 	@Test
-	public void GetWinner_CarCrossesFinishLineBackwardsAndForwardAfterwardsFinishLineRight_ReturnsNoWinner() {
+	public void getWinner_CarCrossesFinishLineBackwardsAndForwardAfterwardsFinishLineRight_ReturnsNoWinner() {
 		// Arrange
 		initGame(new File("tracks\\challenge.txt"));
 		_testGame.doCarTurn(Direction.LEFT);
@@ -190,12 +223,13 @@ public class GameTest {
 	}
 
 	/**
+	 * Equivalence Partitioning: W5 - crosses finish line correctly, but has one lap to go
 	 * Tests GetWinner() when car has crossed finish line correctly after crossing
 	 * backwards. Car has still one lap to go and car does not win the game. Test
 	 * track: FinishLine Up
 	 */
 	@Test
-	public void GetWinner_CarCrossesFinishLineBackwardsAndForwardAfterwardsFinishLineUp_ReturnsNoWinner() {
+	public void getWinner_CarCrossesFinishLineBackwardsAndForwardAfterwardsFinishLineUp_ReturnsNoWinner() {
 		// Arrange
 		initGame(new File("tracks\\oval-clock-up.txt"));
 		_testGame.doCarTurn(Direction.DOWN);
@@ -215,11 +249,12 @@ public class GameTest {
 	}
 	
 	/**
+	 * Equivalence Partitioning: W1 - game is in progress
 	 * Tests GetWinner() when all cars are still alive. No car has won.
 	 * Test track: FinishLine Right
 	 */
 	@Test
-	public void GetWinner_AllCarsAreAliveFinishLineRight_ReturnsNoWinner() {
+	public void getWinner_AllCarsAreAliveFinishLineRight_ReturnsNoWinner() {
 		// Arrange
 		initGame(new File("tracks\\challenge.txt"));
 		// Act
@@ -230,11 +265,12 @@ public class GameTest {
 	}
 
 	/**
+	 * Equivalence Partitioning: W1 - game is in progress
 	 * Tests GetWinner() when all cars are still alive. No car has won.
 	 * Test track: FinishLine Up
 	 */
 	@Test
-	public void GetWinner_AllCarsAreAliveFinishLineUp_ReturnsNoWinner() {
+	public void getWinner_AllCarsAreAliveFinishLineUp_ReturnsNoWinner() {
 		// Arrange
 		initGame(new File("tracks\\oval-clock-up.txt"));
 		// Act
@@ -245,11 +281,12 @@ public class GameTest {
 	}
 	
 	/**
+	 * Equivalence Partitioning: W1 - game is in progress
 	 * Tests GetWinner() when all cars are still alive. No car has won.
 	 * Test track: FinishLine Left
 	 */
 	@Test
-	public void GetWinner_AllCarsAreAliveFinishLinLeft_ReturnsNoWinner() {
+	public void getWinner_AllCarsAreAliveFinishLinLeft_ReturnsNoWinner() {
 		// Arrange
 		initGame(new File("tracks\\quarter-mile.txt"));
 		// Act
@@ -258,6 +295,27 @@ public class GameTest {
 		// Assert
 		assertTrue(currentWinner == Game.NO_WINNER);
 	}
+	
+	/**
+	 * Equivalence Partitioning: W6 - all car crashes except one
+	 * Tests GetWinner() when all cars are crashed except one. 
+	 * Test track: FinishLine Left
+	 */
+	@Test
+	public void getWinner_AllCarsCrashesExceptOne_ReturnsWinner() {
+		// Arrange
+		initGame(new File("tracks\\quarter-mile.txt"));
+		_testGame.doCarTurn(Direction.RIGHT);
+		_testGame.doCarTurn(Direction.RIGHT);
+		_testGame.doCarTurn(Direction.RIGHT);
+		_testGame.doCarTurn(Direction.RIGHT);
+		// Act
+		int currentWinner = _testGame.getWinner();
+
+		// Assert
+		assertTrue(currentWinner == 1);
+	}
+	
 	
 	/**
 	 * Equivalence Partitioning: 
