@@ -120,8 +120,8 @@ public class Game {
 		if (hasCurrentCarFinished()) {
 			return false;
 		}
-		// all except one car have been crashed
-		if (getUncrashedCars().size() == 1) {
+		boolean hasOnlyOneCarLeft = getUncrashedCars().size() == 1;
+		if (hasOnlyOneCarLeft) {
 			return false;
 		}
 		return true;
