@@ -48,7 +48,7 @@ public class Game {
 	 */
 	public char getCarId(int carIndex) {
 		if(carIndex >= players.size() || carIndex < 0) {
-			return (Character) null;
+			return Character.MIN_VALUE;
 		}
 		return players.get(carIndex).getID();
 	}
@@ -103,12 +103,14 @@ public class Game {
 	 */
 	public void switchToNextActiveCar() {
 		int indexOfActiveCar = players.indexOf(currentCar);
+		do {		
 		if (indexOfActiveCar == players.size() - 1) {
 			indexOfActiveCar = 0;
 		} else {
 			indexOfActiveCar++;
 		}
 		currentCar = players.get(indexOfActiveCar);
+		}while(currentCar.isCrashed());
 	}
 
 	/**
