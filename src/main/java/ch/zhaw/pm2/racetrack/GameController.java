@@ -7,7 +7,6 @@ import java.util.HashMap;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
-import org.graalvm.compiler.asm.aarch64.AArch64Assembler.SIMDElementSize;
 
 import ch.zhaw.pm2.racetrack.Config.StrategyType;
 import ch.zhaw.pm2.racetrack.PositionVector.Direction;
