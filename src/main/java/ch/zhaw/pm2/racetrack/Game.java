@@ -47,6 +47,9 @@ public class Game {
 	 * @return A char containing the id of the car
 	 */
 	public char getCarId(int carIndex) {
+		if(carIndex >= players.size() || carIndex < 0) {
+			return (Character) null;
+		}
 		return players.get(carIndex).getID();
 	}
 
@@ -57,6 +60,9 @@ public class Game {
 	 * @return A PositionVector containing the car's current position
 	 */
 	public PositionVector getCarPosition(int carIndex) {
+		if(carIndex >= players.size() || carIndex < 0) {
+			return null;
+		}
 		return players.get(carIndex).getPosition();
 	}
 
@@ -67,6 +73,9 @@ public class Game {
 	 * @return A PositionVector containing the car's current velocity
 	 */
 	public PositionVector getCarVelocity(int carIndex) {
+		if(carIndex >= players.size() || carIndex < 0) {
+			return null;
+		}
 		return players.get(carIndex).getVelocity();
 	}
 
