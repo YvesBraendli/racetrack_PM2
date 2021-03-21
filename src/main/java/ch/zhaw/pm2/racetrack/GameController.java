@@ -7,6 +7,7 @@ import java.util.HashMap;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
+import org.graalvm.compiler.asm.aarch64.AArch64Assembler.SIMDElementSize;
 
 import ch.zhaw.pm2.racetrack.Config.StrategyType;
 import ch.zhaw.pm2.racetrack.PositionVector.Direction;
@@ -72,7 +73,15 @@ public class GameController {
 					selectedStrategy = new DoNotMoveStrategy();
 					break;
 				case PATH_FOLLOWER:
-					selectedStrategy = new PathFollowerMoveStrategy();
+					File selectedFile = input.requestFile(config.getFollowerDirectory(), "Please select a follower File:");
+					PositionVector startPosition = game.getCarPosition(game.getCurrentCarIndex());
+					try {
+						selectedStrategy = new PathFollowerMoveStrategy(selectedFile, startPosition);
+					} catch (FileNotFoundException e) {
+						output.printErrorFileNotFoundMessage();
+					} catch (InvalidMoveFormatException e) {
+						output.printErrorInvalidSymbolsMessage();
+					}
 					break;
 				case USER:
 					selectedStrategy = new UserMoveStrategy(input);
@@ -120,6 +129,8 @@ public class GameController {
 			MoveStrategy currentStrategy = strategies.get(currentPlayer);
 			if (currentStrategy instanceof DoNotMoveStrategy) {
 				output.printDoNotMoveMessage();
+				input.requestGameContinue();
+			} else if (currentStrategy instanceof PathFollowerMoveStrategy) {
 				input.requestGameContinue();
 			} else {
 				output.printAccelerationGrid();
