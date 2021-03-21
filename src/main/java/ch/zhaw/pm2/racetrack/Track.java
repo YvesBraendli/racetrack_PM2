@@ -318,6 +318,9 @@ public class Track {
 	 * @return A String representation of the track
 	 */
 	public String toString() {
+		boolean isStartingSign = false;
+		char startingSign = 0;
+		ArrayList<PositionVector> positionOfStartingSigns = new ArrayList<>();
 		if (cars.size() > 0) {
 			for (Car car : cars) {
 				int yCoordinate = car.getPosition().getY();
@@ -327,9 +330,18 @@ public class Track {
 					carIndicator = CRASH_INDICATOR;
 				}
 				String trackLine = track.get(yCoordinate);
+				if(trackLine.charAt(xCoordinate)==Config.SpaceType.FINISH_DOWN.value
+						||trackLine.charAt(xCoordinate)==Config.SpaceType.FINISH_UP.value
+						||trackLine.charAt(xCoordinate)==Config.SpaceType.FINISH_RIGHT.value
+						||trackLine.charAt(xCoordinate)==Config.SpaceType.FINISH_LEFT.value) {
+					isStartingSign = true;
+					startingSign = trackLine.charAt(xCoordinate);
+					positionOfStartingSigns.add(new PositionVector(xCoordinate, yCoordinate));
+				}
 				String newTrackLineFront = trackLine.substring(0, xCoordinate) + carIndicator;
 				String newTrackLineEnd = trackLine.substring(xCoordinate + 1);
 				String newTrackLine = newTrackLineFront + newTrackLineEnd;
+				System.out.println(newTrackLine);
 				track.remove(yCoordinate);
 				track.add(yCoordinate, newTrackLine);
 			}
@@ -340,6 +352,19 @@ public class Track {
 			trackInOneLine += track.get(i);
 		}
 		clearTrack();
+		if (isStartingSign) {
+			for (PositionVector position: positionOfStartingSigns) {
+				int xCoordinateOfStartingSign = position.getX();
+				int yCoordinateOfStartingSign = position.getY();
+				String trackLineForStartingSigns = track.get(yCoordinateOfStartingSign);
+				String trackLineFrontStartingSign = trackLineForStartingSigns.substring(0, xCoordinateOfStartingSign);
+				String trackLineEndStartingSign = trackLineForStartingSigns.substring(xCoordinateOfStartingSign+1);
+				String trackLineWithStartingSign = trackLineFrontStartingSign+startingSign+trackLineEndStartingSign;
+				//System.out.println(trackLineWithStartingSign);
+				track.remove(yCoordinateOfStartingSign);
+				track.add(yCoordinateOfStartingSign,trackLineWithStartingSign);
+			}
+		}
 		return trackInOneLine;
 	}
 
