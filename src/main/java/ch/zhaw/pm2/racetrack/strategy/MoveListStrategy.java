@@ -41,7 +41,7 @@ public class MoveListStrategy implements MoveStrategy {
 					isValidMove = true;
 				}
 			}
-			if(!isValidMove) throw new InvalidMoveFormatException("Data File contains invalid symbols."); //TODO check if a general exception would make more sense
+			if(!isValidMove) throw new InvalidMoveFormatException("Data File contains invalid symbols.");
 		}
 	}
 
