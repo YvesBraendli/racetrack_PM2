@@ -6,12 +6,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ch.zhaw.pm2.racetrack.Config.StrategyType;
 import ch.zhaw.pm2.racetrack.PositionVector.Direction;
 import ch.zhaw.pm2.racetrack.strategy.InvalidMoveFormatException;
 import ch.zhaw.pm2.racetrack.strategy.MoveListStrategy;
@@ -275,7 +272,7 @@ public class GameTest {
 		initGame(new File("tracks\\oval-clock-up.txt"));
 		// Act
 		int currentWinner = _testGame.getWinner();
-
+	
 		// Assert
 		assertTrue(currentWinner == Game.NO_WINNER);
 	}
@@ -318,7 +315,7 @@ public class GameTest {
 	
 	
 	/**
-	 * Equivalence Partitioning: 
+	 * Equivalence Partitioning: c2
 	 * Tests calculatePath() for a path from the bottom left of the map to the top right
 	 */
 	@Test
@@ -341,7 +338,7 @@ public class GameTest {
 	}
 	
 	/**
-	 * Equivalence Partitioning: 
+	 * Equivalence Partitioning: c2, c6
 	 * Tests calculatePath() for a path a in vertical line upwards
 	 */
 	@Test
@@ -364,7 +361,7 @@ public class GameTest {
 	}
 	
 	/**
-	 * Equivalence Partitioning: 
+	 * Equivalence Partitioning: c1, c6
 	 * Tests calculatePath() for a path in a vertical line downwards
 	 */
 	@Test
@@ -387,7 +384,7 @@ public class GameTest {
 	}
 	
 	/**
-	 * Equivalence Partitioning: 
+	 * Equivalence Partitioning: c3
 	 * Tests calculatePath() for a path from the bottom right of the map to the top left
 	 */
 	@Test
@@ -412,7 +409,7 @@ public class GameTest {
 	}
 	
 	/**
-	 * Equivalence Partitioning: 
+	 * Equivalence Partitioning: c4
 	 * Tests calculatePath() for a path from the top right of the map to the bottom left
 	 */
 	@Test
@@ -435,7 +432,7 @@ public class GameTest {
 	}
 	
 	/**
-	 * Equivalence Partitioning: 
+	 * Equivalence Partitioning: c1
 	 * Tests calculatePath() for a path from the top left of the map to the bottom right
 	 */
 	@Test
@@ -460,7 +457,7 @@ public class GameTest {
 	}
 	
 	/**
-	 * Equivalence Partitioning: 
+	 * Equivalence Partitioning: c1, c5
 	 * Tests calculatePath() for a path in a horizontal line left to right
 	 */
 	@Test
@@ -483,7 +480,7 @@ public class GameTest {
 	}
 	
 	/**
-	 * Equivalence Partitioning: 
+	 * Equivalence Partitioning: c3, c5
 	 * Tests calculatePath() for a path in a horizontal line right to left
 	 */
 	@Test
@@ -506,7 +503,7 @@ public class GameTest {
 	}
 	
 	/**
-	 * Equivalence Partitioning: 
+	 * Equivalence Partitioning: d1
 	 * Tests doCarTurn() for a valid position on the track in one step
 	 */
 	@Test
@@ -527,7 +524,7 @@ public class GameTest {
 	}
 	
 	/**
-	 * Equivalence Partitioning: 
+	 * Equivalence Partitioning: d1
 	 * Tests doCarTurn() for a valid position on the track in two steps
 	 */
 	@Test
@@ -548,7 +545,7 @@ public class GameTest {
 	}
 	
 	/**
-	 * Equivalence Partitioning: 
+	 * Equivalence Partitioning: d1, d2
 	 * Tests doCarTurn() for a crashed position with another car
 	 */
 	@Test
@@ -571,7 +568,7 @@ public class GameTest {
 	}
 	
 	/**
-	 * Equivalence Partitioning: 
+	 * Equivalence Partitioning: d3
 	 * Tests doCarTurn() for a crashed position with the wall
 	 */
 	@Test
@@ -591,7 +588,7 @@ public class GameTest {
 	}
 	
 	/**
-	 * Equivalence Partitioning: 
+	 * Equivalence Partitioning: d4
 	 * Tests doCarTurn() for driving over the finish line
 	 */
 	@Test
