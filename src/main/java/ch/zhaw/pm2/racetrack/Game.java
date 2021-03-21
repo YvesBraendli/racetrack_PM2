@@ -134,8 +134,19 @@ public class Game {
 	 *         car.
 	 */
 	public boolean willCarCrash(int carIndex, PositionVector position) {
-		// TODO implement
-		throw new UnsupportedOperationException();
+		SpaceType spaceType = track.getSpaceType(position);
+		if(spaceType == SpaceType.WALL) {
+			return true;
+		}
+		for(Car car : players) {
+			if(car.getPosition().getX() == position.getX() 
+					&& car.getPosition().getY() == position.getY()) {
+				if(players.indexOf(car) != carIndex) {
+					return true;
+				}
+			}
+		}
+		return false;		
 	}
 
 	private boolean isGameInProgress() {

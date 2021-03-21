@@ -144,6 +144,64 @@ public class GameTest {
 	}
 
 	/**
+	 * Equivalence Partitioning: B1 - Crashes with other Car Checks if Car will
+	 * Crash when Car crashes with other car.
+	 */
+	@Test
+	public void willCarCrash_CarCrashesWithOtherCar_ReturnTrue() {
+		// Arrange
+		initGame(new File("tracks\\challenge.txt"));
+		_testGame.doCarTurn(Direction.DOWN);
+		_testGame.doCarTurn(Direction.NONE);
+		int index = _testGame.getCurrentCarIndex();
+		PositionVector crashingPosition = _testGame.getCarPosition(index);
+		
+		// Act
+		boolean result = _testGame.willCarCrash(index, crashingPosition);
+
+		// Assert
+		assertTrue(result);
+	}
+
+	/**
+	 * Equivalence Partitioning: B2 - Crashes with wall Checks if Car will Crash
+	 * when Car crashes with wall.
+	 */
+	@Test
+	public void willCarCrash_CarCrashesWithWall_ReturnTrue() {
+		// Arrange
+		initGame(new File("tracks\\challenge.txt"));
+		_testGame.doCarTurn(Direction.UP);
+		int index = _testGame.getCurrentCarIndex();
+		PositionVector crashingPosition = _testGame.getCarPosition(index);
+		
+		// Act
+		boolean result = _testGame.willCarCrash(index, crashingPosition);
+
+		// Assert
+		assertTrue(result);
+	}
+
+	/**
+	 * Equivalence Partitioning: B3 - does not crash Checks if Car will Crash when
+	 * Car does not crash
+	 */
+	@Test
+	public void willCarCrash_CarDoesNotCrash_ReturnFalse() {
+		// Arrange
+				initGame(new File("tracks\\challenge.txt"));
+				_testGame.doCarTurn(Direction.RIGHT);
+				int index = _testGame.getCurrentCarIndex();
+				PositionVector crashingPosition = _testGame.getCarPosition(index);
+				
+				// Act
+				boolean result = _testGame.willCarCrash(index, crashingPosition);
+
+				// Assert
+				assertFalse(result);
+	}
+
+	/**
 	 * Equivalence Partitioning: W1 - game is in progress Tests GetWinner() when
 	 * Game is still in Progress and no car has won. Test track: FinishLine Right
 	 */
