@@ -21,6 +21,17 @@ public class Game {
 
 	public static final int NO_WINNER = -1;
 
+	/**
+	 * Don't use this constructor.
+	 * This Constructor only exists to give the Interfaces as asked for in the task for this project.
+	 */
+	public Game() {}
+	
+	/**
+	 * Constructor to initialise the Game with number Of players and selected Track
+	 * @param numberOfPlayers	number of Players to play the game
+	 * @param track				selected Track
+	 */
 	public Game(int numberOfPlayers, Track track) {
 		this.track = track;
 
