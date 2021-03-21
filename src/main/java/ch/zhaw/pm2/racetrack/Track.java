@@ -105,7 +105,7 @@ public class Track {
 		clearTrack();
 		trackReader.close();
 		for (String line : track) {
-			if (fileContainsValidData(line)) {
+			if (fileContainsInvalidData(line)) {
 				throw new InvalidTrackFormatException("Data File contains invalid symbols.");
 			}
 		}
@@ -343,7 +343,7 @@ public class Track {
 		return trackInOneLine;
 	}
 
-	private boolean fileContainsValidData(String trackLine) {
+	private boolean fileContainsInvalidData(String trackLine) {
 		boolean hasFinishDownSigns = trackLine.contains(String.valueOf(Config.SpaceType.FINISH_DOWN.value));
 		boolean hasFinishUpSigns = trackLine.contains(String.valueOf(Config.SpaceType.FINISH_UP.value));
 		boolean hasFinishLeftSigns = trackLine.contains(String.valueOf(Config.SpaceType.FINISH_RIGHT.value));
