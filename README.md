@@ -12,6 +12,6 @@ Written by Brändli Yves, Moser Nadine, Meier Robin
 
 [Testing: Car Class](docs/Testing/testing-car-documentation.pdf)
 
-[Testing: Game Class doCarTurn, calculatePath](docs/Testing/testing-doCarTurn-documentation.pdf)
+[Testing: Game Class](docs/Testing/testing-game-documentation.pdf)
 
 [Decisions: Branching & Division of labor](docs/Decisions/Decision_protocol.pdf)
