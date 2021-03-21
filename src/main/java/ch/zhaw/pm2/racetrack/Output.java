@@ -28,7 +28,6 @@ public class Output {
 	 */
 	public void printTrack(String track) {
 		textTerminal.print(track);
-		System.out.println(track);
 	}
 
 	/**

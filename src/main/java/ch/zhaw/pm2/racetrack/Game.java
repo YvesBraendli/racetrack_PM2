@@ -240,7 +240,6 @@ public class Game {
 					for (Car car : players) {
 						if (car.getPosition().equals(position) && !car.equals(currentCar)) {
 							currentCar.setPosition(position);
-							System.out.println("psoition vom aktuellen car;" + position);
 							currentCar.crash();
 							return;
 						}
