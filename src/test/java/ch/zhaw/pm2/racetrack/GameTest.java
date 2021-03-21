@@ -51,7 +51,7 @@ public class GameTest {
 	@Test
 	public void getCarId_AskForExistingCarIndex_ReturnsCarId() {
 		// Arrange
-		initGame(new File("tracks\\challenge.txt"));
+		initGame(new File("tracks/challenge.txt"));
 		// Act
 		char result = _testGame.getCarId(0);
 
@@ -66,7 +66,7 @@ public class GameTest {
 	@Test
 	public void getCarId_AskForNonExistingCarIndex_ReturnsMinValueFromCharacter() {
 		// Arrange
-		initGame(new File("tracks\\challenge.txt"));
+		initGame(new File("tracks/challenge.txt"));
 
 		// Act
 		char result = _testGame.getCarId(3);
@@ -82,7 +82,7 @@ public class GameTest {
 	@Test
 	public void getCarPosition_AskForExistingCarIndex_ReturnsCarPosition() {
 		// Arrange
-		initGame(new File("tracks\\challenge.txt"));
+		initGame(new File("tracks/challenge.txt"));
 		PositionVector expectedResult = new PositionVector(24, 22);
 		// Act
 		PositionVector result = _testGame.getCarPosition(0);
@@ -99,7 +99,7 @@ public class GameTest {
 	@Test
 	public void getCarPosition_AskForExistingCarIndex_ReturnsNull() {
 		// Arrange
-		initGame(new File("tracks\\challenge.txt"));
+		initGame(new File("tracks/challenge.txt"));
 
 		// Act
 		PositionVector result = _testGame.getCarPosition(3);
@@ -115,7 +115,7 @@ public class GameTest {
 	@Test
 	public void switchToNextActiveCar_AskForExistingCarIndex_SwitchesCorrectly() {
 		// Arrange
-		initGame(new File("tracks\\challenge.txt"));
+		initGame(new File("tracks/challenge.txt"));
 		// Act
 		_testGame.switchToNextActiveCar();
 		// Assert
@@ -130,7 +130,7 @@ public class GameTest {
 	@Test
 	public void switchToNextActiveCar_AskForExistingCarIndex_StaysTheSameIndex() {
 		// Arrange
-		initGame(new File("tracks\\challenge.txt"));
+		initGame(new File("tracks/challenge.txt"));
 		_testGame.doCarTurn(Direction.UP);
 		_testGame.switchToNextActiveCar();
 		int startIndex = _testGame.getCurrentCarIndex();
@@ -150,7 +150,7 @@ public class GameTest {
 	@Test
 	public void willCarCrash_CarCrashesWithOtherCar_ReturnTrue() {
 		// Arrange
-		initGame(new File("tracks\\challenge.txt"));
+		initGame(new File("tracks/challenge.txt"));
 		_testGame.doCarTurn(Direction.DOWN);
 		_testGame.doCarTurn(Direction.NONE);
 		int index = _testGame.getCurrentCarIndex();
@@ -170,7 +170,7 @@ public class GameTest {
 	@Test
 	public void willCarCrash_CarCrashesWithWall_ReturnTrue() {
 		// Arrange
-		initGame(new File("tracks\\challenge.txt"));
+		initGame(new File("tracks/challenge.txt"));
 		_testGame.doCarTurn(Direction.UP);
 		int index = _testGame.getCurrentCarIndex();
 		PositionVector crashingPosition = _testGame.getCarPosition(index);
@@ -189,7 +189,7 @@ public class GameTest {
 	@Test
 	public void willCarCrash_CarDoesNotCrash_ReturnFalse() {
 		// Arrange
-				initGame(new File("tracks\\challenge.txt"));
+				initGame(new File("tracks/challenge.txt"));
 				_testGame.doCarTurn(Direction.RIGHT);
 				int index = _testGame.getCurrentCarIndex();
 				PositionVector crashingPosition = _testGame.getCarPosition(index);
@@ -208,7 +208,7 @@ public class GameTest {
 	@Test
 	public void getWinner_GameIsInProgressFinishLineRight_ReturnsNoWinner() {
 		// Arrange
-		initGame(new File("tracks\\challenge.txt"));
+		initGame(new File("tracks/challenge.txt"));
 		// Act
 		int result = _testGame.getWinner();
 
@@ -223,7 +223,7 @@ public class GameTest {
 	@Test
 	public void getWinner_GameIsInProgressFinishLineUp_ReturnsNoWinner() {
 		// Arrange
-		initGame(new File("tracks\\oval-clock-up.txt"));
+		initGame(new File("tracks/oval-clock-up.txt"));
 		// Act
 		int result = _testGame.getWinner();
 
@@ -238,7 +238,7 @@ public class GameTest {
 	@Test
 	public void getWinner_GameIsInProgressFinishLineLeft_ReturnsNoWinner() {
 		// Arrange
-		initGame(new File("tracks\\quarter-mile.txt"));
+		initGame(new File("tracks/quarter-mile.txt"));
 		// Act
 		int result = _testGame.getWinner();
 
@@ -254,7 +254,7 @@ public class GameTest {
 	@Test
 	public void getWinner_CarCrossesFinishLineCorrectlyFinishLineRight_ReturnsWinner() {
 		// Arrange
-		initGame(new File("tracks\\challenge.txt"));
+		initGame(new File("tracks/challenge.txt"));
 		makeMoveToWinChallengeTrack();
 
 		// Act
@@ -272,7 +272,7 @@ public class GameTest {
 	@Test
 	public void getWinner_CarCrossesFinishLineCorrectlyFinishLineLeft_ReturnsWinner() {
 		// Arrange
-		initGame(new File("tracks\\quarter-mile.txt"));
+		initGame(new File("tracks/quarter-mile.txt"));
 		_testGame.doCarTurn(Direction.LEFT);
 		_testGame.doCarTurn(Direction.LEFT);
 		_testGame.doCarTurn(Direction.LEFT);
@@ -292,7 +292,7 @@ public class GameTest {
 	@Test
 	public void getWinner_CarCrossesFinishLineBackwardsFinishLineRight_ReturnsNoWinner() {
 		// Arrange
-		initGame(new File("tracks\\challenge.txt"));
+		initGame(new File("tracks/challenge.txt"));
 		_testGame.doCarTurn(Direction.LEFT);
 		_testGame.doCarTurn(Direction.LEFT);
 
@@ -311,7 +311,7 @@ public class GameTest {
 	@Test
 	public void getWinner_CarCrossesFinishLineBackwardsFinishLineUp_ReturnsNoWinner() {
 		// Arrange
-		initGame(new File("tracks\\oval-clock-up.txt"));
+		initGame(new File("tracks/oval-clock-up.txt"));
 		_testGame.doCarTurn(Direction.DOWN);
 		_testGame.doCarTurn(Direction.DOWN);
 
@@ -330,7 +330,7 @@ public class GameTest {
 	@Test
 	public void getWinner_CarCrossesFinishLineCorrectlyAndCrashes_ReturnsWinner() {
 		// Arrange
-		initGame(new File("tracks\\quarter-mile.txt"));
+		initGame(new File("tracks/quarter-mile.txt"));
 		_testGame.doCarTurn(Direction.LEFT);
 		_testGame.doCarTurn(Direction.LEFT);
 		_testGame.doCarTurn(Direction.LEFT);
@@ -357,7 +357,7 @@ public class GameTest {
 	@Test
 	public void getWinner_CarCrossesFinishLineBackwardsAndForwardAfterwardsFinishLineRight_ReturnsNoWinner() {
 		// Arrange
-		initGame(new File("tracks\\challenge.txt"));
+		initGame(new File("tracks/challenge.txt"));
 		_testGame.doCarTurn(Direction.LEFT);
 		_testGame.doCarTurn(Direction.LEFT);
 
@@ -383,7 +383,7 @@ public class GameTest {
 	@Test
 	public void getWinner_CarCrossesFinishLineBackwardsAndForwardAfterwardsFinishLineUp_ReturnsNoWinner() {
 		// Arrange
-		initGame(new File("tracks\\oval-clock-up.txt"));
+		initGame(new File("tracks/oval-clock-up.txt"));
 		_testGame.doCarTurn(Direction.DOWN);
 		_testGame.doCarTurn(Direction.DOWN);
 
@@ -407,7 +407,7 @@ public class GameTest {
 	@Test
 	public void getWinner_AllCarsAreAliveFinishLineRight_ReturnsNoWinner() {
 		// Arrange
-		initGame(new File("tracks\\challenge.txt"));
+		initGame(new File("tracks/challenge.txt"));
 		// Act
 		int currentWinner = _testGame.getWinner();
 
@@ -422,7 +422,7 @@ public class GameTest {
 	@Test
 	public void getWinner_AllCarsAreAliveFinishLineUp_ReturnsNoWinner() {
 		// Arrange
-		initGame(new File("tracks\\oval-clock-up.txt"));
+		initGame(new File("tracks/oval-clock-up.txt"));
 		// Act
 		int currentWinner = _testGame.getWinner();
 
@@ -437,7 +437,7 @@ public class GameTest {
 	@Test
 	public void getWinner_AllCarsAreAliveFinishLinLeft_ReturnsNoWinner() {
 		// Arrange
-		initGame(new File("tracks\\quarter-mile.txt"));
+		initGame(new File("tracks/quarter-mile.txt"));
 		// Act
 		int currentWinner = _testGame.getWinner();
 
@@ -452,7 +452,7 @@ public class GameTest {
 	@Test
 	public void getWinner_AllCarsCrashesExceptOne_ReturnsWinner() {
 		// Arrange
-		initGame(new File("tracks\\quarter-mile.txt"));
+		initGame(new File("tracks/quarter-mile.txt"));
 		_testGame.doCarTurn(Direction.RIGHT);
 		_testGame.doCarTurn(Direction.RIGHT);
 		_testGame.doCarTurn(Direction.RIGHT);
@@ -753,7 +753,7 @@ public class GameTest {
 	private void makeMoveToWinChallengeTrack() {
 		MoveListStrategy strategy = null;
 		try {
-			strategy = new MoveListStrategy(new File("moves\\challenge-car-a.txt"));
+			strategy = new MoveListStrategy(new File("moves/challenge-car-a.txt"));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (InvalidMoveFormatException e) {
