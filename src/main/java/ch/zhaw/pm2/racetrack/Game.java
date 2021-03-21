@@ -99,7 +99,6 @@ public class Game {
 		} else {
 			indexOfActiveCar++;
 		}
-		System.out.println("index of current car: " + indexOfActiveCar);
 		currentCar = players.get(indexOfActiveCar);
 	}
 
