@@ -90,7 +90,8 @@ public class Track {
 	 *                                     (no tracklines, ...)
 	 */
 	public Track(File trackFile) throws FileNotFoundException, InvalidTrackFormatException {
-		if (trackFile.getName().equals(QUARTER_MILE_COMPARISION)) isQuarterMileTrack = true;
+		if (trackFile.getName().equals(QUARTER_MILE_COMPARISION))
+			isQuarterMileTrack = true;
 		track = new ArrayList<>();
 		cars = new ArrayList<>();
 		if (!trackFile.exists()) {
@@ -105,106 +106,10 @@ public class Track {
 		clearTrack();
 		trackReader.close();
 		for (String line : track) {
-			if (fileContainsInvalidData(line)) {
+			if (checkIfFileContainsInvalidData(line)) {
 				throw new InvalidTrackFormatException("Data File contains invalid symbols.");
 			}
 		}
-	}
-	
-	private void clearTrack() {
-		for (int i = 0; i < track.size(); i++) {
-			String trackLine = track.get(i);
-			char[] lineSymbols = trackLine.toCharArray();
-			for (int z = 0; z < lineSymbols.length; z++) {
-				if (lineSymbols[z] != Config.SpaceType.FINISH_DOWN.value
-						&& lineSymbols[z] != Config.SpaceType.FINISH_UP.value
-						&& lineSymbols[z] != Config.SpaceType.FINISH_RIGHT.value
-						&& lineSymbols[z] != Config.SpaceType.FINISH_LEFT.value
-						&& lineSymbols[z] != Config.SpaceType.WALL.value
-						&& lineSymbols[z] != Config.SpaceType.TRACK.value) {
-					trackLine = trackLine.replace(lineSymbols[z], ' ');
-					track.remove(i);
-					track.add(i, trackLine);
-				}
-			}
-		}
-	}
-
-	/**
-	 * Adds a new car to the car-list if and only if the position is at a correct
-	 * starting place.
-	 * 
-	 * @param carId    The specified ID for this car.
-	 * @param position The starting position of this car.
-	 */
-	private void createCars() {
-		int carCounter = 0;
-		int longestRowValue = 0;
-		for (int i = 0; i<track.size(); i++) {
-			if(track.get(i).length()>longestRowValue) {
-				longestRowValue = track.get(i).length();
-			}
-		}
-		char[][] trackSymbols = new char[track.size()][longestRowValue];
-		char[] lineSymbols = new char[longestRowValue];
-		for (int row = 0; row < track.size(); row++) {
-			lineSymbols = track.get(row).toCharArray();
-			for (int column = 0; column < lineSymbols.length; column++) {
-				trackSymbols[row][column] = lineSymbols[column];
-			}
-		}
-		for (int row = 0; row < trackSymbols.length; row++) {
-			for (int column = 0; column < trackSymbols[row].length; column++) {
-				if (checkIfValidStartingPosition(trackSymbols, row, column)) {
-					carCounter++;
-					if (carCounter < Config.MAX_CARS) {
-						cars.add(new Car(trackSymbols[row][column], new PositionVector(column, row)));
-					}
-				}
-			}
-		}
-	}
-
-	private boolean checkIfValidStartingPosition(char[][] trackSymbols, int rowCounter, int columnCounter) {
-		int validPositionOfFinishUpSign = 1;
-		int validPositionOfFinishDownSign = -1;
-		int validPositionOfFinishRightSign = -2;
-		int validPositionOfFinishLeftSign = 2;
-		int validPositionOfWallWhenQuarterMile = 2;
-		if(isQuarterMileTrack) {
-			if (isNoTrackSign(trackSymbols, rowCounter, columnCounter)
-					&& (rowCounter > 0 && columnCounter > 0
-							&& rowCounter <= trackSymbols.length
-							&& columnCounter <= (trackSymbols[rowCounter].length - validPositionOfWallWhenQuarterMile))
-					&&((trackSymbols[rowCounter][columnCounter+validPositionOfWallWhenQuarterMile]==Config.SpaceType.WALL.value)
-							))
-				return true;
-			return false;
-		}
-		if (isNoTrackSign(trackSymbols, rowCounter, columnCounter)
-				&& (rowCounter > 0 && columnCounter > 0
-						&& rowCounter <= (trackSymbols.length + validPositionOfFinishUpSign)
-						&& columnCounter <= (trackSymbols[rowCounter].length + validPositionOfFinishUpSign))
-				&&((trackSymbols[rowCounter+validPositionOfFinishUpSign][columnCounter]==Config.SpaceType.FINISH_UP.value)
-						||(trackSymbols[rowCounter+validPositionOfFinishDownSign][columnCounter]==Config.SpaceType.FINISH_DOWN.value)
-						||(trackSymbols[rowCounter][columnCounter+validPositionOfFinishLeftSign]==Config.SpaceType.FINISH_LEFT.value)
-						||(trackSymbols[rowCounter][columnCounter+validPositionOfFinishRightSign]==Config.SpaceType.FINISH_RIGHT.value)
-						))
-			return true;
-		return false;
-	}
-	
-	private boolean isNoTrackSign(char[][] trackSymbols, int rowCounter, int columnCounter) {
-		if(!(trackSymbols[rowCounter][columnCounter] == Config.SpaceType.FINISH_DOWN.value
-				|| trackSymbols[rowCounter][columnCounter] == Config.SpaceType.FINISH_UP.value
-				|| trackSymbols[rowCounter][columnCounter] == Config.SpaceType.FINISH_RIGHT.value
-				|| trackSymbols[rowCounter][columnCounter] == Config.SpaceType.FINISH_LEFT.value
-				|| trackSymbols[rowCounter][columnCounter] == Config.SpaceType.WALL.value
-				|| trackSymbols[rowCounter][columnCounter] == Config.SpaceType.TRACK.value)) {
-			return true;
-		}
-		
-		return false;
 	}
 
 	/**
@@ -216,29 +121,10 @@ public class Track {
 	 */
 	public Config.SpaceType getSpaceType(PositionVector position) {
 		if (position.getY() > track.size() || position.getX() >= track.get(position.getY()).length()) {
-			return Config.SpaceType.WALL;	
+			return Config.SpaceType.WALL;
 		}
 		Character charSymbol = track.get(position.getY()).charAt(position.getX());
 		return showSpaceTypeAtSpecifiedPosition(charSymbol);
-	}
-
-	private Config.SpaceType showSpaceTypeAtSpecifiedPosition(Character symbol) {
-		if (symbol.equals(Config.SpaceType.FINISH_DOWN.value)) {
-			return Config.SpaceType.FINISH_DOWN;	
-		}
-		if (symbol.equals(Config.SpaceType.FINISH_UP.value)) {
-			return Config.SpaceType.FINISH_UP;	
-		}
-		if (symbol.equals(Config.SpaceType.FINISH_RIGHT.value)) {
-			return Config.SpaceType.FINISH_RIGHT;
-		}
-		if (symbol.equals(Config.SpaceType.FINISH_LEFT.value)) {
-			return Config.SpaceType.FINISH_LEFT;
-		}
-		if (symbol.equals(Config.SpaceType.WALL.value)) {
-			return Config.SpaceType.WALL;
-		}
-		return Config.SpaceType.TRACK;
 	}
 
 	/**
@@ -326,14 +212,14 @@ public class Track {
 				int yCoordinate = car.getPosition().getY();
 				int xCoordinate = car.getPosition().getX();
 				char carIndicator = car.getID();
-				if(car.isCrashed()) {
+				if (car.isCrashed()) {
 					carIndicator = CRASH_INDICATOR;
 				}
 				String trackLine = track.get(yCoordinate);
-				if(trackLine.charAt(xCoordinate)==Config.SpaceType.FINISH_DOWN.value
-						||trackLine.charAt(xCoordinate)==Config.SpaceType.FINISH_UP.value
-						||trackLine.charAt(xCoordinate)==Config.SpaceType.FINISH_RIGHT.value
-						||trackLine.charAt(xCoordinate)==Config.SpaceType.FINISH_LEFT.value) {
+				if (trackLine.charAt(xCoordinate) == Config.SpaceType.FINISH_DOWN.value
+						|| trackLine.charAt(xCoordinate) == Config.SpaceType.FINISH_UP.value
+						|| trackLine.charAt(xCoordinate) == Config.SpaceType.FINISH_RIGHT.value
+						|| trackLine.charAt(xCoordinate) == Config.SpaceType.FINISH_LEFT.value) {
 					isStartingSign = true;
 					startingSign = trackLine.charAt(xCoordinate);
 					positionOfStartingSigns.add(new PositionVector(xCoordinate, yCoordinate));
@@ -352,21 +238,21 @@ public class Track {
 		}
 		clearTrack();
 		if (isStartingSign) {
-			for (PositionVector position: positionOfStartingSigns) {
+			for (PositionVector position : positionOfStartingSigns) {
 				int xCoordinateOfStartingSign = position.getX();
 				int yCoordinateOfStartingSign = position.getY();
 				String trackLineForStartingSigns = track.get(yCoordinateOfStartingSign);
 				String trackLineFrontStartingSign = trackLineForStartingSigns.substring(0, xCoordinateOfStartingSign);
-				String trackLineEndStartingSign = trackLineForStartingSigns.substring(xCoordinateOfStartingSign+1);
-				String trackLineWithStartingSign = trackLineFrontStartingSign+startingSign+trackLineEndStartingSign;
+				String trackLineEndStartingSign = trackLineForStartingSigns.substring(xCoordinateOfStartingSign + 1);
+				String trackLineWithStartingSign = trackLineFrontStartingSign + startingSign + trackLineEndStartingSign;
 				track.remove(yCoordinateOfStartingSign);
-				track.add(yCoordinateOfStartingSign,trackLineWithStartingSign);
+				track.add(yCoordinateOfStartingSign, trackLineWithStartingSign);
 			}
 		}
 		return trackInOneLine;
 	}
 
-	private boolean fileContainsInvalidData(String trackLine) {
+	private boolean checkIfFileContainsInvalidData(String trackLine) {
 		boolean hasFinishDownSigns = trackLine.contains(String.valueOf(Config.SpaceType.FINISH_DOWN.value));
 		boolean hasFinishUpSigns = trackLine.contains(String.valueOf(Config.SpaceType.FINISH_UP.value));
 		boolean hasFinishLeftSigns = trackLine.contains(String.valueOf(Config.SpaceType.FINISH_RIGHT.value));
@@ -384,5 +270,115 @@ public class Track {
 			return true;
 		}
 		return false;
+	}
+
+	private void clearTrack() {
+		for (int i = 0; i < track.size(); i++) {
+			String trackLine = track.get(i);
+			char[] lineSymbols = trackLine.toCharArray();
+			for (int z = 0; z < lineSymbols.length; z++) {
+				if (lineSymbols[z] != Config.SpaceType.FINISH_DOWN.value
+						&& lineSymbols[z] != Config.SpaceType.FINISH_UP.value
+						&& lineSymbols[z] != Config.SpaceType.FINISH_RIGHT.value
+						&& lineSymbols[z] != Config.SpaceType.FINISH_LEFT.value
+						&& lineSymbols[z] != Config.SpaceType.WALL.value
+						&& lineSymbols[z] != Config.SpaceType.TRACK.value) {
+					trackLine = trackLine.replace(lineSymbols[z], ' ');
+					track.remove(i);
+					track.add(i, trackLine);
+				}
+			}
+		}
+	}
+
+	private void createCars() {
+		int carCounter = 0;
+		int longestRowValue = 0;
+		for (int i = 0; i < track.size(); i++) {
+			if (track.get(i).length() > longestRowValue) {
+				longestRowValue = track.get(i).length();
+			}
+		}
+		char[][] trackSymbols = new char[track.size()][longestRowValue];
+		char[] lineSymbols = new char[longestRowValue];
+		for (int row = 0; row < track.size(); row++) {
+			lineSymbols = track.get(row).toCharArray();
+			for (int column = 0; column < lineSymbols.length; column++) {
+				trackSymbols[row][column] = lineSymbols[column];
+			}
+		}
+		for (int row = 0; row < trackSymbols.length; row++) {
+			for (int column = 0; column < trackSymbols[row].length; column++) {
+				if (checkIfValidStartingPosition(trackSymbols, row, column)) {
+					carCounter++;
+					if (carCounter < Config.MAX_CARS) {
+						cars.add(new Car(trackSymbols[row][column], new PositionVector(column, row)));
+					}
+				}
+			}
+		}
+	}
+
+	private boolean checkIfValidStartingPosition(char[][] trackSymbols, int rowCounter, int columnCounter) {
+		int validPositionOfFinishUpSign = 1;
+		int validPositionOfFinishDownSign = -1;
+		int validPositionOfFinishRightSign = -2;
+		int validPositionOfFinishLeftSign = 2;
+		int validPositionOfWallWhenQuarterMile = 2;
+		if (isQuarterMileTrack) {
+			if (isNoTrackSign(trackSymbols, rowCounter, columnCounter)
+					&& (rowCounter > 0 && columnCounter > 0 && rowCounter <= trackSymbols.length
+							&& columnCounter <= (trackSymbols[rowCounter].length - validPositionOfWallWhenQuarterMile))
+					&& ((trackSymbols[rowCounter][columnCounter
+							+ validPositionOfWallWhenQuarterMile] == Config.SpaceType.WALL.value)))
+				return true;
+			return false;
+		}
+		if (isNoTrackSign(trackSymbols, rowCounter, columnCounter)
+				&& (rowCounter > 0 && columnCounter > 0
+						&& rowCounter <= (trackSymbols.length + validPositionOfFinishUpSign)
+						&& columnCounter <= (trackSymbols[rowCounter].length + validPositionOfFinishUpSign))
+				&& ((trackSymbols[rowCounter
+						+ validPositionOfFinishUpSign][columnCounter] == Config.SpaceType.FINISH_UP.value)
+						|| (trackSymbols[rowCounter
+								+ validPositionOfFinishDownSign][columnCounter] == Config.SpaceType.FINISH_DOWN.value)
+						|| (trackSymbols[rowCounter][columnCounter
+								+ validPositionOfFinishLeftSign] == Config.SpaceType.FINISH_LEFT.value)
+						|| (trackSymbols[rowCounter][columnCounter
+								+ validPositionOfFinishRightSign] == Config.SpaceType.FINISH_RIGHT.value)))
+			return true;
+		return false;
+	}
+
+	private boolean isNoTrackSign(char[][] trackSymbols, int rowCounter, int columnCounter) {
+		if (!(trackSymbols[rowCounter][columnCounter] == Config.SpaceType.FINISH_DOWN.value
+				|| trackSymbols[rowCounter][columnCounter] == Config.SpaceType.FINISH_UP.value
+				|| trackSymbols[rowCounter][columnCounter] == Config.SpaceType.FINISH_RIGHT.value
+				|| trackSymbols[rowCounter][columnCounter] == Config.SpaceType.FINISH_LEFT.value
+				|| trackSymbols[rowCounter][columnCounter] == Config.SpaceType.WALL.value
+				|| trackSymbols[rowCounter][columnCounter] == Config.SpaceType.TRACK.value)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private Config.SpaceType showSpaceTypeAtSpecifiedPosition(Character symbol) {
+		if (symbol.equals(Config.SpaceType.FINISH_DOWN.value)) {
+			return Config.SpaceType.FINISH_DOWN;
+		}
+		if (symbol.equals(Config.SpaceType.FINISH_UP.value)) {
+			return Config.SpaceType.FINISH_UP;
+		}
+		if (symbol.equals(Config.SpaceType.FINISH_RIGHT.value)) {
+			return Config.SpaceType.FINISH_RIGHT;
+		}
+		if (symbol.equals(Config.SpaceType.FINISH_LEFT.value)) {
+			return Config.SpaceType.FINISH_LEFT;
+		}
+		if (symbol.equals(Config.SpaceType.WALL.value)) {
+			return Config.SpaceType.WALL;
+		}
+		return Config.SpaceType.TRACK;
 	}
 }
