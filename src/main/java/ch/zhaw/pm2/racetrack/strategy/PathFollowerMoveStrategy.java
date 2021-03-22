@@ -11,6 +11,7 @@ import ch.zhaw.pm2.racetrack.PositionVector.Direction;
 /**
  * The PathFollowerMoveStrategy class determines the next move based on a file
  * containing points on a path.
+ * @author Moser Nadine, Meier Robin, Brändli Yves
  */
 public class PathFollowerMoveStrategy implements MoveStrategy {
 
@@ -24,10 +25,8 @@ public class PathFollowerMoveStrategy implements MoveStrategy {
 	 * Constructor of the PathFollowerMoveStrategy class. Loads the follower list
 	 * file into an ArrayList if they follow the correct syntax.
 	 * 
-	 * @param moveListFile the file containing the moves
+	 * @param followerPoints			   the file containing the moves
 	 * @throws FileNotFoundException      if the file does note exist
-	 * @throws InvalidMoveFormatException if the content does not comply with the
-	 *                                    Direction Enum values
 	 */
 	public PathFollowerMoveStrategy(File followerListFile, PositionVector startPosition)
 			throws FileNotFoundException, InvalidMoveFormatException {
@@ -70,6 +69,10 @@ public class PathFollowerMoveStrategy implements MoveStrategy {
 		followerReader.close();
 	}
 
+	/**
+	 * Used to get the next Direction callculated to get to points from file.
+	 * @return the next direction value to move to future point.
+	 */
 	@Override
 	public Direction nextMove() {
 		if (turnCount >= followerPoints.size())
