@@ -14,4 +14,6 @@ Written by Brändli Yves, Moser Nadine, Meier Robin
 
 [Testing: Game Class](docs/Testing/testing-game-documentation.pdf)
 
+[Testing: PathFollowerMoveStrategy Class](docs/Testing/testing-PathFollowerMoveStrategy-documentation.pdf)
+
 [Decisions: Branching & Division of labor](docs/Decisions/Decision_protocol.pdf)
