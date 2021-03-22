@@ -79,33 +79,7 @@ public class PathFollowerMoveStrategy implements MoveStrategy {
 			return Direction.NONE;
 
 		if (acceleration != Direction.NONE) {
-			Direction newDirection = Direction.NONE;
-			switch (acceleration) {
-			case RIGHT:
-				newDirection = Direction.LEFT;
-				break;
-			case DOWN_RIGHT:
-				newDirection = Direction.UP_LEFT;
-				break;
-			case DOWN:
-				newDirection = Direction.UP;
-				break;
-			case DOWN_LEFT:
-				newDirection = Direction.UP_RIGHT;
-				break;
-			case LEFT:
-				newDirection = Direction.RIGHT;
-				break;
-			case UP_LEFT:
-				newDirection = Direction.DOWN_RIGHT;
-				break;
-			case UP:
-				newDirection = Direction.DOWN;
-				break;
-			case UP_RIGHT:
-				newDirection = Direction.DOWN_LEFT;
-				break;
-			}
+			Direction newDirection = neutralizeVector();	
 			acceleration = Direction.NONE;
 			return newDirection;
 		}
@@ -150,5 +124,36 @@ public class PathFollowerMoveStrategy implements MoveStrategy {
 			}
 		}
 		return acceleration;
+	}
+	
+	private Direction neutralizeVector() {
+		Direction newDirection = Direction.NONE;
+		switch (acceleration) {
+		case RIGHT:
+			newDirection = Direction.LEFT;
+			break;
+		case DOWN_RIGHT:
+			newDirection = Direction.UP_LEFT;
+			break;
+		case DOWN:
+			newDirection = Direction.UP;
+			break;
+		case DOWN_LEFT:
+			newDirection = Direction.UP_RIGHT;
+			break;
+		case LEFT:
+			newDirection = Direction.RIGHT;
+			break;
+		case UP_LEFT:
+			newDirection = Direction.DOWN_RIGHT;
+			break;
+		case UP:
+			newDirection = Direction.DOWN;
+			break;
+		case UP_RIGHT:
+			newDirection = Direction.DOWN_LEFT;
+			break;
+		}
+		return newDirection;
 	}
 }
