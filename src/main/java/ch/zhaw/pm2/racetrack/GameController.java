@@ -12,6 +12,14 @@ import ch.zhaw.pm2.racetrack.Config.StrategyType;
 import ch.zhaw.pm2.racetrack.PositionVector.Direction;
 import ch.zhaw.pm2.racetrack.strategy.*;
 
+/**
+ * The GameController Class startes the game. It first initializes the game with
+ * all needed information and runs it afterwards. With every start from the
+ * program it starts exactly one game.
+ * 
+ * @author Moser Nadine, Meier Robin, Brändli Yves
+ *
+ */
 public class GameController {
 	private Input input;
 	private Output output;
@@ -19,6 +27,9 @@ public class GameController {
 	private Game game;
 	private Config config;
 
+	/**
+	 * Constructor initializes all needed fields.
+	 */
 	public GameController() {
 		config = new Config();
 		strategies = new HashMap<>();
@@ -28,6 +39,11 @@ public class GameController {
 		output = new Output(textTerminal);
 	}
 
+	/**
+	 * main method to start a game. With a call one and only one game gets started.
+	 * 
+	 * @param args not used.
+	 */
 	public static void main(String[] args) {
 		GameController gameController = new GameController();
 		gameController.setup();
@@ -72,7 +88,8 @@ public class GameController {
 					selectedStrategy = new DoNotMoveStrategy();
 					break;
 				case PATH_FOLLOWER:
-					File selectedFile = input.requestFile(config.getFollowerDirectory(), "Please select a follower File:");
+					File selectedFile = input.requestFile(config.getFollowerDirectory(),
+							"Please select a follower File:");
 					PositionVector startPosition = game.getCarPosition(game.getCurrentCarIndex());
 					try {
 						selectedStrategy = new PathFollowerMoveStrategy(selectedFile, startPosition);
@@ -128,7 +145,8 @@ public class GameController {
 			MoveStrategy currentStrategy = strategies.get(currentPlayer);
 			if (currentStrategy instanceof DoNotMoveStrategy) {
 				output.printDoNotMoveMessage();
-			} else if(currentStrategy instanceof PathFollowerMoveStrategy || currentStrategy instanceof MoveListStrategy) {
+			} else if (currentStrategy instanceof PathFollowerMoveStrategy
+					|| currentStrategy instanceof MoveListStrategy) {
 				output.printAutomatedMoveMessage();
 			} else {
 				output.printAccelerationGrid();
