@@ -13,6 +13,12 @@ import ch.zhaw.pm2.racetrack.PositionVector.Direction;
 import ch.zhaw.pm2.racetrack.strategy.InvalidMoveFormatException;
 import ch.zhaw.pm2.racetrack.strategy.MoveListStrategy;
 
+/**
+ * Used to test the game class
+ * 
+ * @author Moser Nadine, Meier Robin, Brändli Yves
+ *
+ */
 public class GameTest {
 	private Game _testGame;
 

@@ -36,6 +36,10 @@ public class Output {
 	public void printDoNotMoveMessage() {
 		textTerminal.println("Nothing happened...");
 	}
+	
+	public void printAutomatedMoveMessage() {
+		textTerminal.println("Executing automated move");
+	}
 
 	/**
 	 * Prints the winner

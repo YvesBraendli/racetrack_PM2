@@ -5,6 +5,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Used to test the car class
+ * 
+ * @author Moser Nadine, Meier Robin, Brändli Yves
+ *
+ */
 public class CarTest {
 	private Car model;
 	private static final PositionVector STARTPOSITION = new PositionVector(5, 9);

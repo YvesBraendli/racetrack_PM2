@@ -341,7 +341,6 @@ public class Track {
 				String newTrackLineFront = trackLine.substring(0, xCoordinate) + carIndicator;
 				String newTrackLineEnd = trackLine.substring(xCoordinate + 1);
 				String newTrackLine = newTrackLineFront + newTrackLineEnd;
-				System.out.println(newTrackLine);
 				track.remove(yCoordinate);
 				track.add(yCoordinate, newTrackLine);
 			}

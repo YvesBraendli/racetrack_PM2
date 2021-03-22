@@ -15,6 +15,12 @@ import ch.zhaw.pm2.racetrack.PositionVector.Direction;
 import ch.zhaw.pm2.racetrack.Config.SpaceType;
 import ch.zhaw.pm2.racetrack.strategy.*;
 
+/**
+ * Used to test the PathFollowerMoveStrategy
+ * 
+ * @author Moser Nadine, Meier Robin, Brändli Yves
+ *
+ */
 public class PathFollowerMoveStrategyTest {
 	private Game _testGame;
 	private MoveStrategy _testStrategy;
@@ -23,6 +29,7 @@ public class PathFollowerMoveStrategyTest {
 	private File trackFile;
 	private List<PositionVector> followerPoints;
 	
+
 	@BeforeEach
 	private void Setup() {
 		trackFile = new File("tracks/challenge.txt");
@@ -89,6 +96,10 @@ public class PathFollowerMoveStrategyTest {
 		followerReader.close();
 	}
 	
+	/**
+	 * Equivalence Partition: F1
+	 * Tests if every point in the follower list file gets hit.
+	 */
 	@Test
 	public void testPositionEquivalenceFollowerPointsActualCarMovement() {
 		// Arrange

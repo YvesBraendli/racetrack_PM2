@@ -72,9 +72,5 @@ public class Input {
 		textIO.dispose();
 		
 	}
-	
-	public void requestGameContinue() {
-		textIO.newStringInputReader().withMinLength(0).read("Press enter to continue:");
-	}
 
 }

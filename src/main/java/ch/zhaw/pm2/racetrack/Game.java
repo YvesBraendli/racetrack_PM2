@@ -11,6 +11,8 @@ import static ch.zhaw.pm2.racetrack.PositionVector.Direction;
  * Game controller class, performing all actions to modify the game state. It
  * contains the logic to move the cars, detect if they are crashed and if we
  * have a winner.
+ * 
+ * @author Moser Nadine, Meier Robin, Brändli Yves
  */
 public class Game {
 

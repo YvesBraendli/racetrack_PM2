@@ -128,9 +128,8 @@ public class GameController {
 			MoveStrategy currentStrategy = strategies.get(currentPlayer);
 			if (currentStrategy instanceof DoNotMoveStrategy) {
 				output.printDoNotMoveMessage();
-				input.requestGameContinue();
-			} else if (currentStrategy instanceof PathFollowerMoveStrategy) {
-				input.requestGameContinue();
+			} else if(currentStrategy instanceof PathFollowerMoveStrategy || currentStrategy instanceof MoveListStrategy) {
+				output.printAutomatedMoveMessage();
 			} else {
 				output.printAccelerationGrid();
 			}
