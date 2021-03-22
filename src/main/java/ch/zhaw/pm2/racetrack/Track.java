@@ -359,7 +359,6 @@ public class Track {
 				String trackLineFrontStartingSign = trackLineForStartingSigns.substring(0, xCoordinateOfStartingSign);
 				String trackLineEndStartingSign = trackLineForStartingSigns.substring(xCoordinateOfStartingSign+1);
 				String trackLineWithStartingSign = trackLineFrontStartingSign+startingSign+trackLineEndStartingSign;
-				//System.out.println(trackLineWithStartingSign);
 				track.remove(yCoordinateOfStartingSign);
 				track.add(yCoordinateOfStartingSign,trackLineWithStartingSign);
 			}
