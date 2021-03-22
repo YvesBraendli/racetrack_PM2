@@ -17,6 +17,7 @@ public class PathFollowerMoveStrategy implements MoveStrategy {
 	private int turnCount;
 	private Scanner followerReader;
 	private PositionVector currentPosition;
+	private Direction acceleration;
 	
 	/**
 	 * Constructor of the PathFollowerMoveStrategy class. Loads the follower list file into an ArrayList 
@@ -27,6 +28,7 @@ public class PathFollowerMoveStrategy implements MoveStrategy {
 	 */
 	public PathFollowerMoveStrategy(File followerListFile, PositionVector startPosition) throws FileNotFoundException, InvalidMoveFormatException {
 		turnCount = 0;
+		acceleration = Direction.NONE;
 		currentPosition = startPosition;
 		if(!followerListFile.exists()) throw new FileNotFoundException("File does not exist in the given directory");
 		followerReader = new Scanner(followerListFile);
@@ -67,6 +69,11 @@ public class PathFollowerMoveStrategy implements MoveStrategy {
     @Override
     public Direction nextMove() {
     	if(turnCount >= followerPoints.size()) return Direction.NONE;
+    	
+    	if(acceleration != Direction.NONE) {
+    		acceleration = Direction.NONE;
+    		return acceleration;
+    	}
 
     	PositionVector nextPosition = followerPoints.get(turnCount);
     	PositionVector difference = PositionVector.subtract(nextPosition, currentPosition);
@@ -74,29 +81,38 @@ public class PathFollowerMoveStrategy implements MoveStrategy {
     	int dx = difference.getX();
     	int dy = difference.getY();
     	
+    	int xAbs = 0;
+    	int yAbs = 0;
+    	
+    	if(dx != 0) {
+    		xAbs = (int) Math.abs((double)dx);
+    	}
+    	if(dy != 0) {
+    		yAbs = (int) Math.abs((double)dy);
+    	}
+    	
     	int x = 0;
     	int y = 0;
     	
-    	if(dx != 0) {
-        	x = dx / (int) Math.abs((double)dx);	
+    	if(xAbs > yAbs && xAbs != 0) {
+    		x = dx / xAbs;
+    	}
+    	else if(yAbs != 0){
+    		y = dy / (int) Math.abs((double)yAbs);
     	}
     	
-    	if(dy != 0) {
-        	y = dy / (int) Math.abs((double)dy);	
-    	}
-    	PositionVector acceleration = new PositionVector(x, y);
-    	currentPosition = PositionVector.add(currentPosition, acceleration);
+    	PositionVector accelerationVector = new PositionVector(x, y);
+    	currentPosition = PositionVector.add(currentPosition, accelerationVector);
  
     	if(nextPosition == currentPosition) {
     		turnCount++;
     	}
-    	
-    	Direction accelerationDirection = Direction.NONE;
+
     	for(Direction direction : Direction.values()) {
-    		if(direction.vector.getX() == acceleration.getX() && direction.vector.getY() == acceleration.getY()) {
-    			accelerationDirection = direction;
+    		if(direction.vector.getX() == accelerationVector.getX() && direction.vector.getY() == accelerationVector.getY()) {
+    			acceleration = direction;
     		}
     	}
-    	return accelerationDirection;
+    	return acceleration;
     }
 }
