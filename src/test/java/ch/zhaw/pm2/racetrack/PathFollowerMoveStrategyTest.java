@@ -8,21 +8,25 @@ import java.util.Scanner;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 import ch.zhaw.pm2.racetrack.PositionVector.Direction;
+import ch.zhaw.pm2.racetrack.Config.SpaceType;
 import ch.zhaw.pm2.racetrack.strategy.*;
 
 public class PathFollowerMoveStrategyTest {
 	private Game _testGame;
 	private MoveStrategy _testStrategy;
 	private Scanner followerReader;
+	private File followerPointList;
+	private File trackFile;
 	private List<PositionVector> followerPoints;
 	
 	@BeforeEach
 	private void Setup() {
-		File trackFile = new File("tracks/challenge.txt");
-		File followerPointList = new File("follower/challenge_handout_points.txt");
+		trackFile = new File("tracks/challenge.txt");
+		followerPointList = new File("follower/challenge_handout_points.txt");
 		PositionVector startPosition = new PositionVector(24,22);
 		
 		Track track = null;
@@ -44,9 +48,11 @@ public class PathFollowerMoveStrategyTest {
 		
 		int carCount = track.getCarCount();
 		_testGame = new Game(carCount, track);
+		setupFollowerCompareList();
 	}
 	
-	private void setupFollowerCompareList(File followerPointList){
+	private void setupFollowerCompareList(){
+		followerPoints = new ArrayList<PositionVector>();
 		try {
 			followerReader = new Scanner(followerPointList);
 		} catch (FileNotFoundException e) {
@@ -76,7 +82,7 @@ public class PathFollowerMoveStrategyTest {
 				y2 = 0;
 			}
 			int x = x1 + x2;
-		    int y = x1 + y2;
+		    int y = y1 + y2;
 			
 			followerPoints.add(new PositionVector(x,y));
 		}
@@ -84,6 +90,33 @@ public class PathFollowerMoveStrategyTest {
 	}
 	
 	@Test
-	public void testPositionEquivalence() {}
-
+	public void testPositionEquivalenceFollowerPointsActualCarMovement() {
+		// Arrange
+		List<PositionVector> followerPointsUntilCrash = new ArrayList<PositionVector>();
+		List<PositionVector> carPositions = new ArrayList<PositionVector>();
+		for(PositionVector point: followerPoints) {
+			if(_testGame.getTrack().getSpaceType(point).equals(SpaceType.WALL)) break;
+			followerPointsUntilCrash.add(point);
+		}
+		
+		while(_testGame.getTrack().getCar(0).isCrashed() == false || _testGame.getWinner() == _testGame.NO_WINNER) {
+			Direction nextAcceleration = _testStrategy.nextMove();
+			_testGame.doCarTurn(nextAcceleration);
+			carPositions.add(_testGame.getCarPosition(0));
+		}
+		
+		// Act
+		boolean isPointFoundInCarPositions = true;
+		for(PositionVector followerpoint: followerPointsUntilCrash) {
+			if(!carPositions.contains(followerpoint)) {
+				isPointFoundInCarPositions = false;
+				break;
+			}
+		}
+		
+		// Assert
+		assertTrue(isPointFoundInCarPositions);
+		
+	}
+		
 }
